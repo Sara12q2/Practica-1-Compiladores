@@ -29,8 +29,7 @@ public class AFN {
     
     //METODOS
 
-    
-    //CONCATENACION
+//CONCATENACION---------------------------------------------------------------
     public AFN ConcAFN(AFN f2){
         //FUSIONANDO EL EDO DE ACEPTACION DEL THIS Y EL INICIAL DE F2, CONSERVAMOS EL EDO DE ACEPTACION DE THIS
         for(Transicion t:f2.EdoIni.getTrans()){
@@ -48,7 +47,9 @@ public class AFN {
         }
         return this;
     }
+//*CONCATENACION-------------------------------------------------------------
     
+//CERRADURA TRANSITIVA -------------------------------------------------------    
     public AFN CerrPos(){
         //CREANDO UN NUEVO EDO DE ACEPTACION Y UN NUEVO EDO INICIAL
         Estado e_ini = new Estado();
@@ -75,9 +76,30 @@ public class AFN {
     return this;
     }
     
+//* CERRADURA TRANSITIVA------------------------------------------------------
             
-            
-            
+//OPCIONAL -------------------------------------------------------------------
+    public AFN Opcional(){
+    //CREANDO UN NUEVO EDO DE ACEPTACION Y UN NUEVO EDO INICIAL
+        Estado e_ini = new Estado();
+        Estado e_fin = new Estado();
+    //AGREGANDO TRANSICION EPSILON DEL NUEVO EDO INICIAL AL ANTIGUO (EdoIn)
+    e_ini.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON,EdoIni));
+    e_ini.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON, e_fin));
+    for(Estado e: EdosAcept){
+       e.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON, e_fin));
+       e.setEdoAcept(false);  
+    }
+    //ASIGNANDO EL NUEVO EDO DE ACEPTACION
+    EdoIni = e_ini;
+    e_fin.setEdoAcept(true);
+    EdosAcept.clear();
+    EdosAcept.add(e_fin);
+    EdosAFN.add(e_ini);
+    EdosAFN.add(e_fin);
+    return this;
+    } 
+//* OPCIONAL -----------------------------------------------------------------
             
             
             

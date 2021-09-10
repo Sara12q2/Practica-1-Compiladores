@@ -52,7 +52,7 @@ public class Transicion {
      }
      
      //METODO QUE DEVUELVE EL ESTADO HACIA EL QUE SE HACE LA TRANSICION CON CIERTO SIMBOLO
-     public Estado GetEsoTrans(char s){
+     public Estado GetEdoTrans(char s){
          if(SimbInf1 <= s && s <= SimbSup1)
              return Edo;
          return null;

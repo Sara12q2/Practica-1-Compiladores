@@ -1,3 +1,5 @@
+package AnalizadorLexico;
+
 
 import AnalizadorLexico.Estado;
 import AnalizadorLexico.SimbolosEspeciales;
@@ -42,8 +44,8 @@ public class AFN {
         f2.EdosAFN.remove(f2.EdoIni);
         //ACTUALIZANDO EL AUTOMATA NUEVO QUE RESULTO DE CONCATENAR
         this.EdosAcept = f2.EdosAcept;
-        this.EdosAFN.UnionWith(f2.EdosAFN);
-        this.Alfabeto.UnionWith(f2.Alfabeto);
+       // this.EdosAFN.UnionWith(f2.EdosAFN);
+        //this.Alfabeto.UnionWith(f2.Alfabeto);
         }
         return this;
     }
@@ -102,7 +104,17 @@ public class AFN {
 //* OPCIONAL -----------------------------------------------------------------
             
             
-            
-            
+//METODOS SET Y GET-----------------------------------------------------------            
+    public HashSet<AFN> getListaAFNs(){
+        return ConjDeAFNs;
+    }
     
+    public int getIdAFN(AFN a){
+        return a.IdAFN;
+    }
+    
+    public void agregarAFNaLista(AFN a){
+        ConjDeAFNs.add(a);
+    }
+//*METODOS SET Y GET----------------------------------------------------------    
 }

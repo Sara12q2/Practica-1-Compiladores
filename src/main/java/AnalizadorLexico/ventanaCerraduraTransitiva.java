@@ -8,15 +8,16 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class ventanaCerraduraTransitiva extends JFrame implements ActionListener{
         private JButton boton;
     private JComboBox AFNop1;
     private HashSet<AFN> ConjDeAFNs = new HashSet<AFN>();
-    private AFN AFN1 = new AFN();
-    public ventanaCerraduraTransitiva(){
+    private AFN AFNAux = new AFN();
+    public ventanaCerraduraTransitiva(AFN AFN1){
         setLayout(null);
-
+        AFNAux = AFN1;
         ConjDeAFNs = AFN1.getListaAFNs();
 //ETIQUETA -------------------------------------------------------------------
         JLabel etiquetaCerradura = new JLabel("Cerradura+");
@@ -49,8 +50,8 @@ public class ventanaCerraduraTransitiva extends JFrame implements ActionListener
 //*BOTON------------------------------------------------------------------------
     }
     
-    public void opciones(){
-       ventanaCerraduraTransitiva uno = new ventanaCerraduraTransitiva();
+    public void opciones(AFN AFN1){
+       ventanaCerraduraTransitiva uno = new ventanaCerraduraTransitiva(AFN1);
        uno.setBounds(0,0,600,400);
        uno.setVisible(true);
        uno.setLocationRelativeTo(null);
@@ -64,15 +65,16 @@ public class ventanaCerraduraTransitiva extends JFrame implements ActionListener
             int id1;
             AFN AFNp = null,AFNs = null, AFNcerraduraT = null;
             String cad1 = (String)AFNop1.getSelectedItem();
+            JOptionPane.showMessageDialog(null, "Operación realizada con exito");
             cad1 = cad1.replace("AFN","");
             id1 = Integer.parseInt(cad1);
             for(AFN a : ConjDeAFNs){
-                if(AFN1.getIdAFN(a)==id1){
+                if(AFNAux.getIdAFN(a)==id1){
                     AFNp = a;
                 }
             }
             AFNcerraduraT = AFNp.CerrPos();
-            AFN1.agregarAFNaLista(AFNcerraduraT);
+            AFNAux.agregarAFNaLista(AFNcerraduraT);
         }
     }   
 }

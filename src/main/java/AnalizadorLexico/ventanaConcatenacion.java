@@ -9,11 +9,11 @@ import java.awt.Image;
 public class ventanaConcatenacion extends JFrame implements ActionListener{
     private JButton boton;
     private JComboBox AFNop2, AFNop1;
+    private static AFN AFNAux;
     private HashSet<AFN> ConjDeAFNs = new HashSet<AFN>();
-    private AFN AFN1 = new AFN();
-    public ventanaConcatenacion(){
+    public ventanaConcatenacion(AFN AFN1){
+        AFNAux = AFN1;
         setLayout(null);
-
         ConjDeAFNs = AFN1.getListaAFNs();
 //ETIQUETA CONCATENAR-----------------------------------------------------------
         JLabel etiquetaConcatenar = new JLabel("Concatenar");
@@ -61,8 +61,8 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
 //*BOTON------------------------------------------------------------------------
     }
     
-    public void opciones(){
-       ventanaConcatenacion uno = new ventanaConcatenacion();
+    public void opciones(AFN AFN1){
+       ventanaConcatenacion uno = new ventanaConcatenacion(AFN1);
        uno.setBounds(0,0,700,300);
        uno.setVisible(true);
        uno.setLocationRelativeTo(null);
@@ -75,6 +75,7 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
         if(e.getSource()==boton){
             int id1,id2;
             AFN AFNp = null,AFNs = null, AFNconcatenado = null;
+            JOptionPane.showMessageDialog(null, "Operación realizada con exito");
             String cad1 = (String)AFNop1.getSelectedItem();
             String cad2 = (String)AFNop2.getSelectedItem();
             cad1 = cad1.replace("AFN","");
@@ -82,15 +83,15 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
             id1 = Integer.parseInt(cad1);
             id2 = Integer.parseInt(cad2);
             for(AFN a : ConjDeAFNs){
-                if(AFN1.getIdAFN(a)==id1){
+                if(AFNAux.getIdAFN(a)==id1){
                     AFNp = a;
                 }
-                if(AFN1.getIdAFN(a)==id2){
+                if(AFNAux.getIdAFN(a)==id2){
                     AFNs = a;
                 }
             }
             AFNconcatenado = AFNp.ConcAFN(AFNs);
-            AFN1.agregarAFNaLista(AFNconcatenado);
+            AFNAux.agregarAFNaLista(AFNconcatenado);
         }
     }   
 }

@@ -92,10 +92,7 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
             AFNconcatenado = AFNp.ConcAFN(AFNs);
             AFN1.agregarAFNaLista(AFNconcatenado);
         }
-    }
-
-
-    
+    }   
 }
 
 

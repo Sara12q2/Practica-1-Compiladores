@@ -235,7 +235,49 @@ public class AFN {
 //* Cerrradura Epsilon-----------------------------------------------------------------
 
 //* MOVER-----------------------------------------------------------------
+    public HashSet<Estado>Mover(Estado Edo,char Simb){
+        HashSet<Estado>C= new HashSet<Estado>();
+        Estado Aux;
+        C.clear();
+        
+        for(Transicion t: Edo.getTrans()){
+            Aux=t.GetEdoTrans(Simb);
+            if(Aux!=null)
+                C.add(Aux);
+        
+        }
+        return C;
+    }
+    
+    public HashSet<Estado>Mover(HashSet<Estado>Edos,char Simb){
+        HashSet<Estado>C= new HashSet<Estado>();
+        Estado Aux;
+        C.clear();
+        
+        for(Estado Edo: Edos)
+            for(Transicion t : Edo.getTrans()){
+            Aux=t.GetEdoTrans(Simb);
+            if(Aux!=null)
+                C.add(Aux);
+        
+            }
+        return C;
+    }
+    
 //* MOVER-----------------------------------------------------------------
+    
+//* Ir_A-----------------------------------------------------------------
+   
+//* Ir_A-----------------------------------------------------------------
+    
+//* Union Especial AFN's-----------------------------------------------------------------
+   
+//* Union Especial AFN's--------------------------------------------------------------
+    
+//* Convertir AFNaAFD-----------------------------------------------------------------
+   
+//* Convertir AFNaAFD--------------------------------------------------------------
+    
             
 //METODOS SET Y GET-----------------------------------------------------------            
     public HashSet<AFN> getListaAFNs(){

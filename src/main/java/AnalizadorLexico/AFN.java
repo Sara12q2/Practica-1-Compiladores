@@ -30,6 +30,85 @@ public class AFN {
     }
     
     //METODOS
+    
+    //BASICO---------------------------------------------------------------
+    public AFN crearAFNBasico(char s){
+        
+        Transicion t;
+        
+        Estado estadoInicial, estadoFinal; //Crea 2 variables para los estados Inicial y Final
+        estadoInicial=new Estado();
+        estadoFinal=new Estado();
+        t=new Transicion(s,estadoFinal);
+        estadoInicial.getTrans().add(t); 
+        estadoFinal.setEdoAcept(true);
+        Alfabeto.add(String.valueOf(s));
+        EdoIni=estadoInicial;
+        EdosAFN.add(estadoInicial);
+        EdosAFN.add(estadoFinal);
+        EdosAcept.add(estadoFinal);
+        seAgregoAFNUnionLexico=false;
+        return this;
+    }
+    
+    public AFN crearAFNBasico(char s1, char s2){
+        char i;
+        Transicion t;
+        
+        Estado estadoInicial, estadoFinal; //Crea 2 variables para los estados Inicial y Final
+        estadoInicial=new Estado();
+        estadoFinal=new Estado();
+        t=new Transicion(s1,s2,estadoFinal);
+        estadoInicial.getTrans().add(t); 
+        estadoFinal.setEdoAcept(true);
+        
+        for(i=s1;i<=s2;i++)
+        Alfabeto.add(String.valueOf(i));
+        EdoIni=estadoInicial;
+        EdosAFN.add(estadoInicial);
+        EdosAFN.add(estadoFinal);
+        EdosAcept.add(estadoFinal);
+        seAgregoAFNUnionLexico=false;
+        return this;
+    }
+//BASICO---------------------------------------------------------------
+    
+//UNION---------------------------------------------------------------
+   public AFN UnirAFN(AFN f2){
+    Estado estadoNIni=new Estado();
+    Estado estadoNFin=new Estado();
+    Transicion t1=new Transicion(SimbolosEspeciales.EPSILON,this.EdoIni);
+    Transicion t2=new Transicion(SimbolosEspeciales.EPSILON,f2.EdoIni);
+    estadoNIni.getTrans().add(t1);
+    estadoNIni.getTrans().add(t2);
+    for(Estado e : this.EdosAcept){
+       e.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON, estadoNFin));
+       e.setEdoAcept(false);
+   }
+    
+    for(Estado e : f2.EdosAcept){
+       e.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON, estadoNFin));
+       e.setEdoAcept(false);
+   }
+    
+    this.EdosAcept.clear();
+    f2.EdosAcept.clear();
+    this.EdoIni=estadoNIni;
+    estadoNFin.setEdoAcept(true);
+    this.EdosAcept.clear();
+    this.EdoIni=estadoNIni;
+    estadoNFin.setEdoAcept(true);
+    this.EdosAcept.add(estadoNFin);
+    
+//    this.EdosAFN.Concat(f2.Alfabeto);
+    return this;
+    
+   }
+    
+    
+    
+    
+//UNION---------------------------------------------------------------
 
 //CONCATENACION---------------------------------------------------------------
     public AFN ConcAFN(AFN f2){

@@ -24,7 +24,7 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
         AFNop1.setBounds(150,29,200,20);
         for(AFN e : ConjDeAFNs){
             AFNop1.addItem("AFN"+String.valueOf(AFN1.getIdAFN(e)));
-        }
+        } 
         add(etiquetaConcatenar);
         add(AFNop1);
 //*ETIQUETA CONCATENAR----------------------------------------------------------
@@ -78,6 +78,7 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
             JOptionPane.showMessageDialog(null, "Operación realizada con exito");
             String cad1 = (String)AFNop1.getSelectedItem();
             String cad2 = (String)AFNop2.getSelectedItem();
+            
             cad1 = cad1.replace("AFN","");
             cad2 = cad2.replace("AFN","");
             id1 = Integer.parseInt(cad1);

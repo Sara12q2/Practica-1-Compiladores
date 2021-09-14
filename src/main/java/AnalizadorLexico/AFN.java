@@ -6,6 +6,7 @@ import AnalizadorLexico.SimbolosEspeciales;
 import AnalizadorLexico.Transicion;
 import static java.lang.System.in;
 import java.util.HashSet;
+import java.util.Stack;
 
 
 public class AFN {
@@ -181,7 +182,60 @@ public class AFN {
     return this;
     } 
 //* OPCIONAL -----------------------------------------------------------------
+    
+//* Cerradura Epsilon -----------------------------------------------------------------
+    public HashSet<Estado>CerraduraEpsilon(Estado e){
+        HashSet<Estado> R=new HashSet<Estado>();
+        Stack<Estado>S= new Stack<Estado>();
+        Estado aux, Edo;
+        R.clear();
+        S.clear();
+        S.push(e);
+        
+        while(S.size()!=0){
+            aux=S.pop();
+            R.add(aux);
+            for(Transicion t: aux.getTrans()){
+                if((Edo=t.GetEdoTrans(SimbolosEspeciales.EPSILON))!=null){
+                    if(!R.contains(Edo))
+                        S.push(Edo);
+                }
             
+            }
+        }
+    
+    return R;
+    }
+    
+    
+    public HashSet<Estado>CerraduraEpsilon(HashSet<Estado>ConjEdos){
+        HashSet<Estado> R=new HashSet<Estado>();
+        Stack<Estado>S= new Stack<Estado>();
+        Estado aux, Edo;
+        R.clear();
+        S.clear();
+        for(Estado e : ConjEdos)
+        S.push(e);
+        
+        while(S.size()!=0){
+            aux=S.pop();
+            R.add(aux);
+            for(Transicion t: aux.getTrans()){
+                if((Edo=t.GetEdoTrans(SimbolosEspeciales.EPSILON))!=null){
+                    if(!R.contains(Edo))
+                        S.push(Edo);
+                }
+            
+            }
+        }
+    
+    return R;
+    }
+    
+//* Cerrradura Epsilon-----------------------------------------------------------------
+
+//* MOVER-----------------------------------------------------------------
+//* MOVER-----------------------------------------------------------------
             
 //METODOS SET Y GET-----------------------------------------------------------            
     public HashSet<AFN> getListaAFNs(){

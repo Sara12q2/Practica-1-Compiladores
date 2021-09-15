@@ -6,7 +6,11 @@ import AnalizadorLexico.SimbolosEspeciales;
 import AnalizadorLexico.Transicion;
 import static java.lang.System.in;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
+
+
 
 
 public class AFN {
@@ -101,7 +105,7 @@ public class AFN {
     estadoNFin.setEdoAcept(true);
     this.EdosAcept.add(estadoNFin);
     
-//    this.EdosAFN.Concat(f2.Alfabeto);
+    this.EdosAFN.containsAll(f2.Alfabeto);
     return this;
     
    }
@@ -267,17 +271,165 @@ public class AFN {
 //* MOVER-----------------------------------------------------------------
     
 //* Ir_A-----------------------------------------------------------------
+     public HashSet<Estado>Ir_A(HashSet<Estado>Edos, char Simb){
+        HashSet<Estado>C=new HashSet<Estado>();
+        C.clear();
+        
+//        C = CerraduraEpsilon(ConjEdos (Mover(Edos,Simb)));
+        return C;
+
+    }
+    
    
 //* Ir_A-----------------------------------------------------------------
     
 //* Union Especial AFN's-----------------------------------------------------------------
-   
+   public void UnionEspecialAFNs(AFN f, int Token){
+       Estado e;
+       if(!this.seAgregoAFNUnionLexico){
+           this.EdosAFN.clear();
+           this.EdosAFN.clear();
+           this.Alfabeto.clear();
+           e= new Estado();
+           e.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON,f.EdoIni));
+           this.EdoIni=e;
+           this.EdosAFN.add(e);
+           this.seAgregoAFNUnionLexico=true;
+       }else{
+           this.EdoIni.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON,f.EdoIni));
+           for(Estado EdoAcep: f.EdosAcept)
+               EdoAcep.Token=Token;
+           this.EdosAcept.addAll(f.EdosAcept);
+           this.EdosAFN.addAll(f.EdosAFN);
+           this.Alfabeto.addAll(f.Alfabeto);
+          
+       }
+   }
 //* Union Especial AFN's--------------------------------------------------------------
+   
+//*Indice Caracter--------------------------------------------------------------
+   private int IndiceCaracter(char[] ArregloAlfabeto, char c){
+       int i;
+       for(i=0; i<ArregloAlfabeto.length;i++){
+           if(ArregloAlfabeto[i]==c){
+               return -1;
+           }
+       }
+       return -1;
+   }
+//*Indice Caracter--------------------------------------------------------------
     
 //* Convertir AFNaAFD-----------------------------------------------------------------
+   public AFD ConvAFNaAFD(){
+       int CardAlfabeto, NumEdosAFD;
+       int i,j,r;
+       String[] ArrAlfabeto;
+       ConjIj Ij, Ik=null;
+       boolean existe;
+   
+       HashSet<Estado>ConjAux=new HashSet<Estado>();
+       HashSet<ConjIj>EdosAFD=new  HashSet<ConjIj>();
+       Queue<ConjIj>EdosSinAnalizar=new LinkedList<ConjIj>();
+       
+       EdosAFD.clear();
+       EdosSinAnalizar.clear();
+       CardAlfabeto=Alfabeto.size();
+       ArrAlfabeto=new String[CardAlfabeto];
+       i=0;
+       for(String c: Alfabeto)
+           ArrAlfabeto[i++]=c;
+       j=0;
+       Ij=new ConjIj(CardAlfabeto);
+       {
+        ConjI=CerraduraEpsilon(this.EdoIni);
+        j=j;
+       };
+       EdosAFD.add(Ij);
+       EdosSinAnalizar.add(Ij);
+       j++;
+       while (EdosSinAnalizar.size() != 0) { //Mientras se tenga estados sin analizar
+           Ij = EdosSinAnalizar.remove(); //Calcula Ir_A del Ij con cada simbolo del alfabeto
+
+           for (String c : ArrAlfabeto) {
+               Ik = new ConjIj(CardAlfabeto) {
+                   ConjI  = (Ij .ConjI,c);
+
+               };
+           }
+           if (Ik.ConjI.isEmpty()) {
+               continue;
+           }
+           existe = false;
+
+           for (ConjIj I : EdosAFD) {
+               if (I.ConjI.equals(Ik.ConjI)) {
+                   existe = true;
+                   r = IndiceCaracter(ArrAlfabeto, c);
+                   Ij.TransicionesAFD[r] = I.j;
+                   break;
+               }
+               if (!existe) {
+                   Ik.j = j;
+                   r = IndiceCaracter(ArrAlfabeto, c);
+                   Ij.TransicionesAFD[r] = Ik.j;
+                   EdosAFD.add(Ik);
+                   EdosSinAnalizar.remove(Ik);
+                   j++;
+               }
+           }
+       }
+       NumEdosAFD=j;
+       for(ConjIj I: EdosAFD){
+           ConjAux.clear();
+           ConjAux.addAll(I.ConjI);
+           ConjAux.addAll(this.EdosAcept);
+           if(ConjAux.size()!=0)
+               for(Estado EdoAcept : ConjAux){
+                   I.TransicionesAFD[CardAlfabeto]=EdoAcept.Token;
+                   break;
+               
+               }
+           else
+               I.TransicionesAFD[CardAlfabeto]=-1;
+       }
+       AFD AutFD=new AFD();
+            CardAlfabeto=CardAlfabeto;
+   
+        
+        
+        AutFD.TablaAFD= new int[EdosAFD.size()+257];
+        for(i=0; i<EdosAFD.size(); i++)
+            for( j=0; j<257; j++)
+                AutFD.TablaAFD[i+j]=-1;
+        AutFD.ArrAlfabeto=new String[AutFD.CardAlfabeto];
+
+        i=0;
+        for(String c: ArrAlfabeto)
+            AutFD.ArrAlfabeto[i++]=c;
+        AutFD.NumEstados=NumEdosAFD;
+        AutFD.TransicionesAFD=new int[EdosAFD.size()+CardAlfabeto+1];
+        
+        for(ConjIj I :  EdosAFD){
+            for(int columna=0; columna<=CardAlfabeto; columna++ ){
+                AutFD.TransicionesAFD[I.j+columna]=I.TransicionesAFD[columna];
+                if(columna!=CardAlfabeto)
+                    AutFD.TablaAFD[I.j+AutFD.ArrAlfabeto[columna]]=I.TransicionesAFD[columna];
+                    if(columna!=CardAlfabeto)
+                        AutFD.TablaAFD[I.j+AutFD.ArrAlfabeto[columna]]=I.TransicionesAFD[columna];
+                    else
+                        AutFD.TablaAFD[I.j+256]=I.TransicionesAFD[columna];
+            }
+        
+        }
+            AutFD.NumEstados=EdosAFD.size();
+            return AutFD;
+       
+   
+   }
    
 //* Convertir AFNaAFD--------------------------------------------------------------
     
+     
             
 //METODOS SET Y GET-----------------------------------------------------------            
     public HashSet<AFN> getListaAFNs(){
@@ -291,5 +443,6 @@ public class AFN {
     public void agregarAFNaLista(AFN a){
         ConjDeAFNs.add(a);
     }
+    
 //*METODOS SET Y GET----------------------------------------------------------    
 }

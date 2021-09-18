@@ -163,7 +163,36 @@ public class AFN {
     }
     
 //* CERRADURA TRANSITIVA------------------------------------------------------
-            
+
+//CERRADURA DE KLEEN
+        public AFN CerrKleen(){
+    //Se crea un nuevo edo inicial y un nuevo edo de aceptación
+        Estado e_ini = new Estado();
+        Estado e_fin = new Estado();
+    //AGREGANDO TRANSICION EPSILON DEL NUEVO EDO INICIAL AL ANTIGUO (EdoIn)
+        e_ini.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON,EdoIni));
+        e_ini.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON,e_fin));
+        for(Estado e: EdosAcept){
+        //!!! Transicion del antiguo EDO DE ACEPTACION AL EDO FINAL
+            e.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON, e_fin));
+        //!!! TRANSICIOPN DEL ANTIGUO EDO DE ACEPTACION AL ANTIGUO EDO INICIAL
+            e.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON, EdoIni));
+        //!!! QUITANDOLE LA CARACTERISTICA DE EDO DE ACEPTACION A E
+            e.setEdoAcept(false);
+       
+        }
+    //ASIGNANDO EL NUEVO EDO DE ACEPTACION
+        EdoIni = e_ini;
+        e_fin.setEdoAcept(true);
+        EdosAcept.clear();
+    //AGREGANDO LOS NUEVOS ESTADOS
+        EdosAcept.add(e_fin);
+        EdosAFN.add(e_ini);
+        EdosAFN.add(e_fin);
+        return this;
+    }
+//*CERRADURA DE KLEEN
+    
 //OPCIONAL -------------------------------------------------------------------
     public AFN Opcional(){
     //CREANDO UN NUEVO EDO DE ACEPTACION Y UN NUEVO EDO INICIAL
@@ -298,7 +327,7 @@ public class AFN {
        }else{
            this.EdoIni.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON,f.EdoIni));
            for(Estado EdoAcep: f.EdosAcept)
-               EdoAcep.Token=Token;
+             //  EdoAcep.Token=Token;
            this.EdosAcept.addAll(f.EdosAcept);
            this.EdosAFN.addAll(f.EdosAFN);
            this.Alfabeto.addAll(f.Alfabeto);
@@ -341,7 +370,7 @@ public class AFN {
        j=0;
        Ij=new ConjIj(CardAlfabeto);
        {
-        ConjI=CerraduraEpsilon(this.EdoIni);
+        //ConjI=CerraduraEpsilon(this.EdoIni);
         j=j;
        };
        EdosAFD.add(Ij);
@@ -352,7 +381,7 @@ public class AFN {
 
            for (String c : ArrAlfabeto) {
                Ik = new ConjIj(CardAlfabeto) {
-                   ConjI  = (Ij .ConjI,c);
+                   //ConjI  = (Ij .ConjI,c);
 
                };
            }
@@ -364,14 +393,14 @@ public class AFN {
            for (ConjIj I : EdosAFD) {
                if (I.ConjI.equals(Ik.ConjI)) {
                    existe = true;
-                   r = IndiceCaracter(ArrAlfabeto, c);
-                   Ij.TransicionesAFD[r] = I.j;
+                 //  r = IndiceCaracter(ArrAlfabeto, c);
+                   //Ij.TransicionesAFD[r] = I.j;
                    break;
                }
                if (!existe) {
                    Ik.j = j;
-                   r = IndiceCaracter(ArrAlfabeto, c);
-                   Ij.TransicionesAFD[r] = Ik.j;
+                   //r = IndiceCaracter(ArrAlfabeto, c);
+                  // Ij.TransicionesAFD[r] = Ik.j;
                    EdosAFD.add(Ik);
                    EdosSinAnalizar.remove(Ik);
                    j++;
@@ -385,7 +414,7 @@ public class AFN {
            ConjAux.addAll(this.EdosAcept);
            if(ConjAux.size()!=0)
                for(Estado EdoAcept : ConjAux){
-                   I.TransicionesAFD[CardAlfabeto]=EdoAcept.Token;
+                  // I.TransicionesAFD[CardAlfabeto]=EdoAcept.Token;
                    break;
                
                }
@@ -413,10 +442,10 @@ public class AFN {
             for(int columna=0; columna<=CardAlfabeto; columna++ ){
                 AutFD.TransicionesAFD[I.j+columna]=I.TransicionesAFD[columna];
                 if(columna!=CardAlfabeto)
-                    AutFD.TablaAFD[I.j+AutFD.ArrAlfabeto[columna]]=I.TransicionesAFD[columna];
+                    //AutFD.TablaAFD[I.j+AutFD.ArrAlfabeto[columna]]=I.TransicionesAFD[columna];
                     if(columna!=CardAlfabeto)
-                        AutFD.TablaAFD[I.j+AutFD.ArrAlfabeto[columna]]=I.TransicionesAFD[columna];
-                    else
+                      //  AutFD.TablaAFD[I.j+AutFD.ArrAlfabeto[columna]]=I.TransicionesAFD[columna];
+                    //else
                         AutFD.TablaAFD[I.j+256]=I.TransicionesAFD[columna];
             }
         

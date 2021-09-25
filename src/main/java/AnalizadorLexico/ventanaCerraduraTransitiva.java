@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class ventanaCerraduraTransitiva extends JFrame implements ActionListener{
-        private JButton boton;
+    private JButton boton;
     private JComboBox AFNop1;
     private HashSet<AFN> ConjDeAFNs = new HashSet<AFN>();
     private AFN AFNAux = new AFN();

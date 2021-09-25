@@ -5,6 +5,7 @@ import AnalizadorLexico.Estado;
 import AnalizadorLexico.SimbolosEspeciales;
 import AnalizadorLexico.Transicion;
 import static java.lang.System.in;
+import AnalizadorLexico.ConjIj;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -302,12 +303,18 @@ public class AFN {
 //* Ir_A-----------------------------------------------------------------
      public HashSet<Estado>Ir_A(HashSet<Estado>Edos, char Simb){
         HashSet<Estado>C=new HashSet<Estado>();
+       
+        HashSet<Estado>Aux=new HashSet<Estado>();
         C.clear();
+        Aux=this.Mover(Edos, Simb);
+        for (Estado e : Aux){
+            C=this.CerraduraEpsilon(e);
         
-//        C = CerraduraEpsilon(ConjEdos (Mover(Edos,Simb)));
-        return C;
+        }
 
-    }
+        return C;
+    }   
+    
     
    
 //* Ir_A-----------------------------------------------------------------
@@ -327,7 +334,7 @@ public class AFN {
        }else{
            this.EdoIni.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON,f.EdoIni));
            for(Estado EdoAcep: f.EdosAcept)
-             //  EdoAcep.Token=Token;
+               EdoAcep.getToken();
            this.EdosAcept.addAll(f.EdosAcept);
            this.EdosAFN.addAll(f.EdosAFN);
            this.Alfabeto.addAll(f.Alfabeto);

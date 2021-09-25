@@ -1,10 +1,11 @@
+
 package AnalizadorLexico;
 
 import java.util.HashSet;
 
-    public class ConjIj {
 
-        public int j;
+public class ConjIj {
+      public int j;
         public HashSet<Estado> ConjI;
         public int[] TransicionesAFD;
 
@@ -18,4 +19,14 @@ import java.util.HashSet;
             }
 
         }
+
+    public HashSet<Estado> getConjI() {
+        return ConjI;
     }
+
+    public void setConjI(HashSet<Estado> ConjI) {
+        this.ConjI = ConjI;
+    }
+        
+    
+}

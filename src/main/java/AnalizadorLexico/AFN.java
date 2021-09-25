@@ -366,6 +366,8 @@ public class AFN {
        HashSet<Estado>ConjAux=new HashSet<Estado>();
        HashSet<ConjIj>EdosAFD=new  HashSet<ConjIj>();
        Queue<ConjIj>EdosSinAnalizar=new LinkedList<ConjIj>();
+        HashSet<Estado> ConjI= new HashSet<Estado>();
+       Estado auxi;
        
        EdosAFD.clear();
        EdosSinAnalizar.clear();
@@ -376,8 +378,9 @@ public class AFN {
            ArrAlfabeto[i++]=c;
        j=0;
        Ij=new ConjIj(CardAlfabeto);
-       {
-        //ConjI=CerraduraEpsilon(this.EdoIni);
+ 
+       {     
+          ConjI = CerraduraEpsilon(this.EdoIni);
         j=j;
        };
        EdosAFD.add(Ij);
@@ -387,9 +390,10 @@ public class AFN {
            Ij = EdosSinAnalizar.remove(); //Calcula Ir_A del Ij con cada simbolo del alfabeto
 
            for (String c : ArrAlfabeto) {
-               Ik = new ConjIj(CardAlfabeto) {
-                   //ConjI  = (Ij .ConjI,c);
-
+               Ik = new ConjIj(CardAlfabeto) 
+               {
+//                   ConjI=Ir_A(Ij.ConjI,c);
+                   
                };
            }
            if (Ik.ConjI.isEmpty()) {
@@ -400,14 +404,14 @@ public class AFN {
            for (ConjIj I : EdosAFD) {
                if (I.ConjI.equals(Ik.ConjI)) {
                    existe = true;
-                 //  r = IndiceCaracter(ArrAlfabeto, c);
-                   //Ij.TransicionesAFD[r] = I.j;
+//                   r = IndiceCaracter(ArrAlfabeto, c);
+//                   Ij.TransicionesAFD[r] = I.j;
                    break;
                }
                if (!existe) {
                    Ik.j = j;
-                   //r = IndiceCaracter(ArrAlfabeto, c);
-                  // Ij.TransicionesAFD[r] = Ik.j;
+//                   r = IndiceCaracter(ArrAlfabeto, c);
+//                   Ij.TransicionesAFD[r] = Ik.j;
                    EdosAFD.add(Ik);
                    EdosSinAnalizar.remove(Ik);
                    j++;
@@ -421,7 +425,7 @@ public class AFN {
            ConjAux.addAll(this.EdosAcept);
            if(ConjAux.size()!=0)
                for(Estado EdoAcept : ConjAux){
-                  // I.TransicionesAFD[CardAlfabeto]=EdoAcept.Token;
+//                   I.TransicionesAFD[CardAlfabeto]=EdoAcept.Token;
                    break;
                
                }
@@ -448,14 +452,15 @@ public class AFN {
         for(ConjIj I :  EdosAFD){
             for(int columna=0; columna<=CardAlfabeto; columna++ ){
                 AutFD.TransicionesAFD[I.j+columna]=I.TransicionesAFD[columna];
-                if(columna!=CardAlfabeto)
-                    //AutFD.TablaAFD[I.j+AutFD.ArrAlfabeto[columna]]=I.TransicionesAFD[columna];
-                    if(columna!=CardAlfabeto)
-                      //  AutFD.TablaAFD[I.j+AutFD.ArrAlfabeto[columna]]=I.TransicionesAFD[columna];
-                    //else
-                        AutFD.TablaAFD[I.j+256]=I.TransicionesAFD[columna];
-            }
+//                if(columna!=CardAlfabeto)
+//                    AutFD.TablaAFD[I.j+AutFD.ArrAlfabeto[columna]]=I.TransicionesAFD[columna];
+//                    if(columna!=CardAlfabeto)
+//                        AutFD.TablaAFD[I.j+AutFD.ArrAlfabeto[columna]]=I.TransicionesAFD[columna];
+//                    else
+//                        AutFD.TablaAFD[I.j+256]=I.TransicionesAFD[columna];
+//            }
         
+        }
         }
             AutFD.NumEstados=EdosAFD.size();
             return AutFD;

@@ -81,7 +81,7 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
             
             cad1 = cad1.replace("AFN","");
             cad2 = cad2.replace("AFN","");
-            id1 = Integer.parseInt(cad1);
+                id1 = Integer.parseInt(cad1);
             id2 = Integer.parseInt(cad2);
             for(AFN a : ConjDeAFNs){
                 if(AFNAux.getIdAFN(a)==id1){

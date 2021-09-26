@@ -97,27 +97,17 @@ public void opciones(AFN AFN1){
             AFN AFNp=null,AFNcreado = null;
             Transicion in,su,trans;
             JOptionPane.showMessageDialog(null, "Operación realizada con exito");
-            String cI = (String)infe.getText();
-            String cS = (String)supe.getText();
+            char cI = infe.getText().charAt(0);
+            char cS = supe.getText().charAt(0);
             String nId=  (String)id.getText();
             
-            //
+            ide = Integer.parseInt(nId);
             
+                   ide= AFNAux.getIdAFN(AFNp);
+                   
+            AFNp.crearAFNBasico(cI, cS);
             
-            
-//            ide = Integer.parseInt(nId);
-//
-//            
-//            for(AFN a : ConjDeAFNs){
-//                if(AFNAux.getIdAFN(a)==ide){
-//                    AFNp = a;
-//                }
-//                
-//            }
-//
-//            
-//            AFNcreado = AFNp.crearAFNBasico(s);
-//            AFNAux.agregarAFNaLista(AFNcreado);
+ 
             
             
         }

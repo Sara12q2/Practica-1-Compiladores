@@ -22,6 +22,7 @@ public class AFN {
     HashSet<Estado> EdosAFN = new HashSet<Estado>();
     HashSet<Estado> EdosAcept = new HashSet<Estado>();
     HashSet<String> Alfabeto = new HashSet<String>();
+     HashSet<Estado> ConjI= new HashSet<Estado>();
     //EMPLEADA AL UNIR LOS N AUTOMATAS
     boolean seAgregoAFNUnionLexico;
     public int IdAFN;
@@ -366,7 +367,7 @@ public class AFN {
        HashSet<Estado>ConjAux=new HashSet<Estado>();
        HashSet<ConjIj>EdosAFD=new  HashSet<ConjIj>();
        Queue<ConjIj>EdosSinAnalizar=new LinkedList<ConjIj>();
-        HashSet<Estado> ConjI= new HashSet<Estado>();
+       
        Estado auxi;
        
        EdosAFD.clear();
@@ -392,7 +393,9 @@ public class AFN {
            for (String c : ArrAlfabeto) {
                Ik = new ConjIj(CardAlfabeto) 
                {
-//                   ConjI=Ir_A(Ij.ConjI,c);
+                   
+                
+//                          Ir_A(Ij.ConjI,c);
                    
                };
            }
@@ -436,20 +439,20 @@ public class AFN {
             CardAlfabeto=CardAlfabeto;
    
         
-        
-        AutFD.TablaAFD= new int[EdosAFD.size()+257];
+         
+        AutFD.TablaAFD= new int[EdosAFD.size()+257];  //Llena la tabla del AFD
         for(i=0; i<EdosAFD.size(); i++)
             for( j=0; j<257; j++)
                 AutFD.TablaAFD[i+j]=-1;
         AutFD.ArrAlfabeto=new String[AutFD.CardAlfabeto];
 
         i=0;
-        for(String c: ArrAlfabeto)
+        for(String c: ArrAlfabeto) //Caracteres del alfabeto en un arreglo
             AutFD.ArrAlfabeto[i++]=c;
         AutFD.NumEstados=NumEdosAFD;
         AutFD.TransicionesAFD=new int[EdosAFD.size()+CardAlfabeto+1];
         
-        for(ConjIj I :  EdosAFD){
+        for(ConjIj I :  EdosAFD){  //Pone las transiciones en el arreglo
             for(int columna=0; columna<=CardAlfabeto; columna++ ){
                 AutFD.TransicionesAFD[I.j+columna]=I.TransicionesAFD[columna];
 //                if(columna!=CardAlfabeto)

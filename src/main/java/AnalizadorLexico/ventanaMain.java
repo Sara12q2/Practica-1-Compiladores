@@ -72,7 +72,7 @@ public class ventanaMain extends JFrame {
 		 switch (seleccion){ //con el switch comparamos cada opcion posible y le damos una accion
 		 case "Básico":
 			AFN AFN1=new AFN();
-                        ventanaCerraduraTransitiva uno = new ventanaCerraduraTransitiva(AFN1);
+                        ventanaBasicoo uno = new ventanaBasicoo(AFN1);
                         uno.opciones(AFN1);
                         //hide();
 			break;
@@ -146,7 +146,7 @@ public class ventanaMain extends JFrame {
         
     
     }
-    
+      
     public void ventanaMenu(){
        ventanaMain uno = new ventanaMain();
        uno.setBounds(0,0,600,400);
@@ -155,6 +155,10 @@ public class ventanaMain extends JFrame {
        uno.setTitle("Main");
     }
     
+    public static void main(String[] args) {
+        ventanaMain o = new ventanaMain();
+        o.ventanaMenu();
+    } 
  
 }
 

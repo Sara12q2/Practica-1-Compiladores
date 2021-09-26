@@ -1,7 +1,14 @@
 
 package AnalizadorLexico;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
     class TransEdoAFD{
         public int IdEdo;
@@ -31,4 +38,9 @@ public class AFD {
         
     }
     
-}
+    
+  
+        
+     
+}  
+   

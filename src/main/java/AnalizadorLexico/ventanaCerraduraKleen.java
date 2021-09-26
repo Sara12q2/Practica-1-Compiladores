@@ -24,6 +24,7 @@ public class ventanaCerraduraKleen extends JFrame implements ActionListener{
     private JComboBox AFNop1;
     private HashSet<AFN> ConjDeAFNs = new HashSet<AFN>();
     private AFN AFNAux = new AFN();
+    
     public ventanaCerraduraKleen(AFN AFN1){
         setLayout(null);
         AFNAux = AFN1;
@@ -44,8 +45,8 @@ public class ventanaCerraduraKleen extends JFrame implements ActionListener{
 
 //IMAGEN------------------------------------------------------------------------
         JLabel etiquetaImagen = new JLabel();
-        ImageIcon imgThisImg = new ImageIcon("Images/cerraduraKleen.png");
-        etiquetaImagen.setIcon(imgThisImg);
+        ImageIcon imgThisImg = new ImageIcon("images/CerraduraK.PNG");
+        etiquetaImagen.setIcon(imgThisImg); 
         
         etiquetaImagen.setBounds(90,70,600,220);
         add(etiquetaImagen);
@@ -60,7 +61,7 @@ public class ventanaCerraduraKleen extends JFrame implements ActionListener{
     }
     
     public void opciones(AFN AFN1){
-       ventanaCerraduraTransitiva uno = new ventanaCerraduraTransitiva(AFN1);
+       ventanaCerraduraKleen uno = new ventanaCerraduraKleen(AFN1);
        uno.setBounds(0,0,600,400);
        uno.setVisible(true);
        uno.setLocationRelativeTo(null);

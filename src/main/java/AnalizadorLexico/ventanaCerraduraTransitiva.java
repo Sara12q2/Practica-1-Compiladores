@@ -15,6 +15,7 @@ public class ventanaCerraduraTransitiva extends JFrame implements ActionListener
     private JComboBox AFNop1;
     private HashSet<AFN> ConjDeAFNs = new HashSet<AFN>();
     private AFN AFNAux = new AFN();
+    
     public ventanaCerraduraTransitiva(AFN AFN1){
         setLayout(null);
         AFNAux = AFN1;

@@ -89,12 +89,13 @@ public void opciones(AFN AFN1){
             AFNAux.agregarAFNaLista(AFNconcatenado);
         }
     }   
-    
+    /*
      public static void main(String[] args) {
          AFN AFN1=new AFN();
         ventanaUnion uno = new ventanaUnion(AFN1);
         uno.opciones(AFN1);
     } 
+*/
 }
 
 

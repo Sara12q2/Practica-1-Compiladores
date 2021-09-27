@@ -5,16 +5,53 @@ import AnalizadorLexico.Estado;
 import AnalizadorLexico.SimbolosEspeciales;
 import AnalizadorLexico.Transicion;
 import static java.lang.System.in;
-import AnalizadorLexico.ConjIj;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
 
-
-
 public class AFN {
+    //Clase para cada uno de los conjuntos de estados del AFN que se va a ir creando
+    public class ConjIj{
+        //Indice del conjunto Ij
+        public int j;
+        //Conjunto de estados que forman a Ij
+        public HashSet<Estado> ConjI;
+        //Marcar las transiciones del conjunto Ij
+        public int[] TransicionesAFD;
+        
+        //Constructor de ConjIj
+            //Recibe la cardinalidad del alfabeto (Cuantos elementos tiene el alfabeto)
+        public ConjIj(int CardAlf){
+            //No tiene un indice asociado aún
+            j=-1;
+            //Conjunto de los estados
+            ConjI = new HashSet<Estado>();
+            ConjI.clear();
+            //Arreglo de enteros del tamaño del alfabeto +1 (estado de aceptacion o -1)
+            TransicionesAFD = new int[CardAlf+1];
+            //Llenamos el arreglo con -1
+            for(int k=0; k<= CardAlf; k++){
+                TransicionesAFD[k] = -1;
+            }
+                    
+        }
+        
+        //SETTERS Y GETTERS-----------------------------------------------------
+            public void setJ (int newJ){
+                this.j = newJ;
+            }
+            
+            public void setConjI (HashSet<Estado> ConjIdado){
+                this.ConjI = ConjIdado;
+            }
+        //*SETTERS Y GETTERS----------------------------------------------------
+        
+        
+    }
+    
+  
     
     //CONJUNTO DE AUTOMATAS ASOCIADOS A LAS ER
     public static HashSet<AFN> ConjDeAFNs = new HashSet<AFN>();
@@ -360,45 +397,50 @@ public class AFN {
    public AFD ConvAFNaAFD(){
        int CardAlfabeto, NumEdosAFD;
        int i,j,r;
-       String[] ArrAlfabeto;
+       //ARREGLO EN DONDE SE GUARDARÁ EL ALFABETO
+       char[] ArrAlfabeto;
+       //Ij = Indice, conjunto de estados y el arreglo de transiciones
        ConjIj Ij, Ik=null;
        boolean existe;
    
+       //Conjunto de estados para guardar temporalmente el resultado del Ir_A
        HashSet<Estado>ConjAux=new HashSet<Estado>();
+       //Conjunto de Ij's 
        HashSet<ConjIj>EdosAFD=new  HashSet<ConjIj>();
+       //Estados sin analizar tipo Ij
        Queue<ConjIj>EdosSinAnalizar=new LinkedList<ConjIj>();
-       
-       Estado auxi;
        
        EdosAFD.clear();
        EdosSinAnalizar.clear();
+       
+       //Obteniendo el numero de elementos en el alfabeto
        CardAlfabeto=Alfabeto.size();
-       ArrAlfabeto=new String[CardAlfabeto];
+       ArrAlfabeto=new char[CardAlfabeto];
        i=0;
+       //Metemos cada simbolo del alfabeto en el arreglo
        for(String c: Alfabeto)
-           ArrAlfabeto[i++]=c;
+           ArrAlfabeto[i++]=c.charAt(0);
+       //Contador del  estados del AFD
        j=0;
+       
+       
+//SECCION MODIFICADA------------------------------------------------------------       
        Ij=new ConjIj(CardAlfabeto);
- 
-       {     
-          ConjI = CerraduraEpsilon(this.EdoIni);
-        j=j;
-       };
+       Ij.setConjI(CerraduraEpsilon(this.EdoIni));
+       Ij.setJ(j);
+//*SECCION MODIFICADA-----------------------------------------------------------              
+
        EdosAFD.add(Ij);
        EdosSinAnalizar.add(Ij);
        j++;
        while (EdosSinAnalizar.size() != 0) { //Mientras se tenga estados sin analizar
            Ij = EdosSinAnalizar.remove(); //Calcula Ir_A del Ij con cada simbolo del alfabeto
 
-           for (String c : ArrAlfabeto) {
-               Ik = new ConjIj(CardAlfabeto) 
-               {
-                   
-                
-//                          Ir_A(Ij.ConjI,c);
-                   
-               };
-           }
+           for (char c : ArrAlfabeto) {
+               Ik = new ConjIj(CardAlfabeto);
+               //MODIFICADO
+               Ik.setConjI(Ir_A(Ij.ConjI,c));
+               //*MODIFICADO
            if (Ik.ConjI.isEmpty()) {
                continue;
            }
@@ -407,14 +449,15 @@ public class AFN {
            for (ConjIj I : EdosAFD) {
                if (I.ConjI.equals(Ik.ConjI)) {
                    existe = true;
-//                   r = IndiceCaracter(ArrAlfabeto, c);
-//                   Ij.TransicionesAFD[r] = I.j;
+                     r = IndiceCaracter(ArrAlfabeto, c);
+                     Ij.TransicionesAFD[r] = I.j;
                    break;
                }
+           }
                if (!existe) {
                    Ik.j = j;
-//                   r = IndiceCaracter(ArrAlfabeto, c);
-//                   Ij.TransicionesAFD[r] = Ik.j;
+                   r = IndiceCaracter(ArrAlfabeto, c);
+                   Ij.TransicionesAFD[r] = Ik.j;
                    EdosAFD.add(Ik);
                    EdosSinAnalizar.remove(Ik);
                    j++;
@@ -440,29 +483,30 @@ public class AFN {
    
         
          
-        AutFD.TablaAFD= new int[EdosAFD.size()+257];  //Llena la tabla del AFD
+        AutFD.TablaAFD= new int[EdosAFD.size()][257];  //Llena la tabla del AFD
         for(i=0; i<EdosAFD.size(); i++)
             for( j=0; j<257; j++)
-                AutFD.TablaAFD[i+j]=-1;
+        //REVISAR EQUIVALENCIA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                AutFD.TablaAFD[i][j]=-1;
         AutFD.ArrAlfabeto=new String[AutFD.CardAlfabeto];
 
         i=0;
-        for(String c: ArrAlfabeto) //Caracteres del alfabeto en un arreglo
-            AutFD.ArrAlfabeto[i++]=c;
+        for(char c: ArrAlfabeto) //Caracteres del alfabeto en un arreglo
+        AutFD.ArrAlfabeto[i++]=String.valueOf(c);
         AutFD.NumEstados=NumEdosAFD;
-        AutFD.TransicionesAFD=new int[EdosAFD.size()+CardAlfabeto+1];
+        AutFD.TransicionesAFD=new int[EdosAFD.size()][CardAlfabeto+1];
         
         for(ConjIj I :  EdosAFD){  //Pone las transiciones en el arreglo
             for(int columna=0; columna<=CardAlfabeto; columna++ ){
-                AutFD.TransicionesAFD[I.j+columna]=I.TransicionesAFD[columna];
-//                if(columna!=CardAlfabeto)
-//                    AutFD.TablaAFD[I.j+AutFD.ArrAlfabeto[columna]]=I.TransicionesAFD[columna];
-//                    if(columna!=CardAlfabeto)
-//                        AutFD.TablaAFD[I.j+AutFD.ArrAlfabeto[columna]]=I.TransicionesAFD[columna];
-//                    else
-//                        AutFD.TablaAFD[I.j+256]=I.TransicionesAFD[columna];
-//            }
-        
+                AutFD.TransicionesAFD[I.j][columna]=I.TransicionesAFD[columna];
+                if(columna!=CardAlfabeto)
+                //REVISAR CONVERSION DE AutFD.ArrAlfabeto[columna]
+                    AutFD.TablaAFD[I.j][Integer.parseInt(AutFD.ArrAlfabeto[columna])]=I.TransicionesAFD[columna];
+                    if(columna!=CardAlfabeto)
+                //REVISAR CONVERSION DE AutFD.ArrAlfabeto[columna]        
+                        AutFD.TablaAFD[I.j][Integer.parseInt(AutFD.ArrAlfabeto[columna])]=I.TransicionesAFD[columna];
+                    else
+                        AutFD.TablaAFD[I.j][256]=I.TransicionesAFD[columna];
         }
         }
             AutFD.NumEstados=EdosAFD.size();

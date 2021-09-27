@@ -156,6 +156,9 @@ public class ventanaMain extends JFrame {
        obj.setTitle("Menu");
        obj.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-    
+   public static void main(String[] args) {
+        ventanaMain o = new ventanaMain();
+        o.ventanaMenu();
+    } 
  
 }

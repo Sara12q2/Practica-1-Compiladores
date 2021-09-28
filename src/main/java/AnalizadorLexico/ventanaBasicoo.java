@@ -3,6 +3,7 @@ package AnalizadorLexico;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import static java.sql.DriverManager.println;
 import java.util.HashSet;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -93,24 +94,27 @@ public void opciones(AFN AFN1){
     public void actionPerformed(ActionEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         if(e.getSource()==boton){
-            int inf,sup,ide;
-            AFN AFNp=null,AFNcreado = null;
+            int inf,sup,ide,id1 = 0,po;
+            AFN AFNp=null,AFNcreado = null,a = null;
             Transicion in,su,trans;
             JOptionPane.showMessageDialog(null, "Operación realizada con exito");
             char cI = infe.getText().charAt(0);
             char cS = supe.getText().charAt(0);
             String nId=  (String)id.getText();
-            
+            System.out.println(nId);
+            System.out.println(cI);
+            System.out.println(cS);
+
             ide = Integer.parseInt(nId);
+           
+                AFNAux.setIdAFN(ide);
+                
+                po=AFNAux.IdAFN;
+//                ConjDeAFNs.add(po);
+//                AFNAux.agregarAFNaLista(AFNAux.IdAFN);
+             
             
-                   ide= AFNAux.getIdAFN(AFNp);
-                   
-            AFNp.crearAFNBasico(cI, cS);
-            
- 
-            
-            
-        }
+                }
     }   
     /*
      public static void main(String[] args) {

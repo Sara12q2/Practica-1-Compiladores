@@ -527,6 +527,11 @@ public class AFN {
     public int getIdAFN(AFN a){
         return a.IdAFN;
     }
+
+    public void setIdAFN(int IdAFN) {
+        this.IdAFN = IdAFN;
+    }
+    
     
     public void agregarAFNaLista(AFN a){
         ConjDeAFNs.add(a);

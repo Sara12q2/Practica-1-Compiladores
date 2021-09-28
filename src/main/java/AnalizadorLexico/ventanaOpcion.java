@@ -1,9 +1,4 @@
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package AnalizadorLexico;
 
 import java.awt.event.ActionEvent;
@@ -16,45 +11,33 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Daniel
- */
-public class ventanaCerraduraKleen extends JFrame implements ActionListener{
+public class ventanaOpcion extends JFrame implements ActionListener{
     private JButton boton;
     private JComboBox AFNop1;
     private HashSet<AFN> ConjDeAFNs = new HashSet<AFN>();
     private AFN AFNAux = new AFN();
     
-    public ventanaCerraduraKleen(AFN AFN1){
+    public ventanaOpcion(AFN AFN1){
         setLayout(null);
         AFNAux = AFN1;
         ConjDeAFNs = AFN1.getListaAFNs();
 //ETIQUETA -------------------------------------------------------------------
-        JLabel etiquetaCerradura = new JLabel("Cerradura*");
-        etiquetaCerradura.setBounds(140,25,100,30);
-        etiquetaCerradura.setFont(new java.awt.Font("arial", 1, 14));
+        JLabel opcional = new JLabel("Opcional");
+        opcional.setBounds(140,25,100,30);
+        opcional.setFont(new java.awt.Font("arial", 1, 14));
         //MENU DESPLEGABLE
         AFNop1 = new JComboBox();
         AFNop1.setBounds(260,29,200,20);
         for(AFN e : ConjDeAFNs){
             AFNop1.addItem("AFN"+String.valueOf(AFN1.getIdAFN(e)));
         }
-        add(etiquetaCerradura);
+        add(opcional);
         add(AFNop1);
 //*ETIQUETA---------------------------------------------------------------------
 
-//IMAGEN------------------------------------------------------------------------
-        JLabel etiquetaImagen = new JLabel();
-        ImageIcon imgThisImg = new ImageIcon("images/CerraduraK.PNG");
-        etiquetaImagen.setIcon(imgThisImg); 
-        
-        etiquetaImagen.setBounds(90,70,600,220);
-        add(etiquetaImagen);
-//*IMAGEN-----------------------------------------------------------------------
 
 //BOTON-------------------------------------------------------------------------
-    boton = new JButton("Aplicar cerradura *");
+    boton = new JButton("Aplicar opcional");
     boton.setBounds(380,320,140,20);
     add(boton);
     boton.addActionListener(this);
@@ -62,11 +45,11 @@ public class ventanaCerraduraKleen extends JFrame implements ActionListener{
     }
     
     public void opciones(AFN AFN1){
-       ventanaCerraduraKleen uno = new ventanaCerraduraKleen(AFN1);
+       ventanaOpcion uno = new ventanaOpcion(AFN1);
        uno.setBounds(0,0,600,400);
        uno.setVisible(true);
        uno.setLocationRelativeTo(null);
-       uno.setTitle("Cerradura de Kleen");
+       uno.setTitle("Opcional");
     }
     
 @Override
@@ -74,7 +57,7 @@ public class ventanaCerraduraKleen extends JFrame implements ActionListener{
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         if(e.getSource()==boton){
             int id1;
-            AFN AFNp = null,AFNs = null, AFNcerraduraK = null;
+            AFN AFNp = null,AFNs = null, AFNopcional = null;
             String cad1 = (String)AFNop1.getSelectedItem();
             JOptionPane.showMessageDialog(null, "Operación realizada con exito");
             cad1 = cad1.replace("AFN","");
@@ -84,8 +67,17 @@ public class ventanaCerraduraKleen extends JFrame implements ActionListener{
                     AFNp = a;
                 }
             }
-            AFNcerraduraK = AFNp.CerrKleen();
-            AFNAux.agregarAFNaLista(AFNcerraduraK);
+            AFNopcional = AFNp.Opcional();
+            AFNAux.agregarAFNaLista(AFNopcional);
         }
     }   
+    
+    public static void main(String[] args) {
+         AFN AFN1=new AFN();
+        ventanaOpcion uno = new ventanaOpcion(AFN1);
+        uno.opciones(AFN1);
+         System.out.println("");
+    } 
 }
+    
+

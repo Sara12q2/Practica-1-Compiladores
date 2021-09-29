@@ -103,7 +103,7 @@ public class probarAnalizadorLexico extends JFrame implements ActionListener{
        uno.setBounds(0,0,700,600);
        uno.setVisible(true);
        uno.setLocationRelativeTo(null);
-       uno.setTitle("Converir AFN a AFD");
+       uno.setTitle("Probar Analizador Léxico");
     }
     
 @Override

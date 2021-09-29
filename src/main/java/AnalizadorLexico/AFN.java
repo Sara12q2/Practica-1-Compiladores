@@ -103,19 +103,22 @@ public class AFN {
         estadoInicial=new Estado();
         estadoFinal=new Estado();
         t=new Transicion(s1,s2,estadoFinal);
-        estadoInicial.getTrans().add(t); 
-        estadoFinal.setEdoAcept(true);
+        estadoInicial.getTrans().add(t); // _ = e1.Trans.Add(t);
+        estadoFinal.setEdoAcept(true);   // e2.EdoAcetpt = true
         
         for(i=s1;i<=s2;i++)
-        Alfabeto.add(String.valueOf(i));
+        {
+            Alfabeto.add(String.valueOf(i));
+        }
         EdoIni=estadoInicial;
-        EdosAFN.add(estadoInicial);
+        EdosAFN.add(estadoInicial);  //_ = EdosAFN.Add(e1)
         EdosAFN.add(estadoFinal);
         EdosAcept.add(estadoFinal);
         seAgregoAFNUnionLexico=false;
         return this;
     }
 //BASICO---------------------------------------------------------------
+
     
 //UNION---------------------------------------------------------------
    public AFN UnirAFN(AFN f2){
@@ -148,10 +151,6 @@ public class AFN {
     return this;
     
    }
-    
-    
-    
-    
 //UNION---------------------------------------------------------------
 
 //CONCATENACION---------------------------------------------------------------

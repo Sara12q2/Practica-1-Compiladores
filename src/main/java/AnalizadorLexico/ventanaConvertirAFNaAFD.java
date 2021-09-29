@@ -7,6 +7,9 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import java.awt.Image;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
@@ -16,6 +19,7 @@ public class ventanaConvertirAFNaAFD extends JFrame implements ActionListener{
     private JComboBox AFNop2, AFNop1;
     private JTextField infe,supe,id;
     private static AFN AFNAux;
+    private static AFD AFDAux;
     private static Transicion t;
     private char s;
     private HashSet<AFN> ConjDeAFNs = new HashSet<AFN>();
@@ -36,7 +40,7 @@ public class ventanaConvertirAFNaAFD extends JFrame implements ActionListener{
         AFNop1 = new JComboBox();
         AFNop1.setBounds(230,29,200,20);
         for(AFN e : ConjDeAFNs){
-            AFNop1.addItem("AFN"+String.valueOf(AFN1.getIdAFN(e)));
+            AFNop1.addItem("AFN "+String.valueOf(AFN1.getIdAFN(e)));
         } 
         add(etiquetaConvertir);
         add(AFNop1);
@@ -51,10 +55,17 @@ public class ventanaConvertirAFNaAFD extends JFrame implements ActionListener{
         add(id);
         String var3=id.getText();
         
-       
         add(Id);
 //Cuadro de texto & Combox----------------------------------------------------------
-
+       //Crear Tabla para el token y lexema
+        String [] token={"",""};   //EEjemplos--Modificarrr
+        String [][] lexema={{"",""}};
+                                                       //Añadir nombre del token y lexema
+        DefaultTableModel mod= new DefaultTableModel(lexema,token);
+        JTable tabla= new JTable(mod);
+        JScrollPane scroll= new  JScrollPane(tabla);
+        scroll.setBounds(30,180,400,200);
+        add(scroll);
 //Boton Convertir y guardar----------------------------------------------------------
     boton = new JButton(" Convertir y guardar");
     boton.setBounds(230,100,150,25);
@@ -68,15 +79,7 @@ public class ventanaConvertirAFNaAFD extends JFrame implements ActionListener{
         afd.setBounds(30,150,80,20);
         add(afd);
 
-       //Crear Tabla para el token y lexema
-        String [] token={"",""};   //EEjemplos--Modificarrr
-        String [][] lexema={{"",""}};
-                                                       //Añadir nombre del token y lexema
-        DefaultTableModel mod= new DefaultTableModel(lexema,token);
-        JTable tabla= new JTable(mod);
-        JScrollPane scroll= new  JScrollPane(tabla);
-        scroll.setBounds(30,180,400,200);
-        add(scroll);
+       
 
        
 
@@ -99,6 +102,35 @@ public class ventanaConvertirAFNaAFD extends JFrame implements ActionListener{
     
 @Override
     public void actionPerformed(ActionEvent e) {
+        
+          //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(e.getSource()==boton){
+            try {
+                int ide,id1;
+                AFN AFNconvert = null;
+                AFD AFDconv=null;
+                String cad1 = (String)AFNop1.getSelectedItem();
+                cad1 = cad1.replace("AFN","");
+                id1 = Integer.parseInt(cad1);
+                String nId=  (String)id.getText();
+//            System.out.println(nId);
+                for (AFN a : ConjDeAFNs) {
+                    if (AFNAux.getIdAFN(a) == id1) {
+                            AFNconvert = a;
+                    }
+                }
+                AFDconv = AFNconvert.ConvAFNaAFD();
+                AFDconv.GuardarAFDenArchivo("AFD.txt");
+                AFD.ConjAFDs.add(AFDconv);
+                ide = Integer.parseInt(nId);
+                AFDAux.setIdAFD(ide);
+            } catch (IOException ex) {
+                Logger.getLogger(ventanaConvertirAFNaAFD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+
+           
+        }
       
     }  
      public static void main(String[] args) {

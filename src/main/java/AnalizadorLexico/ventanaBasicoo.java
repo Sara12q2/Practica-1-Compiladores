@@ -106,24 +106,67 @@ public void opciones(AFN AFN1){
             System.out.println(cS);
 
             ide = Integer.parseInt(nId);
-           
-                AFNAux.setIdAFN(ide);
+            AFNAux.setIdAFN(ide);
+            
+            
+            AFNAux.getIdAFN(a);
+            
+            
+            po=AFNAux.IdAFN;
+            System.out.println("IDE: "+ po);
+//            
+//            for(AFN f : AFN.ConjDeAFNs ){
+//                f.getIdAFN();
+//                System.out.println("Preuba "+f.getIdAFN());
+//            
+//            }
+            
+//            a=ConjDeAFNs(ide);
+            
                 
-                po=AFNAux.IdAFN;
+                
 //                ConjDeAFNs.add(po);
 //                AFNAux.agregarAFNaLista(AFNAux.IdAFN);
-             
+               
+                
+//                System.out.println("IDEEEEEEe: "+AFNAux.getIdAFN());
+
+//                AFN.ConjDeAFNs.add(AFNcreado);
+//                
+//                for(AFN i : ConjDeAFNs){ 
+//                if(AFNAux.getIdAFN(i)==ide){
+//                   
+//                    AFNp=i;
+//                     System.out.println("IDDDDDDDDDDDDd "+AFNp);
+//                }else{
+//                    System.out.println("no hay");
+//                }
+                
+//                a.crearAFNBasico(cI, cS);
+//                
+//                 for(AFN u : ConjDeAFNs){ 
+//                     System.out.println("AAAAA: "+a);
+//                 }
+                 
+//                   AFNcreado.crearAFNBasico(cI, cS);
+//            System.out.println("AFNCreado: "+AFNcreado);
+//            AFNAux.agregarAFNaLista(AFNcreado.crearAFNBasico(cI,cS));
+// 
+//            
+//             AFNcreado=AFNp.crearAFNBasico(cI, cS);
+//               AFNAux.agregarAFNaLista(AFNcreado);
+//            
             
                 }
-    }   
-    /*
+    }  
+    
      public static void main(String[] args) {
          AFN AFN1=new AFN();
         ventanaBasicoo uno = new ventanaBasicoo(AFN1);
         uno.opciones(AFN1);
          System.out.println("");
     } 
-*/
+
 }
 
 

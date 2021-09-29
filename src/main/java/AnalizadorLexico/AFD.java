@@ -91,6 +91,10 @@ public class AFD {
         AFD.ConjAFDs.add(this);
         return ;
     }
+
+    public void setIdAFD(int IdAFD) {
+        this.IdAFD = IdAFD;
+    }
     
     
   

@@ -11,5 +11,6 @@ public class MainClass {
     public static void main(String[] args) {
         ventanaMain obj = new ventanaMain();
         obj.ventanaMenu();  
+        
     }
 }

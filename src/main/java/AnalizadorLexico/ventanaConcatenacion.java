@@ -10,11 +10,12 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
     private JButton boton;
     private JComboBox AFNop2, AFNop1;
     private static AFN AFNAux;
-    private HashSet<AFN> ConjDeAFNs = new HashSet<AFN>();
+   
     public ventanaConcatenacion(AFN AFN1){
         AFNAux = AFN1;
+        AFN1=new AFN();
         setLayout(null);
-        ConjDeAFNs = AFN1.getListaAFNs();
+        
 //ETIQUETA CONCATENAR-----------------------------------------------------------
         JLabel etiquetaConcatenar = new JLabel("Concatenar");
         etiquetaConcatenar.setBounds(30,25,100,30);
@@ -22,8 +23,16 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
         //MENU DESPLEGABLE
         AFNop1 = new JComboBox();
         AFNop1.setBounds(150,29,200,20);
-        for(AFN e : ConjDeAFNs){
-            AFNop1.addItem("AFN"+String.valueOf(AFN1.getIdAFN(e)));
+        
+         for(AFN e : AFN.ConjDeAFNs){
+            
+             System.out.println(e.IdAFN);
+        } 
+        
+        
+        for(AFN e : AFN.ConjDeAFNs){
+            
+            AFNop1.addItem("AFN "+String.valueOf(e.IdAFN));
         } 
         add(etiquetaConcatenar);
         add(AFNop1);
@@ -37,8 +46,8 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
         //MENU DESPLEGABLE
         AFNop2 = new JComboBox();
         AFNop2.setBounds(440,29,200,20);
-        for(AFN e : ConjDeAFNs){
-            AFNop2.addItem("AFN"+String.valueOf(AFN1.getIdAFN(e)));
+        for(AFN e : AFN.ConjDeAFNs){
+            AFNop2.addItem("AFN "+String.valueOf(e.IdAFN));
         }
         add(etiquetaCon);
         add(AFNop2);
@@ -83,7 +92,7 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
             cad2 = cad2.replace("AFN","");
                 id1 = Integer.parseInt(cad1);
             id2 = Integer.parseInt(cad2);
-            for(AFN a : ConjDeAFNs){
+            for(AFN a : AFN.ConjDeAFNs){
                 if(AFNAux.getIdAFN(a)==id1){
                     AFNp = a;
                 }

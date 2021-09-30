@@ -66,40 +66,43 @@ public class ventanaMain extends JFrame {
     boton.addActionListener(new ActionListener(){
         @Override
         public void actionPerformed(ActionEvent ae){
+            AFN AFN1=new AFN();
+            
+            
              if (ae.getSource()==boton) { //aqui detecta si se hace un cambio en el JComboBox
  
 		 String seleccion=(String)combo.getSelectedItem(); //Se hace una variable que contiene lo que dice la opcion seleccionada
  
 		 switch (seleccion){ //con el switch comparamos cada opcion posible y le damos una accion
-		 case "Basico":
-			AFN AFN1=new AFN();
+	
+                     case "Basico":
                         ventanaBasicoo uno = new ventanaBasicoo(AFN1);
                         uno.opciones(AFN1);
                         //hide();
 			break;
 		 case "Unir":
-			AFN AFN2=new AFN();
-                        ventanaUnion dos = new ventanaUnion(AFN2);
-                        dos.opciones(AFN2);
+			
+                        ventanaUnion dos = new ventanaUnion(AFN1);
+                        dos.opciones(AFN1);
                         //hide();
 			break;
 		 case "Concatenar":
-			AFN AFN3=new AFN();
-                         ventanaConcatenacion tres = new ventanaConcatenacion(AFN3);
-                        tres.opciones(AFN3);
+			
+                         ventanaConcatenacion tres = new ventanaConcatenacion(AFN1);
+                        tres.opciones(AFN1);
                      
                         //hide();
 			 break;
 		 case "Cerradura +":
-			AFN AFN4=new AFN();
-                        ventanaCerraduraTransitiva cuatro = new ventanaCerraduraTransitiva(AFN4);
-                        cuatro.opciones(AFN4);
+			
+                        ventanaCerraduraTransitiva cuatro = new ventanaCerraduraTransitiva(AFN1);
+                        cuatro.opciones(AFN1);
                         //hide();
 			 break;
                  case "Cerradura *":
-			AFN AFN5=new AFN();
-                        ventanaCerraduraKleen cinco = new ventanaCerraduraKleen(AFN5);
-                        cinco.opciones(AFN5);
+			
+                        ventanaCerraduraKleen cinco = new ventanaCerraduraKleen(AFN1);
+                        cinco.opciones(AFN1);
                         //hide();
 			 break;
                   case "Opcional":

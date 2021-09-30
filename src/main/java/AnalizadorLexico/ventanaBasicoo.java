@@ -18,7 +18,7 @@ public class ventanaBasicoo extends JFrame implements ActionListener{
     private JButton boton;
     private JComboBox AFNop2, AFNop1;
     private JTextField infe,supe,id;
-    private static AFN AFNAux;
+    private static AFN AFNAux,AFNcreado;
     private static Transicion t;
     private char s;
     private HashSet<AFN> ConjDeAFNs = new HashSet<AFN>();
@@ -27,6 +27,7 @@ public class ventanaBasicoo extends JFrame implements ActionListener{
      
      public ventanaBasicoo(AFN AFN1){
         AFNAux = AFN1;
+       
         setLayout(null);
         ConjDeAFNs = AFN1.getListaAFNs();
 //ETIQUETA UNIR----------------------------------------------------------
@@ -48,7 +49,7 @@ public class ventanaBasicoo extends JFrame implements ActionListener{
         supe.setBounds(280,20,80,20);
         add(supe);
          String var2=supe.getText();
-        
+         
         Id=new JLabel("Id AFN");
         Id.setBounds(400,20,80,20);
         
@@ -95,66 +96,28 @@ public void opciones(AFN AFN1){
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         if(e.getSource()==boton){
             int inf,sup,ide,id1 = 0,po;
-            AFN AFNp=null,AFNcreado = null,a = null;
+            
+            AFN AFNp;
+            AFNp=new AFN();
+            
             Transicion in,su,trans;
             JOptionPane.showMessageDialog(null, "Operación realizada con exito");
             char cI = infe.getText().charAt(0);
             char cS = supe.getText().charAt(0);
             String nId=  (String)id.getText();
-            System.out.println(nId);
-            System.out.println(cI);
-            System.out.println(cS);
+//            System.out.println(nId);
+//            System.out.println(cI);
+//            System.out.println(cS);
 
             ide = Integer.parseInt(nId);
-            AFNAux.setIdAFN(ide);
             
             
-            AFNAux.getIdAFN(a);
-            
-            
-            po=AFNAux.IdAFN;
-            System.out.println("IDE: "+ po);
-//            
-//            for(AFN f : AFN.ConjDeAFNs ){
-//                f.getIdAFN();
-//                System.out.println("Preuba "+f.getIdAFN());
-//            
-//            }
-            
-//            a=ConjDeAFNs(ide);
-            
-                
-                
-//                ConjDeAFNs.add(po);
-//                AFNAux.agregarAFNaLista(AFNAux.IdAFN);
-               
-                
-//                System.out.println("IDEEEEEEe: "+AFNAux.getIdAFN());
-
-//                AFN.ConjDeAFNs.add(AFNcreado);
-//                
-//                for(AFN i : ConjDeAFNs){ 
-//                if(AFNAux.getIdAFN(i)==ide){
-//                   
-//                    AFNp=i;
-//                     System.out.println("IDDDDDDDDDDDDd "+AFNp);
-//                }else{
-//                    System.out.println("no hay");
-//                }
-                
-//                a.crearAFNBasico(cI, cS);
-//                
-//                 for(AFN u : ConjDeAFNs){ 
-//                     System.out.println("AAAAA: "+a);
-//                 }
-                 
-//                   AFNcreado.crearAFNBasico(cI, cS);
-//            System.out.println("AFNCreado: "+AFNcreado);
-//            AFNAux.agregarAFNaLista(AFNcreado.crearAFNBasico(cI,cS));
-// 
-//            
-//             AFNcreado=AFNp.crearAFNBasico(cI, cS);
-//               AFNAux.agregarAFNaLista(AFNcreado);
+            System.out.println("IDE: "+ ide);
+  
+             AFNp.crearAFNBasico(cI,cS);
+             AFNp.setIdAFN(ide);
+             AFN.ConjDeAFNs.add(AFNp);
+             
 //            
             
                 }

@@ -96,6 +96,8 @@ public class AFN {
     }
     
     public AFN crearAFNBasico(char s1, char s2){
+        System.out.println("s1 "+s1);
+        System.out.println("s2 "+s2);
         char i;
         Transicion t;
         

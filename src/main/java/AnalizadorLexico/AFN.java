@@ -168,8 +168,12 @@ public class AFN {
         f2.EdosAFN.remove(f2.EdoIni);
         //ACTUALIZANDO EL AUTOMATA NUEVO QUE RESULTO DE CONCATENAR
         this.EdosAcept = f2.EdosAcept;
-       // this.EdosAFN.UnionWith(f2.EdosAFN);
-        //this.Alfabeto.UnionWith(f2.Alfabeto);
+//        this.EdosAFN.UnirAFN(f2.EdosAFN);
+//        this.Alfabeto.UnionWith(f2.Alfabeto);
+//EQUIVALENCIA
+          this.EdosAFN.addAll(f2.EdosAFN);
+          this.Alfabeto.addAll(f2.Alfabeto);
+        UnirAFN(f2);
         }
         return this;
     }

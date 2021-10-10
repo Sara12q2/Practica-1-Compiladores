@@ -24,8 +24,7 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
         AFNop1 = new JComboBox();
         AFNop1.setBounds(150,29,200,20);
         
-         for(AFN e : AFN.ConjDeAFNs){
-            
+         for(AFN e : AFN.ConjDeAFNs){            
              System.out.println(e.IdAFN);
         } 
         
@@ -83,15 +82,18 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         if(e.getSource()==boton){
             int id1,id2;
-            AFN AFNp = null,AFNs = null, AFNconcatenado = null;
+            AFN AFNp=null,AFNs=null,AFNConcatenado=null;
             JOptionPane.showMessageDialog(null, "Operación realizada con exito");
             String cad1 = (String)AFNop1.getSelectedItem();
             String cad2 = (String)AFNop2.getSelectedItem();
-            
             cad1 = cad1.replace("AFN","");
+            cad1 = String.valueOf(cad1.charAt(1));
             cad2 = cad2.replace("AFN","");
-                id1 = Integer.parseInt(cad1);
+            cad2 = String.valueOf(cad2.charAt(1));
+            id1 = Integer.parseInt(cad1);
             id2 = Integer.parseInt(cad2);
+            System.out.println("INTEGER 1: "+id1);
+            System.out.println("INTEGER 2: "+id2);
             for(AFN a : AFN.ConjDeAFNs){
                 if(AFNAux.getIdAFN(a)==id1){
                     AFNp = a;
@@ -100,9 +102,23 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
                     AFNs = a;
                 }
             }
-            AFNconcatenado = AFNp.ConcAFN(AFNs);
-            AFNAux.agregarAFNaLista(AFNconcatenado);
+            int i=0;
+            System.out.println("ID A: "+AFNp.IdAFN);
+       
+            System.out.println("NUMERO DE ESTADOS Antes de: "+i);
+            
+            i=0;
+            AFNConcatenado = AFNp.ConcAFN(AFNs);
+ 
+            for(AFN a : AFN.ConjDeAFNs){
+                for(Estado b : a.EdosAFN){
+                    System.out.println("AFN perteneciente: "+a.getIdAFN(a));
+                    i++;
+                }
+            }
+            System.out.println("NUMERO DE ESTADOS: "+i);
         }
+       
     }   
 }
 

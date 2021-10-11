@@ -82,14 +82,19 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         if(e.getSource()==boton){
             int id1,id2;
+            String auxId1="",auxId2="";
             AFN AFNp=null,AFNs=null,AFNConcatenado=null;
             JOptionPane.showMessageDialog(null, "Operación realizada con exito");
             String cad1 = (String)AFNop1.getSelectedItem();
             String cad2 = (String)AFNop2.getSelectedItem();
             cad1 = cad1.replace("AFN","");
-            cad1 = String.valueOf(cad1.charAt(1));
+            for(int i=1;i<cad1.length();i++)
+                auxId1 = auxId1 + cad1.charAt(i);
+            cad1 = auxId1;
             cad2 = cad2.replace("AFN","");
-            cad2 = String.valueOf(cad2.charAt(1));
+            for(int i=1;i<cad2.length();i++)
+                auxId2 = auxId2 + cad2.charAt(i);
+            cad2 = auxId2;
             id1 = Integer.parseInt(cad1);
             id2 = Integer.parseInt(cad2);
             System.out.println("INTEGER 1: "+id1);
@@ -106,10 +111,10 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
             System.out.println("ID A: "+AFNp.IdAFN);
        
             System.out.println("NUMERO DE ESTADOS Antes de: "+i);
-            
+             
             i=0;
             AFNConcatenado = AFNp.ConcAFN(AFNs);
- 
+            AFN.ConjDeAFNs.remove(AFNs);
             for(AFN a : AFN.ConjDeAFNs){
                 for(Estado b : a.EdosAFN){
                     System.out.println("AFN perteneciente: "+a.getIdAFN(a));

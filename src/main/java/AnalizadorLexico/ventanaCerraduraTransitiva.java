@@ -64,7 +64,7 @@ public class ventanaCerraduraTransitiva extends JFrame implements ActionListener
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         if(e.getSource()==boton){
             int id1;
-            AFN AFNp = null,AFNs = null, AFNcerraduraT = null;
+            AFN AFNp = null, AFNcerraduraT = null;
             String cad1 = (String)AFNop1.getSelectedItem();
             JOptionPane.showMessageDialog(null, "Operación realizada con exito");
             cad1 = cad1.replace("AFN","");
@@ -73,9 +73,14 @@ public class ventanaCerraduraTransitiva extends JFrame implements ActionListener
                 if(AFNAux.getIdAFN(a)==id1){
                     AFNp = a;
                 }
+            }           
+            AFNp.CerrPos();    
+            for(AFN a : AFN.ConjDeAFNs){
+                for(Estado b : a.EdosAFN){
+                    System.out.println("AFN perteneciente: "+a.getIdAFN(a));
+                  
+                }
             }
-            AFNcerraduraT = AFNp.CerrPos();
-            AFNAux.agregarAFNaLista(AFNcerraduraT);
         }
     }   
 }

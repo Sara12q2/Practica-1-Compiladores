@@ -105,9 +105,6 @@ public void opciones(AFN AFN1){
             char cI = infe.getText().charAt(0);
             char cS = supe.getText().charAt(0);
             String nId=  (String)id.getText();
-//            System.out.println(nId);
-//            System.out.println(cI);
-//            System.out.println(cS);
 
             ide = Integer.parseInt(nId);
             
@@ -117,7 +114,12 @@ public void opciones(AFN AFN1){
              AFNp.crearAFNBasico(cI,cS);
              AFNp.setIdAFN(ide);
              AFN.ConjDeAFNs.add(AFNp);
-             
+
+           
+             for (AFN o: AFN.ConjDeAFNs) {
+                 System.out.println("Conj: "+o.IdAFN);
+            }
+             System.out.println("");
 //            
             
                 }

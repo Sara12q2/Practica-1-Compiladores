@@ -143,13 +143,13 @@ public class AFN {
     this.EdosAcept.clear();
     f2.EdosAcept.clear();
     this.EdoIni=estadoNIni;
-    estadoNFin.setEdoAcept(true);
+    estadoNFin.setEdoAcept(true); //nuevo estado 2 se le pone la bandera en verdadero
     this.EdosAcept.clear();
     this.EdoIni=estadoNIni;
     estadoNFin.setEdoAcept(true);
     this.EdosAcept.add(estadoNFin);
     
-    this.EdosAFN.containsAll(f2.Alfabeto);
+    this.EdosAFN.containsAll(f2.Alfabeto);  //cambiarlo por addAll //ya que add agrega y contains comprueba
     return this;
     
    }

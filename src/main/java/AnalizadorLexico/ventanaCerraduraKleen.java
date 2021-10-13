@@ -84,8 +84,15 @@ public class ventanaCerraduraKleen extends JFrame implements ActionListener{
                     AFNp = a;
                 }
             }
-            AFNcerraduraK = AFNp.CerrKleen();
-            AFNAux.agregarAFNaLista(AFNcerraduraK);
+            AFNp.CerrKleen();    
+            for(AFN a : AFN.ConjDeAFNs){
+                for(Estado b : a.EdosAFN){
+                    System.out.println("AFN perteneciente: "+a.getIdAFN(a));
+                  
+                }
+            }
+            //AFNcerraduraK = AFNp.CerrKleen();
+            //AFNAux.agregarAFNaLista(AFNcerraduraK);
         }
     }   
 }

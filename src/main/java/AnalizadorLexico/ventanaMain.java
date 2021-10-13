@@ -104,10 +104,10 @@ public class ventanaMain extends JFrame {
                         cinco.opciones(AFN1);
                         //hide();
 			 break;
-                  case "Opcional":
-			//AFN AFN1=new AFN();
-                        //ventanaCerraduraTransitiva uno = new ventanaCerraduraTransitiva(AFN1);
-                        //uno.opciones(AFN1);
+                  case "Opcional": 
+                        ventanaOpcion seis = new ventanaOpcion(AFN1);
+                        seis.opciones(AFN1);
+
                         //hide();
 			 break;
                    case "ER->AFN":

@@ -67,8 +67,15 @@ public class ventanaOpcion extends JFrame implements ActionListener{
                     AFNp = a;
                 }
             }
-            AFNopcional = AFNp.Opcional();
-            AFNAux.agregarAFNaLista(AFNopcional);
+            AFNp.Opcional();    
+            for(AFN a : AFN.ConjDeAFNs){
+                for(Estado b : a.EdosAFN){
+                    System.out.println("AFN perteneciente: "+a.getIdAFN(a));
+                  
+                }
+            }
+//            AFNopcional = AFNp.Opcional();
+//            AFNAux.agregarAFNaLista(AFNopcional);
         }
     }   
     

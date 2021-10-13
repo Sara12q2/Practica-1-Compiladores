@@ -23,20 +23,15 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
         //MENU DESPLEGABLE
         AFNop1 = new JComboBox();
         AFNop1.setBounds(150,29,200,20);
-        
          for(AFN e : AFN.ConjDeAFNs){            
              System.out.println(e.IdAFN);
         } 
-        
-        
         for(AFN e : AFN.ConjDeAFNs){
-            
             AFNop1.addItem("AFN "+String.valueOf(e.IdAFN));
         } 
         add(etiquetaConcatenar);
         add(AFNop1);
 //*ETIQUETA CONCATENAR----------------------------------------------------------
-
 
 //ETIQUETA CON------------------------------------------------------------------
         JLabel etiquetaCon = new JLabel("con");
@@ -56,7 +51,6 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
         JLabel etiquetaImagen = new JLabel();
         ImageIcon imgThisImg = new ImageIcon("Images/concatenar.png");
         etiquetaImagen.setIcon(imgThisImg);
-        
         etiquetaImagen.setBounds(80,70,600,120);
         add(etiquetaImagen);
 //*IMAGEN-----------------------------------------------------------------------
@@ -68,7 +62,7 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
     boton.addActionListener(this);
 //*BOTON------------------------------------------------------------------------
     }
-    
+   
     public void opciones(AFN AFN1){
        ventanaConcatenacion uno = new ventanaConcatenacion(AFN1);
        uno.setBounds(0,0,700,300);
@@ -109,9 +103,8 @@ public class ventanaConcatenacion extends JFrame implements ActionListener{
             }
             int i=0;
             System.out.println("ID A: "+AFNp.IdAFN);
-       
+
             System.out.println("NUMERO DE ESTADOS Antes de: "+i);
-             
             i=0;
             AFNConcatenado = AFNp.ConcAFN(AFNs);
             AFN.ConjDeAFNs.remove(AFNs);

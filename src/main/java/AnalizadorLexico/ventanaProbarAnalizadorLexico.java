@@ -8,7 +8,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -25,8 +29,10 @@ import javax.swing.table.DefaultTableModel;
 public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListener{
     private JTextField txt = new JTextField();
     private JTextField cadena = new JTextField();
-    private JComboBox AFDop;
+    private JComboBox AFDop = new JComboBox();
     private JComboBox comboAux;
+            int idAux=0;
+            ArrayList<String> guardado = new ArrayList<String>();
             String rutaArchivo=null;
             int bandera=0;
         String[] columnNames = {"Token", "Lexema",};
@@ -40,15 +46,14 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
         
     public ventanaProbarAnalizadorLexico(){
         setLayout(null);
-        JTextField caja = new JTextField();
-    JScrollPane miBarra = new JScrollPane(table);
-    this.getContentPane().add(miBarra, null);
-    dtm.removeRow(0);
-    miBarra.setBounds(220, 255, 400, 200);
-    miBarra.setVisible(true);
-    table.setVisible(true);
-
-
+        
+        //TABLA
+        JScrollPane miBarra = new JScrollPane(table);
+        this.getContentPane().add(miBarra, null);
+        dtm.removeRow(0);
+        miBarra.setBounds(220, 255, 400, 200);
+        miBarra.setVisible(true);
+        table.setVisible(true);
         //**TABLA
         //ETIQUETA Titulo Auxiliar-----------------------------------------------------------
         JLabel etiquetaTituloAux = new JLabel("Cargar AFD desde archivo");
@@ -74,13 +79,13 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
         JLabel etiquetaAFDUtilizar = new JLabel("AFD a utilizar");
         etiquetaAFDUtilizar.setBounds(100,170,300,20);
         etiquetaAFDUtilizar.setFont(new java.awt.Font("arial", 1, 14));
-        AFDop = new JComboBox();
+
         AFDop.setBounds(220,170,200,20);
          for(AFN e : AFN.ConjDeAFNs){            
              System.out.println(e.IdAFN);
         } 
-        for(AFN e : AFN.ConjDeAFNs){
-            AFDop.addItem("AFN "+String.valueOf(e.IdAFN));
+        for(AFD e : AFD.ConjAFDs){
+            AFDop.addItem(String.valueOf(e.IdAFD));
         } 
         add(AFDop);
         add(etiquetaAFDUtilizar);
@@ -120,11 +125,14 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JFileChooser fileChooser = new JFileChooser();
+
+        JFileChooser fileChooser = new JFileChooser("C:\\Users\\ivett\\Desktop\\Septimo semestre\\Compiladores\\Pruebas AFD");
+//        JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif"); 
+        FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("All Files", "txt", "gif"); 
         fileChooser.setFileFilter(imgFilter);
         int id = 0;
+        
         if( e.getActionCommand()=="Seleccionar Archivo" ){
             AFD uno = new AFD();
 
@@ -145,26 +153,26 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
                 System.out.println("ERROR");
                 Logger.getLogger(ventanaProbarAnalizadorLexico.class.getName()).log(Level.SEVERE, null, ex);
             }
-//        comboAux = new JComboBox();
-//        comboAux.setBounds(320,170,200,20);    
-//        for(AFN d : AFN.ConjDeAFNs){
-//            comboAux.addItem("AFN "+String.valueOf(d.IdAFN));
-//        } 
-//         add(comboAux);      
+            
+            AFDop.addItem(String.valueOf(uno.IdAFD));
         }
         if( e.getActionCommand()=="Analizar" ){
             int token;
             String Lexema;
-            String sigma;
+            String sigma,aux;
+            int idAFD=0;
+            aux = (String)AFDop.getSelectedItem();
+            idAFD = Integer.parseInt(aux);
+            idAux = idAFD;
+            System.out.println("ID AFD: "+ idAFD);
             String[] ValoresRenglon = new String[2];
             AnalizadorLexico L;
             AFD AutFD = new AFD();
             sigma = cadena.getText();
             System.out.println("Sigma: "+sigma);
             for(AFD f : AFD.ConjAFDs){
-                if(f.IdAFD == id){
+                if(f.IdAFD == idAFD){
                     AutFD = f;
-                    break;
                 }
                 try {
                     L = new AnalizadorLexico(sigma, AutFD);
@@ -175,6 +183,10 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
                                 ValoresRenglon[1] = L.Lexema;
                                 System.out.println("Valor 1: "+ValoresRenglon[0]);
                                 System.out.println("Valor 2: "+ValoresRenglon[1]);
+                                guardado.add(String.valueOf(ValoresRenglon[0]));
+                                guardado.add(";");
+                                guardado.add(String.valueOf(ValoresRenglon[1]));
+                                guardado.add(";");
                                 Object[] newRow = {ValoresRenglon[0],ValoresRenglon[1]};
                                 dtm.addRow(newRow);
                     //            dataGridView.Rows.Add(ValoresRenglon);
@@ -185,6 +197,10 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
                                 ValoresRenglon[1] = L.Lexema;
                                 System.out.println("Valor 1: "+ValoresRenglon[0]);
                                 System.out.println("Valor 2: "+ValoresRenglon[1]);
+                                guardado.add(String.valueOf(ValoresRenglon[0]));
+                                guardado.add(";");
+                                guardado.add(String.valueOf(ValoresRenglon[1]));
+                                guardado.add(";");
                                 Object[] newRow2 = {ValoresRenglon[0],ValoresRenglon[1]};
                                 dtm.addRow(newRow2);
                     //            dataGridView1.Rows.Add(ValoresRenglon);
@@ -196,8 +212,22 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
                 }
             }
         }
-        if( e.getActionCommand()=="Guardar AFD" )
-            System.out.println( "Se ha pulsado el boton B3" );
+        if( e.getActionCommand()=="Guardar AFD" ){
+            PrintWriter printWriter = null;
+            String textToBeWritten = "";
+            for(int i=0;i<guardado.size();i++){
+                textToBeWritten = textToBeWritten + guardado.get(i);
+            }
+            {
+            try {
+                printWriter = new PrintWriter("C:\\Users\\ivett\\Desktop\\Septimo semestre\\Compiladores\\Pruebas AFD\\AFD"+idAux+".txt");
+            } catch (FileNotFoundException c) {
+                System.out.println("Unable to locate the fileName: " + c.getMessage());
+            }
+            Objects.requireNonNull(printWriter).println(textToBeWritten);
+            printWriter.close();
+            }
+        }
                
     }
     

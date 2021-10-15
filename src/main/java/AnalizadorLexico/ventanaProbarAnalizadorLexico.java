@@ -5,7 +5,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -21,32 +26,29 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
     private JTextField txt = new JTextField();
     private JTextField cadena = new JTextField();
     private JComboBox AFDop;
+    private JComboBox comboAux;
+            String rutaArchivo=null;
+            int bandera=0;
+        String[] columnNames = {"Token", "Lexema",};
+        Object datos[][] = {
+            {"", ""},
+        };
+        //TABLA
+        DefaultTableModel dtm = new DefaultTableModel(datos, columnNames);
+        final JTable table = new JTable(dtm);  
 
+        
     public ventanaProbarAnalizadorLexico(){
         setLayout(null);
         JTextField caja = new JTextField();
-        String[] columnNames = {" ", "Token", "Lexema",};
-        Object datos[][] = {
-            {" ", "Token", "Lexema"},
-            {-1,-1,-1,-1},
-            {-1,-1,-1,-1},
-            {-1,-1,-1,-1},
-          };
-        //TABLA
-        DefaultTableModel dtm = new DefaultTableModel(datos, columnNames);
-        final JTable table = new JTable(dtm);
+    JScrollPane miBarra = new JScrollPane(table);
+    this.getContentPane().add(miBarra, null);
+    dtm.removeRow(0);
+    miBarra.setBounds(220, 255, 400, 200);
+    miBarra.setVisible(true);
+    table.setVisible(true);
 
-        // Agregar nueva columna
 
-        // Agregar nueva fila
-        Object[] newRow = {-1, -1,-1};
-        dtm.addRow(newRow);
-        
-       // table.setPreferredScrollableViewportSize(new Dimension(300, 100));
-        JScrollPane scrollPane = new JScrollPane(table);
-        //getContentPane().add(scrollPane, BorderLayout.CENTER);
-        table.setBounds(220, 260, 350, 100);
-        add(table);
         //**TABLA
         //ETIQUETA Titulo Auxiliar-----------------------------------------------------------
         JLabel etiquetaTituloAux = new JLabel("Cargar AFD desde archivo");
@@ -64,7 +66,7 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
         add(txt);
        //FileChooser-----------------------------------------------------------
         JButton btn = new JButton("Seleccionar Archivo");
-        btn.setBounds(170, 110, 100, 25);
+        btn.setBounds(170, 110, 150, 25);
         btn.addActionListener(this);
         add(btn);
         //**FileChooser--------------------------------------------------------
@@ -74,9 +76,12 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
         etiquetaAFDUtilizar.setFont(new java.awt.Font("arial", 1, 14));
         AFDop = new JComboBox();
         AFDop.setBounds(220,170,200,20);
-        
-            AFDop.addItem("AFN");
-            AFDop.addItem("AFN1");
+         for(AFN e : AFN.ConjDeAFNs){            
+             System.out.println(e.IdAFN);
+        } 
+        for(AFN e : AFN.ConjDeAFNs){
+            AFDop.addItem("AFN "+String.valueOf(e.IdAFN));
+        } 
         add(AFDop);
         add(etiquetaAFDUtilizar);
         
@@ -97,13 +102,13 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
         //**Boton Analizar--------------------------------------------------------
         //Boton Guardar AFD-----------------------------------------------------------
         JButton btnGuardarAFD = new JButton("Guardar AFD");
-        btnGuardarAFD.setBounds(450, 400, 150, 25);
+        btnGuardarAFD.setBounds(470, 470, 150, 25);
         btnGuardarAFD.addActionListener(this);
         add(btnGuardarAFD);
         //**Boton Guardar AFD--------------------------------------------------------
-    }
+    } 
     
-
+    
     public void opciones(){
        ventanaProbarAnalizadorLexico uno = new ventanaProbarAnalizadorLexico();
        uno.setBounds(0,0,700,600);
@@ -117,50 +122,92 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
     public void actionPerformed(ActionEvent e) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-    
         FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif"); 
         fileChooser.setFileFilter(imgFilter);
+        int id = 0;
+        if( e.getActionCommand()=="Seleccionar Archivo" ){
+            AFD uno = new AFD();
 
-        int result = fileChooser.showOpenDialog(this);
-        if (result != JFileChooser.CANCEL_OPTION) {
-            File fileName = fileChooser.getSelectedFile();
-        if ((fileName == null) || (fileName.getName().equals(""))) {
-            txt.setText("...");
-        } else {
-            txt.setText(fileName.getAbsolutePath());
+                int result = fileChooser.showOpenDialog(this);
+                if (result != JFileChooser.CANCEL_OPTION) {
+                    File fileName = fileChooser.getSelectedFile();
+                if ((fileName == null) || (fileName.getName().equals(""))) {
+                    txt.setText("...");
+                } else {
+                    rutaArchivo = fileName.getAbsolutePath();
+                }
+                }
+                
+                id = Integer.parseInt(txt.getText());
+            try {
+                uno.LeerAFDdeArchivo(rutaArchivo, id);
+            } catch (IOException ex) {
+                System.out.println("ERROR");
+                Logger.getLogger(ventanaProbarAnalizadorLexico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+//        comboAux = new JComboBox();
+//        comboAux.setBounds(320,170,200,20);    
+//        for(AFN d : AFN.ConjDeAFNs){
+//            comboAux.addItem("AFN "+String.valueOf(d.IdAFN));
+//        } 
+//         add(comboAux);      
         }
+        if( e.getActionCommand()=="Analizar" ){
+            int token;
+            String Lexema;
+            String sigma;
+            String[] ValoresRenglon = new String[2];
+            AnalizadorLexico L;
+            AFD AutFD = new AFD();
+            sigma = cadena.getText();
+            System.out.println("Sigma: "+sigma);
+            for(AFD f : AFD.ConjAFDs){
+                if(f.IdAFD == id){
+                    AutFD = f;
+                    break;
+                }
+                try {
+                    L = new AnalizadorLexico(sigma, AutFD);
+                            while(true){
+                                token = L.yylex();
+                                Lexema = L.Lexema;
+                                ValoresRenglon[0] = String.valueOf(token);
+                                ValoresRenglon[1] = L.Lexema;
+                                System.out.println("Valor 1: "+ValoresRenglon[0]);
+                                System.out.println("Valor 2: "+ValoresRenglon[1]);
+                                Object[] newRow = {ValoresRenglon[0],ValoresRenglon[1]};
+                                dtm.addRow(newRow);
+                    //            dataGridView.Rows.Add(ValoresRenglon);
+                                L.UndoToken();
+                                token = L.yylex();
+                                Lexema = L.Lexema;
+                                ValoresRenglon[0] = String.valueOf(token);
+                                ValoresRenglon[1] = L.Lexema;
+                                System.out.println("Valor 1: "+ValoresRenglon[0]);
+                                System.out.println("Valor 2: "+ValoresRenglon[1]);
+                                Object[] newRow2 = {ValoresRenglon[0],ValoresRenglon[1]};
+                                dtm.addRow(newRow2);
+                    //            dataGridView1.Rows.Add(ValoresRenglon);
+                                if(token == SimbolosEspeciales.FIN)
+                                    break;
+                            }
+                } catch (IOException ex) {
+                    Logger.getLogger(ventanaProbarAnalizadorLexico.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
-        
-        int token;
-        String Lexema;
-        String[] ValoresRenglon = new String[2];
-        AnalizadorLexico L;
-        AFD AutFD = new AFD();
-        for(AFD f : AFD.ConjAFDs){
-//            if(f.IdAFD == NumAFD){
-//                AutFD = f;
-//                break;
-//            }
-//        L = new AnalizadorLexico(txt, AutFD);
-//        while(true){
-//            token = L.yylex();
-//            Lexema = L.Lexema;
-//            ValoresRenglon[0] = String.valueOf(token);
-//            ValoresRenglon[1] = L.Lexema;
-//            dataGridView.Rows.Add(ValoresRenglon);
-//            L.UndoToken();
-//            token = L.yylex();
-//            Lexema = L.Lexema;
-//            ValoresRenglon[0] = String.valueOf(token);
-//            ValoresRenglon[1] = L.Lexema;
-//            dataGridView1.Rows.Add(ValoresRenglon);
-//            if(token == SimbolosEspeciales.FIN)
-//                break;
-//        }
-        }
-        
-        
+        if( e.getActionCommand()=="Guardar AFD" )
+            System.out.println( "Se ha pulsado el boton B3" );
+               
     }
+    
+    
+    private void comboEmpresaMouseClicked(java.awt.event.MouseEvent evt) {                                          
+         AFDop.removeAllItems();
+         AFDop.addItem("Seleccione...");
+    }
+    
+    
     
     public static void main(String[] args) {
         ventanaProbarAnalizadorLexico uno = new ventanaProbarAnalizadorLexico();

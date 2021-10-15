@@ -110,6 +110,7 @@ public class AnalizadorLexico {
                     PasoPorEdoAcept = true;
                     token = AutomataFD.TablaAFD[EdoTransicion][256];
                     FinLexema = IndiceCaracterActual;
+                    System.out.println("Estado de aceptacion: "+CaracterActual);
                 }
                 IndiceCaracterActual++;
                 EdoActual = EdoTransicion;
@@ -118,13 +119,15 @@ public class AnalizadorLexico {
             break;
         }// NO HAY ESTADO DE ACEPTACION
         if(!PasoPorEdoAcept){
-            IndiceCaracterActual = IniLexema + 1;
-            Lexema = CadenaSigma.substring(IniLexema,1);
+            System.out.println("Entro a no hay estado de aceptacion");
+            IndiceCaracterActual = IniLexema + 1;          
+            Lexema = CadenaSigma.substring(IniLexema,1);   
             token = 2000;
             return token; //ERROR
         }
         //NO HAY TRANSICION CON EL CARACTER ACTUAL PERO YA SE HABIA PASADO POR UN EDO DE ACEPTACION
-        Lexema = CadenaSigma.substring(IniLexema,FinLexema-IniLexema+1);
+        System.out.println("IniLexema : "+IniLexema+" FinLexema: "+FinLexema);
+        Lexema = CadenaSigma.substring(IniLexema,FinLexema+1);
         IndiceCaracterActual = FinLexema + 1;
         return token;
         

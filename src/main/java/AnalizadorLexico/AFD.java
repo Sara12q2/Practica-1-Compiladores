@@ -30,7 +30,7 @@ public class AFD {
     public int CardAlfabeto;
     public String[]ArrAlfabeto;
     public int [][]TransicionesAFD;
-    public int [][]TablaAFD;
+    public static int [][]TablaAFD;
     //IDENTIFICADOR DEL AFD
     public int IdAFD;
     public AFD(){
@@ -71,24 +71,47 @@ public class AFD {
         int k;
         String Renglon;
         String[] ValoresRenglon = new String[257];
-        
-        try(BufferedReader reader = new BufferedReader(new FileReader(NombArchivo))){
-           IdEdo = 0;
-           Renglon = reader.readLine();
-           this.NumEstados = Integer.parseInt(Renglon);
-           this.TablaAFD = new int[this.NumEstados][257];
-           while(!reader.ready()){
-           Renglon = reader.readLine();
+    
+        String cadena;
+          FileReader f = new FileReader(NombArchivo);
+          BufferedReader b = new BufferedReader(f);
+          IdEdo = 0;
+          Renglon = b.readLine();
+          this.NumEstados = Integer.parseInt(Renglon);
+          this.TablaAFD = new int[this.NumEstados][257];
+          
+          
+          while((cadena = b.readLine())!=null) {
+           Renglon = cadena;
            ValoresRenglon = Renglon.split(";");
             for(k = 0; k < 257; k++){
                 this.TablaAFD[IdEdo][k] = Integer.parseInt(ValoresRenglon[k]);
             }
             IdEdo++;
-           }
-        }
+          }
+          b.close();
         this.NumEstados = IdEdo;
         this.IdAFD = IdentifAFD;
         AFD.ConjAFDs.add(this);
+//        try(BufferedReader reader = new BufferedReader(new FileReader(NombArchivo))){
+//           IdEdo = 0;
+//           Renglon = reader.readLine();
+//           this.NumEstados = Integer.parseInt(Renglon);
+//           this.TablaAFD = new int[this.NumEstados][257];
+//           while(!reader.ready()){
+//               System.out.println("ENTRO WHILE");
+//           Renglon = reader.readLine();
+//           ValoresRenglon = Renglon.split(";");
+//            for(k = 0; k < 257; k++){
+//                this.TablaAFD[IdEdo][k] = Integer.parseInt(ValoresRenglon[k]);
+//                System.out.println("Tabla: Y:"+IdEdo+" X:"+k+" valor: "+this.TablaAFD[IdEdo][k]);
+//            }
+//            IdEdo++;
+//           }
+//        }
+//        this.NumEstados = IdEdo;
+//        this.IdAFD = IdentifAFD;
+//        AFD.ConjAFDs.add(this);
         return ;
     }
 
@@ -96,6 +119,12 @@ public class AFD {
         this.IdAFD = IdAFD;
     }
     
+    public static void main(String[] args) throws IOException {
+        AFD uno = new AFD();
+        uno.LeerAFDdeArchivo("C:\\Users\\ivett\\Desktop\\Septimo semestre\\Compiladores\\Pruebas AFD\\Prueba.txt", 1);
+        
+        System.out.println("TAMANO: "+ uno.TablaAFD[0].length);
+    }
     
   
         

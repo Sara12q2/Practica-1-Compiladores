@@ -74,7 +74,7 @@ public class ventanaCerraduraTransitiva extends JFrame implements ActionListener
                     AFNp = a;
                 }
             }           
-            AFNp.CerrPos();    
+                AFNp.CerrPos();    
             for(AFN a : AFN.ConjDeAFNs){
                 for(Estado b : a.EdosAFN){
                     System.out.println("AFN perteneciente: "+a.getIdAFN(a));

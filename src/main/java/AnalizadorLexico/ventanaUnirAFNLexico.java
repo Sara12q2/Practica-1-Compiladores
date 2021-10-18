@@ -45,23 +45,45 @@ public class ventanaUnirAFNLexico  extends JFrame implements ActionListener{
         add(AFNop1);
 */
 //Titulos de la tabla
-        String [] titulos={"AFN´s","Seleccionar AFN","Token"};
-        //String [][] lexema={{"13","tal 3342"}};
-        DefaultTableModel mod= new DefaultTableModel(null,titulos);
-        JTable tabla= new JTable(mod);
+//        String [] titulos={"AFN´s","Seleccionar AFN","Token"};
+//        //String [][] lexema={{"13","tal 3342"}};
+//        DefaultTableModel mod= new DefaultTableModel(null,titulos);
+//        JTable tabla= new JTable(mod);
+//        JScrollPane scroll= new  JScrollPane(tabla);
+//        scroll.setBounds(30,80,400,200);
+//        add(scroll);
+
+        JTable tabla=new JTable();
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane scroll= new  JScrollPane(tabla);
-        scroll.setBounds(30,80,400,200);
-        add(scroll);
+        //jScrollPane.setViewportView(tabla);
+        DefaultTableModel model = new DefaultTableModel(){};
+        tabla.setModel(model);
         
+        for(int i=0; i <= 255 ;i++){
+            model.addColumn((char)i);
+        }
+        model.addColumn("Token");
+//      for(AFN e : ConjDeAFNs)
+//        for(int i=0; i < AFD.NumEstados ;i++)
+        for(int i=0; i < AFD.NumEstados ;i++)
+        {
+            model.addRow(new Object[0]);
+            for(int j=0;j<=256 ;j++)
+            {
+                model.setValueAt(AFD.TablaAFD[i][j],i, j);
+                //model.setValueAt(AFNAux, j, NORMAL);
+            }
+        }
 
         
 //Crear Tabla para el token y lexema
         
         //Contenido
-        for(AFN e : ConjDeAFNs){
-            mod.addRow(new String[]{String.valueOf(AFN1.getIdAFN(e))});
-        } 
-        
+//        for(AFN e : ConjDeAFNs){
+//            mod.addRow(new String[]{String.valueOf(AFN1.getIdAFN(e))});
+//        } 
+//        
 //Etiqueta para el ID del AFN a generar
         JLabel Id;
         Id=new JLabel("Id del AFN resultante");

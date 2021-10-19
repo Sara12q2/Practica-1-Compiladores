@@ -123,9 +123,8 @@ public class ventanaMain extends JFrame {
                         //hide();
 			 break;
                  case "Convertir AFN A AFD":
-			//AFN AFN1=new AFN();
-                        //ventanaCerraduraTransitiva uno = new ventanaCerraduraTransitiva(AFN1);
-                        //uno.opciones(AFN1);
+                        ventanaConvertirAFNaAFD nueve = new ventanaConvertirAFNaAFD(AFN1);
+                        nueve.opciones(AFN1);
                         //hide();
 			 break;
                  case "Analizar una cadena":

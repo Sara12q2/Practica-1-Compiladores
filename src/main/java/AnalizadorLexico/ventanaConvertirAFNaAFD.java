@@ -1,4 +1,3 @@
-
 package AnalizadorLexico;
 
 
@@ -19,12 +18,12 @@ public class ventanaConvertirAFNaAFD extends JFrame implements ActionListener{
     private JComboBox AFNop2, AFNop1;
     private JTextField infe,supe,id;
     private static AFN AFNAux;
-    private static AFD AFDAux;
+    private static AFD afd;
     private static Transicion t;
     private char s;
     private HashSet<AFN> ConjDeAFNs = new HashSet<AFN>();
     private HashSet<Transicion> Trans1 = new HashSet<Transicion>();
-    
+    private HashSet<String> alfabeto = new HashSet<String>();
      
      public ventanaConvertirAFNaAFD(AFN AFN1){
         AFNAux = AFN1;
@@ -39,15 +38,15 @@ public class ventanaConvertirAFNaAFD extends JFrame implements ActionListener{
         //Menu desplegable de los AFN's
         AFNop1 = new JComboBox();
         AFNop1.setBounds(230,29,200,20);
-        for(AFN e : ConjDeAFNs){
-            AFNop1.addItem("AFN "+String.valueOf(AFN1.getIdAFN(e)));
+        for(AFN e : AFN.ConjDeAFNs){
+            AFNop1.addItem("AFN "+String.valueOf(e.IdAFN));
         } 
         add(etiquetaConvertir);
         add(AFNop1);
       
       
-        //Cuadro de texto para el ID del AFN
-        Id=new JLabel("Id AFN");
+        //Cuadro de texto para el ID del AFD
+        Id=new JLabel("Id AFD");
         Id.setBounds(30,70,80,20);
 //        Id.setFont(new java.awt.Font("arial", 1, 14));
         id=new JTextField();
@@ -105,28 +104,48 @@ public class ventanaConvertirAFNaAFD extends JFrame implements ActionListener{
         
           //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         if(e.getSource()==boton){
-            try {
-                int ide,id1;
-                AFN AFNconvert = null;
-                AFD AFDconv=null;
-                String cad1 = (String)AFNop1.getSelectedItem();
-                cad1 = cad1.replace("AFN","");
-                id1 = Integer.parseInt(cad1);
-                String nId=  (String)id.getText();
-//            System.out.println(nId);
-                for (AFN a : ConjDeAFNs) {
+            int ide,id1;
+            AFN AFNconvert;
+            AFNconvert=new AFN();
+            AFD AFDconv;
+            AFD AFNp;
+            AFNp=new AFD();
+            String cad1 = (String)AFNop1.getSelectedItem();
+            cad1 = cad1.replace("AFN ","");
+            System.out.println("Cad:"+cad1);
+            id1 = Integer.parseInt(cad1);
+//            //tomando el id del select item
+            System.out.println("IDE select item: "+ id1);
+            //Añadiendo un id para el AFD
+            String nId=  (String)id.getText();
+            ide = Integer.parseInt(nId);
+//            
+            AFNp.setIdAFD(ide);
+            System.out.println("IDE nuevo AFD: "+ ide);
+                
+                for (AFN a : AFN.ConjDeAFNs) {
                     if (AFNAux.getIdAFN(a) == id1) {
                             AFNconvert = a;
                     }
+                    
                 }
-                AFDconv = AFNconvert.ConvAFNaAFD();
-                AFDconv.GuardarAFDenArchivo("AFD.txt");
-                AFD.ConjAFDs.add(AFDconv);
-                ide = Integer.parseInt(nId);
-                AFDAux.setIdAFD(ide);
+//               alfabeto= AFNconvert.Alfabeto;
+           
+             AFDconv=  AFNconvert.ConvAFNaAFD();
+             AFD.ConjAFDs.add(AFDconv);
+            try {
+                 AFDconv.GuardarAFDenArchivo("AFD.txt");
+//                AFNp.setIdAFD(ide); //Agrega el id al AFD nuevo
+//            try {                
+//                AFDconv.GuardarAFDenArchivo("AFD.txt");
+//            } catch (IOException ex) {
+//                Logger.getLogger(ventanaConvertirAFNaAFD.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//                AFD.ConjAFDs.add(AFDconv);
             } catch (IOException ex) {
                 Logger.getLogger(ventanaConvertirAFNaAFD.class.getName()).log(Level.SEVERE, null, ex);
             }
+               
 
 
            
@@ -140,8 +159,6 @@ public class ventanaConvertirAFNaAFD extends JFrame implements ActionListener{
          System.out.println("");
     } 
 }
-
-
 
 
 

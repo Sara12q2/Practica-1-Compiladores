@@ -125,13 +125,13 @@ public void opciones(AFN AFN1){
                 }
     }  
     
-     public static void main(String[] args) {
-         AFN AFN1=new AFN();
-        ventanaBasicoo uno = new ventanaBasicoo(AFN1);
-        uno.opciones(AFN1);
-         System.out.println("");
-    } 
-
+//     public static void main(String[] args) {
+//         AFN AFN1=new AFN();
+//        ventanaBasicoo uno = new ventanaBasicoo(AFN1);
+//        uno.opciones(AFN1);
+//         System.out.println("");
+//    } 
+//
 }
 
 

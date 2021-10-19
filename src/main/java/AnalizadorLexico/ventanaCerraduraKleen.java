@@ -34,7 +34,7 @@ public class ventanaCerraduraKleen extends JFrame implements ActionListener{
         JLabel etiquetaCerradura = new JLabel("Cerradura*");
         etiquetaCerradura.setBounds(140,25,100,30);
         etiquetaCerradura.setFont(new java.awt.Font("arial", 1, 14));
-        //MENU DESPLEGABLE
+//MENU DESPLEGABLE
         AFNop1 = new JComboBox();
         AFNop1.setBounds(260,29,200,20);
         for(AFN e : ConjDeAFNs){

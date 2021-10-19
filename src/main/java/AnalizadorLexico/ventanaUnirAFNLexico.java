@@ -17,93 +17,82 @@ public class ventanaUnirAFNLexico  extends JFrame implements ActionListener{
     private JButton botonUnir;
     private JComboBox AFNop2, AFNop1;
     private JTextField id,text;
-    private static AFN AFNAux;
+    private static AFN AFNAux2;
     private static Transicion t;
     private char s;
     private HashSet<AFN> ConjDeAFNs = new HashSet<AFN>();
     private HashSet<Transicion> Trans1 = new HashSet<Transicion>();
+    private AFN AFNAux = new AFN();
     
     public ventanaUnirAFNLexico(AFN AFN1){
     
         AFNAux = AFN1;
+        //AFNAux2 = AFN2;
         setLayout(null);
-        ConjDeAFNs = AFN1.getListaAFNs();
+        ConjDeAFNs = AFNAux.getListaAFNs();
 //Cuadro de texto ----------------------------------------------------------
-        
         JLabel text = new JLabel("Seleccione los AFN a unir  y asigne los tokens");
         text.setBounds(30,10,300,30); 
         add(text);
-//Cuadro de texto ----------------------------------------------------------
+//*Cuadro de texto ----------------------------------------------------------
 
-//Boton seleccionar----------------------------------------------------------
-/*        
+//Boton seleccionar----------------------------------------------------------     
         AFNop1 = new JComboBox();
         AFNop1.setBounds(130,420,200,20);
         for(AFN e : ConjDeAFNs){
             AFNop1.addItem("AFN"+String.valueOf(AFN1.getIdAFN(e)));
         }
         add(AFNop1);
-*/
+
 //Titulos de la tabla
 //        String [] titulos={"AFN´s","Seleccionar AFN","Token"};
 //        //String [][] lexema={{"13","tal 3342"}};
 //        DefaultTableModel mod= new DefaultTableModel(null,titulos);
 //        JTable tabla= new JTable(mod);
 //        JScrollPane scroll= new  JScrollPane(tabla);
-//        scroll.setBounds(30,80,400,200);
-//        add(scroll);
-
+//        
         JTable tabla=new JTable();
-        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        //tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane scroll= new  JScrollPane(tabla);
-        //jScrollPane.setViewportView(tabla);
+        scroll.setBounds(30,80,400,200);
+        add(scroll);
+//        //jScrollPane.setViewportView(tabla);
         DefaultTableModel model = new DefaultTableModel(){};
         tabla.setModel(model);
-        
-        for(int i=0; i <= 255 ;i++){
-            model.addColumn((char)i);
-        }
+////        for(int i=0; i <= 255 ;i++){
+////            model.addColumn((char)i);
+////        }
+        model.addColumn("AFN´s");
+        model.addColumn("Seleccionar AFN");
         model.addColumn("Token");
-//      for(AFN e : ConjDeAFNs)
-//        for(int i=0; i < AFD.NumEstados ;i++)
-        for(int i=0; i < AFD.NumEstados ;i++)
-        {
-            model.addRow(new Object[0]);
-            for(int j=0;j<=256 ;j++)
-            {
-                model.setValueAt(AFD.TablaAFD[i][j],i, j);
-                //model.setValueAt(AFNAux, j, NORMAL);
-            }
-        }
-
-        
-//Crear Tabla para el token y lexema
-        
-        //Contenido
-//        for(AFN e : ConjDeAFNs){
-//            mod.addRow(new String[]{String.valueOf(AFN1.getIdAFN(e))});
-//        } 
-//        
-//Etiqueta para el ID del AFN a generar
+        int i=0;
+          for(AFN id : ConjDeAFNs){
+          //for(int i=0; i < ConjDeAFNs.size() ;i++){
+              model.addRow(new Object[0]);
+              
+              int k=0;
+              model.setValueAt("AFN"+String.valueOf(AFN1.getIdAFN(id)), i,k);
+              i++;
+          }
+          
+//*Etiqueta para el ID del AFN a generar
         JLabel Id;
         Id=new JLabel("Id del AFN resultante");
         Id.setBounds(30,300,150,20);
         add(Id);
 //        Id.setFont(new java.awt.Font("arial", 1, 14));
 
-//Cuadro de texto para el ID del AFN a generar
+//*Cuadro de texto para el ID del AFN a generar
         id=new JTextField();
         id.setBounds(150,300,80,20);
         add(id);
         String var3=id.getText();
         
-//Boton unir
+//*Boton unir
         botonUnir = new JButton("Unir AFN");
         botonUnir.setBounds(400,300,150,20);
         add(botonUnir);
         botonUnir.addActionListener(this);
-
-
     }
     
     public void opciones(AFN AFN1){
@@ -124,7 +113,5 @@ public class ventanaUnirAFNLexico  extends JFrame implements ActionListener{
         uno.opciones(AFN1);
          System.out.println("UAPL");
     } 
-    
-
     
 }

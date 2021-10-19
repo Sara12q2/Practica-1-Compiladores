@@ -79,12 +79,12 @@ public class ventanaOpcion extends JFrame implements ActionListener{
         }
     }   
     
-    public static void main(String[] args) {
-         AFN AFN1=new AFN();
-        ventanaOpcion uno = new ventanaOpcion(AFN1);
-        uno.opciones(AFN1);
-         System.out.println("");
-    } 
+//    public static void main(String[] args) {
+//         AFN AFN1=new AFN();
+//        ventanaOpcion uno = new ventanaOpcion(AFN1);
+//        uno.opciones(AFN1);
+//         System.out.println("");
+//    } 
 }
     
 

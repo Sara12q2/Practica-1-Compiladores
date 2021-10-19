@@ -13,8 +13,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,20 +51,41 @@ public class AFD {
     }
         
     public void GuardarAFDenArchivo(String NombArchivo) throws FileNotFoundException, IOException{
-        try(OutputStream os = new FileOutputStream(NombArchivo, false)){
-        Writer writer = new OutputStreamWriter(os,"UTF-8");
-        //GUARDANDO EL NUMERO DE RENGLONES
-        writer.write(String.valueOf(this.NumEstados));
-        //GUARDANDO LOS RENGLONES
-        for(int i=0;i<NumEstados;i++){
-            for(int j = 0; j<257;j++){
-                writer.write(TablaAFD[i][j]);
-                if(j!=256)
-                    writer.write(";");
-            }
+        System.out.println("TABLA ARCHIVO: ");
+        for(int i=0;i<257;i++){
+            System.out.print(AFD.TablaAFD[0][i]);
+        
         }
-        writer.close();
-      }
+                PrintWriter printWriter = new PrintWriter(NombArchivo);
+            try {
+                printWriter = new PrintWriter(NombArchivo);
+            } catch (FileNotFoundException e) {
+                System.out.println("Unable to locate the fileName: " + e.getMessage());
+            }
+            for(int i=0;i<NumEstados;i++){
+                for(int j = 0; j<257;j++){
+                    Objects.requireNonNull(printWriter).print(AFD.TablaAFD[i][j]);
+                    if(j!=256)
+                        Objects.requireNonNull(printWriter).print(";");
+                }
+            }
+            printWriter.close();
+        
+        
+//        try(OutputStream os = new FileOutputStream(NombArchivo, false)){
+//        Writer writer = new OutputStreamWriter(os,"UTF-8");
+//        //GUARDANDO EL NUMERO DE RENGLONES
+//        writer.write(String.valueOf(this.NumEstados));
+//        //GUARDANDO LOS RENGLONES
+//        for(int i=0;i<NumEstados;i++){
+//            for(int j = 0; j<257;j++){
+//                writer.write(AFD.TablaAFD[i][j]);
+//                if(j!=256)
+//                    writer.write(";");
+//            }
+//        }
+//        writer.close();
+//      }
     }
     
     public void LeerAFDdeArchivo(String NombArchivo, int IdentifAFD) throws IOException{

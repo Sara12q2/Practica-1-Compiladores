@@ -452,6 +452,7 @@ public class AFN {
                    existe = true;
                      r = IndiceCaracter(c.charAt(0));
                      Ij.TransicionesAFD[r] = I.j;
+                     System.out.println("ESTA COSA: I.J+"+I.j);
                    break;
                }
            }
@@ -459,6 +460,7 @@ public class AFN {
                    Ik.j = j;
                    r = IndiceCaracter(c.charAt(0));
                    Ij.TransicionesAFD[r] = Ik.j;
+                   System.out.println("ESTA OTRA: Ik.j: "+Ik.j);
                    EdosAFD.add(Ik);
                    EdosSinAnalizar.remove(Ik);
                    j++;
@@ -477,11 +479,19 @@ public class AFN {
            if(ConjAux.size()!=0)
                for(Estado EdoAcept : ConjAux){
                 I.TransicionesAFD[256] = EdoAcept.getToken();
+                   System.out.println("ESTADO DE ACEPTACION: "+EdoAcept.getToken());
                    break;
                }
            else
                I.TransicionesAFD[256]=-1;
+           for(int l=0;l<257;l++){
+               System.out.print(I.TransicionesAFD[l]);
+           }
            AutFD.TablaAFD[I.j]=I.TransicionesAFD;
+       }
+       System.out.println("\nTABLA");
+       for(int l=0;l<257;l++){
+           System.out.print(AutFD.TablaAFD[0][l]);
        }
 
 //        for(i=0; i<EdosAFD.size(); i++)

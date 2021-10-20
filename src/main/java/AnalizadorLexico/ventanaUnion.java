@@ -105,9 +105,5 @@ public void opciones(AFN AFN1){
         ventanaUnion uno = new ventanaUnion(AFN1);
         uno.opciones(AFN1);
     } 
-*/
+*/   
 }
-
-
-    
-

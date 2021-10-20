@@ -96,33 +96,25 @@ public void opciones(AFN AFN1){
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         if(e.getSource()==boton){
             int inf,sup,ide,id1 = 0,po;
-            
             AFN AFNp;
             AFNp=new AFN();
-            
             Transicion in,su,trans;
             JOptionPane.showMessageDialog(null, "Operación realizada con exito");
             char cI = infe.getText().charAt(0);
             char cS = supe.getText().charAt(0);
+            
             String nId=  (String)id.getText();
-
-            ide = Integer.parseInt(nId);
+            ide = Integer.parseInt(nId);            
+            System.out.println("IDE: "+ ide); 
             
-            
-            System.out.println("IDE: "+ ide);
-  
              AFNp.crearAFNBasico(cI,cS);
              AFNp.setIdAFN(ide);
              AFN.ConjDeAFNs.add(AFNp);
-
-           
              for (AFN o: AFN.ConjDeAFNs) {
                  System.out.println("Conj: "+o.IdAFN);
             }
-             System.out.println("");
-//            
-            
-                }
+             System.out.println("");            
+        }
     }  
     
 //     public static void main(String[] args) {

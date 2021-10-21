@@ -60,7 +60,6 @@ public class AFN {
     HashSet<Estado> EdosAcept = new HashSet<Estado>();
     HashSet<String> Alfabeto = new HashSet<String>();
     HashSet<Estado> ConjI= new HashSet<Estado>();
-    
     //EMPLEADA AL UNIR LOS N AUTOMATAS
     boolean seAgregoAFNUnionLexico;
     public int IdAFN;
@@ -359,7 +358,8 @@ public class AFN {
         return C;
     }   
     
- 
+    
+   
 //* Ir_A-----------------------------------------------------------------
     
 //* Union Especial AFN's-----------------------------------------------------------------

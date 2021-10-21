@@ -29,6 +29,7 @@ public class ventanaUnirAFNLexico  extends JFrame implements ActionListener{
     
     private AFN AFNAux = new AFN();
     private AFN AFNObt = new AFN();
+    
     //Aqui se guardan los id obtenidos del checkbox
     private int []IdObtenido;
     //Aqui se guardan los tokens
@@ -121,16 +122,16 @@ public class ventanaUnirAFNLexico  extends JFrame implements ActionListener{
        uno.setTitle("Unir AFNs para Léxico");
     }
     public AFN devolverAFN(int i)
-        {
-            for(AFN id : AFN.ConjDeAFNs){
-                if(AFNAux.getIdAFN(id)==i){
-                    //metodo que busque el automata
-                        //AFNAux = Obtener automata(tabla.getValueAt(i, 0).toString);
-                    AFNObt = AFNAux;    
-                }
+    {
+        for(AFN id : AFN.ConjDeAFNs){
+            if(AFNAux2.getIdAFN(id)==i){
+                //metodo que busque el automata
+                    //AFNAux = Obtener automata(tabla.getValueAt(i, 0).toString);
+                AFNObt = AFNAux2;    
             }
-            return AFNObt;
-        }; 
+        }
+        return AFNObt;
+    }; 
     
 @Override
     public void actionPerformed(ActionEvent e) {
@@ -138,12 +139,6 @@ public class ventanaUnirAFNLexico  extends JFrame implements ActionListener{
             int id1,id2,idn,token,i;            
             int cantFilas = tabla.getRowCount();
             int conta=0;
-            AFN AFNp,AFNunido;
-            
-            AFNp=new AFN();
-            Estado NuevoIni = new Estado();
-            AFNp.EdoIni = NuevoIni;
-            
             String valor = "";
             String valor1 = "";
             String valor2 = "";
@@ -157,43 +152,24 @@ public class ventanaUnirAFNLexico  extends JFrame implements ActionListener{
                     System.out.println("AFN"+valor+" checkbox"+valor1+" token"+valor2);
                     id1 = Integer.parseInt(valor);
                     token = Integer.parseInt(valor2);
-                        //metodo que busque el automata
-                        //AFNAux = Obtener automata(tabla.getValueAt(i, 0).toString);
-                        AFNAux = devolverAFN(id1);
+                        AFNAux2 = devolverAFN(id1);
+                        AFNAux.UnionEspecialAFNs(AFNAux2, token);
                         //verificar si si lo obtiene
-                        for (AFN o: AFNAux.ConjDeAFNs) {
-                            System.out.println("Conj: "+o.IdAFN);
+                        for (AFN o: AFNAux2.ConjDeAFNs) {
+                            //System.out.println("Conj: "+o.IdAFN);
                        }
                         System.out.println("");
-                        //AFNAux.setToken1(token);
-                        NuevoIni.setToken(token);
-                        Transicion t1=new Transicion(SimbolosEspeciales.EPSILON,this.EdoIni);
-////                    
-////                        AFNAux.EdosAcept.token = tabla.getValueAt(i, 2).toString.parseInt();//Hacerlo con un foreach
-////                        AFNAux.
-////
-////                        NuevoIni.Trans1.add(new Transicion(EPSILON,AFNAux.EdoIni));
-                            e.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON, NuevoIni));
-////                            //Transicion t1=new Transicion(SimbolosEspeciales.EPSILON,this.EdoIni);
-////                        //AFNp.Estados.addAll(AFNAux);
-////                        AFNp.EdosAcept.addAll(AFNAux.EdosAcept);
-////                        AFNp.Alfabeto.addAll(AFNAux.Alfabeto);
-////                        AFNAux = null;
+                    AFN.ConjDeAFNs.add(AFNAux);    
+                    AFN.ConjDeAFNs.remove(AFNAux2);
                  }
-            }
-            
-            //AFNp.IdAFN = getValue
+            }            
+            //*AFNp.IdAFN = getValue
             String nId =  (String)tfid.getText();
             idn = Integer.parseInt(nId);
             System.out.println("IDEn: "+ idn);
-            AFNp.setIdAFN(idn);
-            
-////            AFNunido = AFNp.UnirAFN(AFNs);
-////            AFN obj = new AFN();
-////            obj.UnionEspecialAFNs(e, id2);
-////            
-////            AFN.ConjDeAFNs.add(AFNunido);
-////            AFN.ConjDeAFNs.remove(AFNs);
+            AFNAux.setIdAFN(idn);
+
+            AFN.ConjDeAFNs.add(AFNAux);
             JOptionPane.showMessageDialog(null, "Operación realizada con exito");
         }
     }
@@ -214,18 +190,13 @@ public class ventanaUnirAFNLexico  extends JFrame implements ActionListener{
 //                    }
 //                }
 //            }
-            
-          
-////            
+                     
 //////            AFNunido = AFNp.UnirAFN(AFNs);
 ////            AFN obj = new AFN();
 ////            obj.UnionEspecialAFNs(e, id2);
 ////            
 ////            AFN.ConjDeAFNs.add(AFNunido);
 ////            AFN.ConjDeAFNs.remove(AFNs);
-////            
-////           
-
 
      public static void main(String[] args) {
          AFN AFN1=new AFN();

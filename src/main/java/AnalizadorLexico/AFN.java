@@ -366,6 +366,8 @@ public class AFN {
    public void UnionEspecialAFNs(AFN f, int Token){
        Estado e;
        if(!this.seAgregoAFNUnionLexico){
+           for(Estado EdoAcep: f.EdosAcept)
+               EdoAcep.setToken(Token);
            this.EdosAFN.clear();
            this.EdosAFN.clear();
            this.Alfabeto.clear();
@@ -373,15 +375,18 @@ public class AFN {
            e.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON,f.EdoIni));
            this.EdoIni=e;
            this.EdosAFN.add(e);
+           this.EdosAcept.addAll(f.EdosAcept);
+           this.EdosAFN.addAll(f.EdosAFN);
+           this.Alfabeto.addAll(f.Alfabeto);
            this.seAgregoAFNUnionLexico=true;
        }else{
            this.EdoIni.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON,f.EdoIni));
            for(Estado EdoAcep: f.EdosAcept)
-               EdoAcep.getToken();
+               EdoAcep.setToken(Token);
            this.EdosAcept.addAll(f.EdosAcept);
            this.EdosAFN.addAll(f.EdosAFN);
            this.Alfabeto.addAll(f.Alfabeto);
-          
+           
        }
    }
 //* Union Especial AFN's--------------------------------------------------------------

@@ -363,7 +363,7 @@ public class AFN {
 //* Ir_A-----------------------------------------------------------------
     
 //* Union Especial AFN's-----------------------------------------------------------------
-   public void UnionEspecialAFNs(AFN f, int Token){
+   public AFN UnionEspecialAFNs(AFN f, int Token){
        Estado e;
        if(!this.seAgregoAFNUnionLexico){
            for(Estado EdoAcep: f.EdosAcept)
@@ -388,6 +388,7 @@ public class AFN {
            this.Alfabeto.addAll(f.Alfabeto);
            
        }
+       return this;
    }
 //* Union Especial AFN's--------------------------------------------------------------
    

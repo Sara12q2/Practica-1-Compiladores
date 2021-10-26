@@ -70,8 +70,8 @@ public void opciones(AFN AFN1){
             int id1,id2;
             AFN AFNp,AFNunido;
             AFNp=new AFN();
-            
             AFN AFNs = null;
+            
             JOptionPane.showMessageDialog(null, "Operación realizada con exito");
             String cad1 = (String)AFN11.getSelectedItem();
             String cad2 = (String)AFN2.getSelectedItem();
@@ -81,6 +81,7 @@ public void opciones(AFN AFN1){
             id2 = Integer.parseInt(cad2);
             System.out.println("Id 1: "+id1);
             System.out.println("Id 2: "+id2);
+            
             for(AFN a : AFN.ConjDeAFNs){
                 if(AFNAux.getIdAFN(a)==id1){
                     AFNp = a;
@@ -105,9 +106,5 @@ public void opciones(AFN AFN1){
         ventanaUnion uno = new ventanaUnion(AFN1);
         uno.opciones(AFN1);
     } 
-*/
+*/   
 }
-
-
-    
-

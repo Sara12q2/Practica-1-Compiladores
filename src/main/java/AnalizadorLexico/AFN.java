@@ -59,7 +59,7 @@ public class AFN {
     HashSet<Estado> EdosAFN = new HashSet<Estado>();
     HashSet<Estado> EdosAcept = new HashSet<Estado>();
     HashSet<String> Alfabeto = new HashSet<String>();
-     HashSet<Estado> ConjI= new HashSet<Estado>();
+    HashSet<Estado> ConjI= new HashSet<Estado>();
     //EMPLEADA AL UNIR LOS N AUTOMATAS
     boolean seAgregoAFNUnionLexico;
     public int IdAFN;
@@ -363,9 +363,11 @@ public class AFN {
 //* Ir_A-----------------------------------------------------------------
     
 //* Union Especial AFN's-----------------------------------------------------------------
-   public void UnionEspecialAFNs(AFN f, int Token){
+   public AFN UnionEspecialAFNs(AFN f, int Token){
        Estado e;
        if(!this.seAgregoAFNUnionLexico){
+           for(Estado EdoAcep: f.EdosAcept)
+               EdoAcep.setToken(Token);
            this.EdosAFN.clear();
            this.EdosAFN.clear();
            this.Alfabeto.clear();
@@ -373,16 +375,20 @@ public class AFN {
            e.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON,f.EdoIni));
            this.EdoIni=e;
            this.EdosAFN.add(e);
+           this.EdosAcept.addAll(f.EdosAcept);
+           this.EdosAFN.addAll(f.EdosAFN);
+           this.Alfabeto.addAll(f.Alfabeto);
            this.seAgregoAFNUnionLexico=true;
        }else{
            this.EdoIni.getTrans().add(new Transicion(SimbolosEspeciales.EPSILON,f.EdoIni));
            for(Estado EdoAcep: f.EdosAcept)
-               EdoAcep.getToken();
+               EdoAcep.setToken(Token);
            this.EdosAcept.addAll(f.EdosAcept);
            this.EdosAFN.addAll(f.EdosAFN);
            this.Alfabeto.addAll(f.Alfabeto);
-          
+           
        }
+       return this;
    }
 //* Union Especial AFN's--------------------------------------------------------------
    

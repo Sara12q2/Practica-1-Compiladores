@@ -30,7 +30,7 @@
 //       int Token;
 //       AFN f;
 //       f = new AFN();
-//       if(E(f)){
+//       if(E(ref f)){
 //           Token = L.yylex();
 //           if(Token==0){
 //               this.result = f;
@@ -41,8 +41,8 @@
 //   }
 //   
 //   public boolean E(AFN f){
-//       if(T(f)){
-//           if(Ep(f)){
+//       if(T(ref f)){
+//           if(Ep(ref f)){
 //               return true;
 //           }
 //       }

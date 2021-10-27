@@ -9,7 +9,14 @@ public class DescRegGram_Gram {
         Gramatica  = sigma;
         L = new AnalizadorLexico(Gramatica, FileAFD, IdentifAFD);
     }
-    
+    public DescRegGram_Gram(String FileAFD,int IdentifAFD) throws IOException{
+        L = new AnalizadorLexico(FileAFD,IdentifAFD);
+    }
+    public boolean SetGramatica(String sigma){
+        Gramatica  = sigma;
+        L.SetSigma(sigma);
+        return true;
+    }
     public boolean AnalizarGrámatica(){
         int token;
         if(G()){

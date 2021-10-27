@@ -86,6 +86,7 @@ public class AnalizadorLexico {
     
     //INICIO DEL ALGORITMO
     public int yylex(){
+        while(true){
         Pila.push(IndiceCaracterActual);
         //YA TERMINE CON LA CADENA??
         if(IndiceCaracterActual >= CadenaSigma.length()){
@@ -129,8 +130,11 @@ public class AnalizadorLexico {
         System.out.println("IniLexema : "+IniLexema+" FinLexema: "+FinLexema);
         Lexema = CadenaSigma.substring(IniLexema,FinLexema+1);
         IndiceCaracterActual = FinLexema + 1;
-        return token;
-        
+        if(token == SimbolosEspeciales.OMITIR)
+            continue;
+        else
+            return token;
+        }   
     }
  
     public boolean UndoToken(){

@@ -144,6 +144,8 @@ public class AnalizadorLexico {
             return true;
         
     }  
+    
+//SECCIÓN TERCER PARCIAL    
     public ClassEstadoAnalizadorLexico GetEdoAnalizLexico(){
         ClassEstadoAnalizadorLexico EdoActualAnaliz = new ClassEstadoAnalizadorLexico();
         EdoActualAnaliz.CaracterActual = CaracterActual;

@@ -1,21 +1,18 @@
 package AnalizadorLexico;
 
+import AnalizadorLexico.ClaseNodo.ElemArreglo;
 import java.io.IOException;
 
 public class DescRegGram_Gram {
     public String Gramatica;
     public AnalizadorLexico L;
+
     public DescRegGram_Gram(String sigma, String FileAFD, int IdentifAFD) throws IOException{
         Gramatica  = sigma;
         L = new AnalizadorLexico(Gramatica, FileAFD, IdentifAFD);
     }
     public DescRegGram_Gram(String FileAFD,int IdentifAFD) throws IOException{
         L = new AnalizadorLexico(FileAFD,IdentifAFD);
-    }
-    public boolean SetGramatica(String sigma){
-        Gramatica  = sigma;
-        L.SetSigma(sigma);
-        return true;
     }
     public boolean AnalizarGrámatica(){
         int token;

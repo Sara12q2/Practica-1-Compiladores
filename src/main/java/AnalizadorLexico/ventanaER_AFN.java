@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -25,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 public class ventanaER_AFN extends JFrame implements ActionListener{
     private JTextField txt = new JTextField();
     private JTextField cadena = new JTextField();
+    private JTextField idObtenido = new JTextField();
     private JComboBox AFDop = new JComboBox();
             int idAux=0;
             ArrayList<String> guardado = new ArrayList<String>();
@@ -57,13 +59,21 @@ public class ventanaER_AFN extends JFrame implements ActionListener{
         //**FileChooser-------------------------------------------------------- 
         //**ETIQUETA Cadena a analizar-----------------------------------------------------------
         //ETIQUETA Cadena a utilizar-----------------------------------------------------------
-        JLabel etiquetaCadenaAnalizar = new JLabel("Expresión regular");
-        etiquetaCadenaAnalizar.setBounds(100,200,300,20);
-        etiquetaCadenaAnalizar.setFont(new java.awt.Font("arial", 1, 14));
-        add(etiquetaCadenaAnalizar);
+        JLabel expresion = new JLabel("Expresión regular");
+        expresion.setBounds(100,180,300,20);
+        expresion.setFont(new java.awt.Font("arial", 1, 14));
+        add(expresion);
         //**ETIQUETA Cadena a analizar-----------------------------------------------------------
-        cadena.setBounds(250,200, 200, 25);
+        cadena.setBounds(250,180, 200, 25);
         add(cadena);
+        //ETIQUETA ID AFN-----------------------------------------------------------
+        JLabel idAFN = new JLabel("ID AFN");
+        idAFN.setBounds(100,220,300,20);
+        idAFN.setFont(new java.awt.Font("arial", 1, 14));
+        add(idAFN);
+        //**ETIQUETA ID AFN-----------------------------------------------------------
+        idObtenido.setBounds(250,220, 200, 25);
+        add(idObtenido);
         //Boton Analizar-----------------------------------------------------------
         JButton btnAnalizar = new JButton("Crear AFN");
         btnAnalizar.setBounds(350, 255, 100, 25);
@@ -90,10 +100,12 @@ public class ventanaER_AFN extends JFrame implements ActionListener{
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("All Files", "txt", "gif"); 
         fileChooser.setFileFilter(imgFilter);
-        int id = 0;
-        
-        if( e.getActionCommand()=="Seleccionar Archivo" ){
-            AFD uno = new AFD();
+        int idAFD = 0;
+        int idAFN = 0;
+        AFD uno = new AFD();
+        AFN resultado = new AFN();
+        String cadenaConvertir = new String();
+        if( e.getActionCommand()=="Seleccionar Archivo del AFD" ){
 
                 int result = fileChooser.showOpenDialog(this);
                 if (result != JFileChooser.CANCEL_OPTION) {
@@ -102,31 +114,38 @@ public class ventanaER_AFN extends JFrame implements ActionListener{
                     txt.setText("...");
                 } else {
                     rutaArchivo = fileName.getAbsolutePath();
+                    System.out.println("RUTA OBTENIDA: "+rutaArchivo);
                 }
                 }
                 
-                id = Integer.parseInt(txt.getText());
+                idAFD = Integer.parseInt(txt.getText());
+                System.out.println("IdAFD: "+idAFD);
             try {
-                uno.LeerAFDdeArchivo(rutaArchivo, id);
+                uno.LeerAFDdeArchivo(rutaArchivo, idAFD);
             } catch (IOException ex) {
                 System.out.println("ERROR");
                 Logger.getLogger(ventanaER_AFN.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+            }            
             AFDop.addItem(String.valueOf(uno.IdAFD));
         }
-        if( e.getActionCommand()=="Analizar" ){
-
-        }
-        if( e.getActionCommand()=="Guardar AFD" ){
-
+        if( e.getActionCommand()=="Crear AFN" ){
+            cadenaConvertir = cadena.getText();
+            idAFN = Integer.parseInt(idObtenido.getText());
+            System.out.println("IdAFN: "+idAFN);
+            System.out.println("Expresion: "+cadenaConvertir);
+            try {
+                ER_AFN conversion = new ER_AFN(cadenaConvertir,uno);
+                conversion.IniConversion();
+                resultado = conversion.result;
+                JOptionPane.showMessageDialog(null, "AFN Creado");
+            } catch (IOException ex) {
+                Logger.getLogger(ventanaER_AFN.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
                
     }   
     public static void main(String[] args) {
         ventanaER_AFN uno = new ventanaER_AFN();
         uno.opciones();
-        
-
     }
 }

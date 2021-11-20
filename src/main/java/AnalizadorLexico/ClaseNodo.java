@@ -5,6 +5,9 @@
  */
 package AnalizadorLexico;
 
+import java.awt.List;
+import java.util.ArrayList;
+
 /**
  *
  * @author ivette
@@ -17,12 +20,21 @@ public class ClaseNodo {
       Simbolo = "";
       Terminal = false;
   }
+  public ClaseNodo(String Simb){
+      Simbolo = Simb;
+      Terminal = false;
+  }
   public ClaseNodo(String Simb, boolean EsTerminal){
       Simbolo = Simb;
       Terminal =  EsTerminal;
   }
    public class ElemArreglo{
-       
+       public ClaseNodo InfSimbolo;
+       public ArrayList<ClaseNodo> ListaLadoDerecho;
+       public ElemArreglo(){
+           InfSimbolo = new ClaseNodo();
+           ListaLadoDerecho = new ArrayList<ClaseNodo>();
+       }
    }
   
   

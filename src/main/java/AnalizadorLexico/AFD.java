@@ -53,8 +53,7 @@ public class AFD {
     public void GuardarAFDenArchivo(String NombArchivo) throws FileNotFoundException, IOException{
         System.out.println("TABLA ARCHIVO: ");
         for(int i=0;i<257;i++){
-            System.out.print(AFD.TablaAFD[0][i]);
-        
+            System.out.print(AFD.TablaAFD[0][i]); 
         }
                 PrintWriter printWriter = new PrintWriter(NombArchivo);
             try {
@@ -62,12 +61,14 @@ public class AFD {
             } catch (FileNotFoundException e) {
                 System.out.println("Unable to locate the fileName: " + e.getMessage());
             }
+            System.out.println("Numero de estados: "+NumEstados);
             for(int i=0;i<NumEstados;i++){
                 for(int j = 0; j<257;j++){
                     Objects.requireNonNull(printWriter).print(AFD.TablaAFD[i][j]);
                     if(j!=256)
                         Objects.requireNonNull(printWriter).print(";");
                 }
+                Objects.requireNonNull(printWriter).print("\n");
             }
             printWriter.close();
         

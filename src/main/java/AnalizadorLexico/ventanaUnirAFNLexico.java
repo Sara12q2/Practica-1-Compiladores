@@ -191,7 +191,6 @@ public class ventanaUnirAFNLexico  extends JFrame implements ActionListener{
                         
             AFNUnidoL.setIdAFN(idn);
             AFN.ConjDeAFNs.add(AFNUnidoL);
-            
             JOptionPane.showMessageDialog(null, "Operación realizada con exito");
         }
     }

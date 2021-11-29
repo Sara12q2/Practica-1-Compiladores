@@ -46,7 +46,6 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
         
     public ventanaProbarAnalizadorLexico(){
         setLayout(null);
-        
         //TABLA
         JScrollPane miBarra = new JScrollPane(table);
         this.getContentPane().add(miBarra, null);
@@ -81,9 +80,6 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
         etiquetaAFDUtilizar.setFont(new java.awt.Font("arial", 1, 14));
 
         AFDop.setBounds(220,170,200,20);
-         for(AFN e : AFN.ConjDeAFNs){            
-             System.out.println(e.IdAFN);
-        } 
         for(AFD e : AFD.ConjAFDs){
             AFDop.addItem(String.valueOf(e.IdAFD));
         } 
@@ -132,10 +128,11 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
         FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("All Files", "txt", "gif"); 
         fileChooser.setFileFilter(imgFilter);
         int id = 0;
-        
+        int bandera = 0;
+        int idAFN = 0;
         if( e.getActionCommand()=="Seleccionar Archivo" ){
             AFD uno = new AFD();
-
+                bandera=1;
                 int result = fileChooser.showOpenDialog(this);
                 if (result != JFileChooser.CANCEL_OPTION) {
                     File fileName = fileChooser.getSelectedFile();
@@ -156,7 +153,9 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
             
             AFDop.addItem(String.valueOf(uno.IdAFD));
         }
+
         if( e.getActionCommand()=="Analizar" ){
+            String prueba;
             int token;
             String Lexema;
             String sigma,aux;
@@ -170,8 +169,10 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
             AFD AutFD = new AFD();
             sigma = cadena.getText();
             System.out.println("Sigma: "+sigma);
+            System.out.println("TAMANO: "+AFD.ConjAFDs.size());
             for(AFD f : AFD.ConjAFDs){
                 if(f.IdAFD == idAFD){
+                    System.out.println("AFN ENCONTRADO");
                     AutFD = f;
                 }
                 try {
@@ -240,6 +241,7 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
     
     
     public static void main(String[] args) {
+        AFN prueba = new AFN();
         ventanaProbarAnalizadorLexico uno = new ventanaProbarAnalizadorLexico();
         uno.opciones();
         

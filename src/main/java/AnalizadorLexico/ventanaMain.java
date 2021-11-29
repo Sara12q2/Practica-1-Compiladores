@@ -133,7 +133,8 @@ public class ventanaMain extends JFrame {
 			 break;
                   case "Probar analizador lexico":
 			//AFN AFN1=new AFN();
-                        //ventanaCerraduraTransitiva uno = new ventanaCerraduraTransitiva(AFN1);
+                        ventanaProbarAnalizadorLexico once = new ventanaProbarAnalizadorLexico();
+                        once.opciones();
                        // uno.opciones(AFN1);
                         //hide();
 			 break;

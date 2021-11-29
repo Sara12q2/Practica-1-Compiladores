@@ -87,53 +87,55 @@ public class AnalizadorLexico {
     //INICIO DEL ALGORITMO
     public int yylex(){
         while(true){
-        Pila.push(IndiceCaracterActual);
-        //YA TERMINE CON LA CADENA??
-        if(IndiceCaracterActual >= CadenaSigma.length()){
-            Lexema = "";
-        //AL TERMINAR DE REVISAR LA CADENA SE DEVUELVE UN 0
-            return SimbolosEspeciales.FIN;
-        }
-        IniLexema = IndiceCaracterActual;
-        EdoActual = 0;
-        PasoPorEdoAcept = false;
-        FinLexema = -1;
-        token = -1;
-        //QUEDAN CARACTERES POR ANALIZAR??
-        while(IndiceCaracterActual < CadenaSigma.length()){
-//EQUIVALENCIA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            CaracterActual = CadenaSigma.charAt(IndiceCaracterActual);
-//**EQUIVALENCIA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            EdoTransicion  = AutomataFD.TablaAFD[EdoActual][CaracterActual];
-            if(EdoTransicion != -1){
-                //ESTAMOS EN UN ESTADO DE ACEPTACION???
-                if(AutomataFD.TablaAFD[EdoTransicion][256]!=-1){
-                    PasoPorEdoAcept = true;
-                    token = AutomataFD.TablaAFD[EdoTransicion][256];
-                    FinLexema = IndiceCaracterActual;
-                    System.out.println("Estado de aceptacion: "+CaracterActual);
-                }
-                IndiceCaracterActual++;
-                EdoActual = EdoTransicion;
-                continue;
+            Pila.push(IndiceCaracterActual);
+            //YA TERMINE CON LA CADENA??
+            if(IndiceCaracterActual >= CadenaSigma.length()){
+                Lexema = "";
+            //AL TERMINAR DE REVISAR LA CADENA SE DEVUELVE UN 0
+                return SimbolosEspeciales.FIN;
             }
-            break;
-        }// NO HAY ESTADO DE ACEPTACION
-        if(!PasoPorEdoAcept){
-            System.out.println("Entro a no hay estado de aceptacion");
-            IndiceCaracterActual = IniLexema + 1;          
-            Lexema = CadenaSigma.substring(IniLexema,1);   
-            token = 2000;
-            return token; //ERROR
-        }
-        //NO HAY TRANSICION CON EL CARACTER ACTUAL PERO YA SE HABIA PASADO POR UN EDO DE ACEPTACION
-        System.out.println("IniLexema : "+IniLexema+" FinLexema: "+FinLexema);
-        Lexema = CadenaSigma.substring(IniLexema,FinLexema+1);
-        IndiceCaracterActual = FinLexema + 1;
-        if(token == SimbolosEspeciales.OMITIR)
-            continue;
-        else
-            return token;
+            IniLexema = IndiceCaracterActual;
+            EdoActual = 0;
+            PasoPorEdoAcept = false;
+            FinLexema = -1;
+            token = -1;
+            //QUEDAN CARACTERES POR ANALIZAR??
+            while(IndiceCaracterActual < CadenaSigma.length()){
+    //EQUIVALENCIA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                CaracterActual = CadenaSigma.charAt(IndiceCaracterActual);
+    //**EQUIVALENCIA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                EdoTransicion  = AutomataFD.TablaAFD[EdoActual][CaracterActual];
+                if(EdoTransicion != -1){
+                    //ESTAMOS EN UN ESTADO DE ACEPTACION???
+                    if(AutomataFD.TablaAFD[EdoTransicion][256]!=-1){
+                        PasoPorEdoAcept = true;
+                        token = AutomataFD.TablaAFD[EdoTransicion][256];
+                        FinLexema = IndiceCaracterActual;
+                        System.out.println("Estado de aceptacion: "+CaracterActual);
+                    }
+                    IndiceCaracterActual++;
+                    EdoActual = EdoTransicion;
+                    continue;
+                }
+                break;
+            }// NO HAY ESTADO DE ACEPTACION
+            if(!PasoPorEdoAcept){
+                System.out.println("Entro a no hay estado de aceptacion");
+                IndiceCaracterActual = IniLexema + 1;          
+                Lexema = CadenaSigma.substring(IniLexema,1);   
+                token = 2000;
+                //Clase III-15
+                //token = SimbolosEspeciales.ERROR;
+                return token; //ERROR
+            }
+            //NO HAY TRANSICION CON EL CARACTER ACTUAL PERO YA SE HABIA PASADO POR UN EDO DE ACEPTACION
+            System.out.println("IniLexema : "+IniLexema+" FinLexema: "+FinLexema);
+            Lexema = CadenaSigma.substring(IniLexema,FinLexema+1);
+            IndiceCaracterActual = FinLexema + 1;
+            if(token == SimbolosEspeciales.OMITIR)
+                continue;
+            else
+                return token;
         }   
     }
  

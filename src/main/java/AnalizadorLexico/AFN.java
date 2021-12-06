@@ -158,7 +158,7 @@ public class AFN {
 //CONCATENACION---------------------------------------------------------------
     public AFN ConcAFN(AFN f2){
         //FUSIONANDO EL EDO DE ACEPTACION DEL THIS Y EL INICIAL DE F2, CONSERVAMOS EL EDO DE ACEPTACION DE THIS
-        for(Transicion t:f2.EdoIni.getTrans()){
+        for(Transicion t:f2.EdoIni.getTrans())
             for(Estado e : this.EdosAcept){
                 e.getTrans().add(t);
             // e DEJA DE SER UN ESTADO DE ACEPTACION
@@ -173,8 +173,8 @@ public class AFN {
 //EQUIVALENCIA
           this.EdosAFN.addAll(f2.EdosAFN);
           this.Alfabeto.addAll(f2.Alfabeto);
-        UnirAFN(f2);
-        }
+//        UnirAFN(f2);
+        
         return this;
     }
 //*CONCATENACION-------------------------------------------------------------
@@ -468,7 +468,8 @@ public class AFN {
                    Ij.TransicionesAFD[r] = Ik.j;
                    System.out.println("ESTA OTRA: Ik.j: "+Ik.j);
                    EdosAFD.add(Ik);
-                   EdosSinAnalizar.remove(Ik);
+//                   EdosSinAnalizar.remove(Ik);
+                   EdosSinAnalizar.add(Ik);
                    j++;
                }
            }
@@ -481,7 +482,8 @@ public class AFN {
        for(ConjIj I: EdosAFD){
            ConjAux.clear();
            ConjAux.addAll(I.ConjI);
-           ConjAux.addAll(this.EdosAcept);
+           ConjAux.retainAll(this.EdosAcept);
+//           ConjAux.addAll(this.EdosAcept);
            if(ConjAux.size()!=0)
                for(Estado EdoAcept : ConjAux){
                 I.TransicionesAFD[256] = EdoAcept.getToken();

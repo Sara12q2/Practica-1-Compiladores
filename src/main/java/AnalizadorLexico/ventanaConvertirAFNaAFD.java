@@ -139,8 +139,8 @@ public class ventanaConvertirAFNaAFD extends JFrame implements ActionListener {
             String nId = (String) id.getText();
             ide = Integer.parseInt(nId);
 //            
-            AFNp.setIdAFD(ide);
-            System.out.println("IDE nuevo AFD: " + ide);
+//            AFNp.setIdAFD(ide);
+//            System.out.println("IDE nuevo AFD: " + ide);
 
             for (AFN a : AFN.ConjDeAFNs) {
                 if (AFNAux.getIdAFN(a) == id1) {
@@ -148,9 +148,15 @@ public class ventanaConvertirAFNaAFD extends JFrame implements ActionListener {
                 }
 
             }
+            
+            for (AFD a : AFD.ConjAFDs) {
+                System.out.println("ITEMSAFDSDISPONIBLES: "+a.IdAFD);
+            }
+            
 //               alfabeto= AFNconvert.Alfabeto;
 
             AFDconv = AFNconvert.ConvAFNaAFD();
+            AFDconv.setIdAFD(ide);
             AFD.ConjAFDs.add(AFDconv);
             try {
                 AFDconv.GuardarAFDenArchivo("AFD.txt");

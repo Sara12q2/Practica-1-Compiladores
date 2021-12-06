@@ -157,10 +157,12 @@ public class ventanaUnirAFNLexico  extends JFrame implements ActionListener{
                     //System.out.println("AFN"+SAFN+" checkbox"+Scheckbox+" token"+Stoken);
                     id1 = Integer.parseInt(SAFN);
                     token = Integer.parseInt(Stoken);
-                    
+                     System.out.println("STOKEN: "+Stoken);
+                     System.out.println("TOKEN: "+token);
                     for(AFN id : AFN.ConjDeAFNs){
                         if(AFNAux.getIdAFN(id)==id1){
-                            AFNObt = id;    
+                            AFNObt = id; 
+                            break;
                         }
                     }   
 //                        AFNAux2 = devolverAFN(id1);

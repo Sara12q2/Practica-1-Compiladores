@@ -62,6 +62,8 @@ public class AFD {
                 System.out.println("Unable to locate the fileName: " + e.getMessage());
             }
             System.out.println("Numero de estados: "+NumEstados);
+            Objects.requireNonNull(printWriter).print(NumEstados);
+            Objects.requireNonNull(printWriter).print("\n");
             for(int i=0;i<NumEstados;i++){
                 for(int j = 0; j<257;j++){
                     Objects.requireNonNull(printWriter).print(AFD.TablaAFD[i][j]);

@@ -82,6 +82,7 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
         AFDop.setBounds(220,170,200,20);
         for(AFD e : AFD.ConjAFDs){
             AFDop.addItem(String.valueOf(e.IdAFD));
+            System.out.println("VALOROBTENIDO: "+e.IdAFD);
         } 
         add(AFDop);
         add(etiquetaAFDUtilizar);
@@ -123,7 +124,6 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
     public void actionPerformed(ActionEvent e) {
 
         JFileChooser fileChooser = new JFileChooser("C:\\Users\\ivett\\Desktop\\Septimo semestre\\Compiladores\\Pruebas AFD");
-//        JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("All Files", "txt", "gif"); 
         fileChooser.setFileFilter(imgFilter);
@@ -163,16 +163,12 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
             aux = (String)AFDop.getSelectedItem();
             idAFD = Integer.parseInt(aux);
             idAux = idAFD;
-            System.out.println("ID AFD: "+ idAFD);
             String[] ValoresRenglon = new String[2];
             AnalizadorLexico L;
             AFD AutFD = new AFD();
             sigma = cadena.getText();
-            System.out.println("Sigma: "+sigma);
-            System.out.println("TAMANO: "+AFD.ConjAFDs.size());
             for(AFD f : AFD.ConjAFDs){
                 if(f.IdAFD == idAFD){
-                    System.out.println("AFN ENCONTRADO");
                     AutFD = f;
                 }
                 try {
@@ -182,29 +178,25 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
                                 Lexema = L.Lexema;
                                 ValoresRenglon[0] = String.valueOf(token);
                                 ValoresRenglon[1] = L.Lexema;
-                                System.out.println("Valor 1: "+ValoresRenglon[0]);
-                                System.out.println("Valor 2: "+ValoresRenglon[1]);
                                 guardado.add(String.valueOf(ValoresRenglon[0]));
                                 guardado.add(";");
                                 guardado.add(String.valueOf(ValoresRenglon[1]));
                                 guardado.add(";");
                                 Object[] newRow = {ValoresRenglon[0],ValoresRenglon[1]};
-                                dtm.addRow(newRow);
-                    //            dataGridView.Rows.Add(ValoresRenglon);
+//                                dtm.addRow(newRow);
                                 L.UndoToken();
                                 token = L.yylex();
                                 Lexema = L.Lexema;
                                 ValoresRenglon[0] = String.valueOf(token);
                                 ValoresRenglon[1] = L.Lexema;
-                                System.out.println("Valor 1: "+ValoresRenglon[0]);
-                                System.out.println("Valor 2: "+ValoresRenglon[1]);
                                 guardado.add(String.valueOf(ValoresRenglon[0]));
                                 guardado.add(";");
                                 guardado.add(String.valueOf(ValoresRenglon[1]));
                                 guardado.add(";");
                                 Object[] newRow2 = {ValoresRenglon[0],ValoresRenglon[1]};
+                                System.out.println("RENGLON 0: "+ValoresRenglon[0]);
+                                System.out.println("RENGLON 1: "+ValoresRenglon[1]);
                                 dtm.addRow(newRow2);
-                    //            dataGridView1.Rows.Add(ValoresRenglon);
                                 if(token == SimbolosEspeciales.FIN)
                                     break;
                             }

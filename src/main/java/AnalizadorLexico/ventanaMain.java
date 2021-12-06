@@ -110,10 +110,8 @@ public class ventanaMain extends JFrame {
                         //hide();
 			 break;
                    case "ER->AFN":
-			//AFN AFN1=new AFN();
-                        //ventanaCerraduraTransitiva uno = new ventanaCerraduraTransitiva(AFN1);
-                        //uno.opciones(AFN1);
-                        //hide();
+                        ventanaER_AFN siete = new ventanaER_AFN();
+                        siete.opciones();
 			 break;
                   case "Unión para Analizador Léxico":		
                         ventanaUnirAFNLexico ocho = new ventanaUnirAFNLexico(AFN1);

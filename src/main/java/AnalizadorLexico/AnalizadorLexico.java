@@ -122,7 +122,7 @@ public class AnalizadorLexico {
             if(!PasoPorEdoAcept){
                 System.out.println("Entro a no hay estado de aceptacion");
                 IndiceCaracterActual = IniLexema + 1;          
-                Lexema = CadenaSigma.substring(IniLexema,1);   
+                Lexema = CadenaSigma.substring(IniLexema,IniLexema+1);   
                 token = 2000;
                 //Clase III-15
                 //token = SimbolosEspeciales.ERROR;

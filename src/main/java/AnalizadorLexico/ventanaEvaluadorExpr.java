@@ -96,29 +96,50 @@ public class ventanaEvaluadorExpr extends JFrame{
         FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("All Files", "txt", "gif"); 
         fileChooser.setFileFilter(imgFilter);
         int idAFD = 0;
-        AFD uno = new AFD();
-        String cadenaConvertir = new String();
+         AFD uno = new AFD();
                 int result = fileChooser.showOpenDialog(ventanaEvaluadorExpr.this);
                 if (result != JFileChooser.CANCEL_OPTION) {
-                        File fileName = fileChooser.getSelectedFile();
-                    if ((fileName == null) || (fileName.getName().equals(""))) {
-                        txt.setText("...");
-                    } else {
-                        rutaArchivo = fileName.getAbsolutePath();
+                    File fileName = fileChooser.getSelectedFile();
+                if ((fileName == null) || (fileName.getName().equals(""))) {
+                    txt.setText("...");
+                } else {
+                    rutaArchivo = fileName.getAbsolutePath();
                         System.out.println("RUTA OBTENIDA: "+rutaArchivo);
-                    }
+                }
                 }
                 
                 idAFD = Integer.parseInt(txt.getText());
                 System.out.println("IdAFD: "+idAFD);
             try {
                 uno.LeerAFDdeArchivo(rutaArchivo, idAFD);
-                
             } catch (IOException ex) {
                 System.out.println("ERROR");
-                Logger.getLogger(ventanaER_AFN.class.getName()).log(Level.SEVERE, null, ex);
-            }            
+                Logger.getLogger(ventanaProbarAnalizadorLexico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             AFDop.addItem(String.valueOf(uno.IdAFD));
+//        AFD uno = new AFD();
+//        String cadenaConvertir = new String();
+//                int result = fileChooser.showOpenDialog(ventanaEvaluadorExpr.this);
+//                if (result != JFileChooser.CANCEL_OPTION) {
+//                        File fileName = fileChooser.getSelectedFile();
+//                    if ((fileName == null) || (fileName.getName().equals(""))) {
+////                        txt.setText("...");
+//                    } else {
+//                        rutaArchivo = fileName.getAbsolutePath();
+//                        System.out.println("RUTA OBTENIDA: "+rutaArchivo);
+//                    }
+//                }                
+//                idAFD = Integer.parseInt(txt.getText());
+//                System.out.println("IdAFD: "+idAFD);
+//            try {
+//                uno.LeerAFDdeArchivo(rutaArchivo, idAFD);
+//                
+//            } catch (IOException ex) {
+//                System.out.println("ERROR");
+//                Logger.getLogger(ventanaER_AFN.class.getName()).log(Level.SEVERE, null, ex);
+//            }            
+//            AFDop.addItem(String.valueOf(uno.IdAFD));
         }   
     
     });   
@@ -158,6 +179,7 @@ public class ventanaEvaluadorExpr extends JFrame{
 
     
     public static void main(String[] args) {
+         AFN AFN1=new AFN();
         ventanaEvaluadorExpr pr = new ventanaEvaluadorExpr();
         pr.opciones();
     }

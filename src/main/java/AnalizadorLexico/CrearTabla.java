@@ -49,20 +49,20 @@ public class CrearTabla {
         int j;
         HashSet<String> ResultFirst = new HashSet<String>();
         HashSet<String> ResultFollow = new HashSet<String>();
-
-        DescRegG.AnalizarGramatica();   
-        Vt = new SimbTerrem[DescRegG.Vt.Count + 1];
-        Vt2 = new String[DescRegG.Vt.Count + 1];
-        Vn = new String[DescRegG.Vn.Count + 1];
-        j=0;
-        for(String s : DescRegG.Vt){
-            Vt[j] = new SimbTerm(s, -1);
-            Vt2[j++] = s;
-        }
-
-        Vt[j] = new SimbTerm("$",-1);
-        vt2[j++] = "$";
-        j=0;
+//
+//        DescRegG.AnalizarGramatica();   
+//        Vt = new SimbTerrem[DescRegG.Vt.Count + 1];
+//        Vt2 = new String[DescRegG.Vt.Count + 1];
+//        Vn = new String[DescRegG.Vn.Count + 1];
+//        j=0;
+//        for(String s : DescRegG.Vt){
+//            Vt[j] = new SimbTerm(s, -1);
+//            Vt2[j++] = s;
+//        }
+//
+//        Vt[j] = new SimbTerm("$",-1);
+//        vt2[j++] = "$";
+//        j=0;
         
     }
 

@@ -25,7 +25,7 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
-public class ventanaEvaluadorExpr extends JFrame implements ActionListener{
+public class ventanaEvaluadorExpr extends JFrame{
     
     private JTextField txt = new JTextField();
     private JTextField cadena = new JTextField();
@@ -59,7 +59,7 @@ public class ventanaEvaluadorExpr extends JFrame implements ActionListener{
        //FileChooser-----------------------------------------------------------
         JButton btn = new JButton("Seleccionar Archivo del AFD");
         btn.setBounds(170, 110, 200, 25);
-        btn.addActionListener(this);
+        //btn.addActionListener(this);
         add(btn);
         //**FileChooser-------------------------------------------------------- 
         
@@ -84,22 +84,10 @@ public class ventanaEvaluadorExpr extends JFrame implements ActionListener{
         //Boton Analizar--------------------------------------------------------
         JButton btnAnalizar = new JButton("Evaluar");
         btnAnalizar.setBounds(350, 290, 100, 25);
-        btnAnalizar.addActionListener(this);
         add(btnAnalizar);
         //**Boton Analizar--------------------------------------------------------
-    } 
-    
-    
-    public void opciones(){
-       ventanaEvaluadorExpr uno = new ventanaEvaluadorExpr();
-       uno.setBounds(0,0,600,400);
-       uno.setVisible(true);
-       uno.setLocationRelativeTo(null);
-       uno.setTitle("Evaluador Expresiones");
-       uno.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
-
-    @Override
+        
+    btn.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
 
         JFileChooser fileChooser = new JFileChooser("C:\\Users\\ivett\\Desktop\\Septimo semestre\\Compiladores\\Pruebas AFD");
@@ -114,7 +102,7 @@ public class ventanaEvaluadorExpr extends JFrame implements ActionListener{
         String cadenaConvertir = new String();
         if( e.getActionCommand()=="Seleccionar Archivo del AFD" ){
 
-                int result = fileChooser.showOpenDialog(this);
+                int result = fileChooser.showOpenDialog(btn);
                 if (result != JFileChooser.CANCEL_OPTION) {
                         File fileName = fileChooser.getSelectedFile();
                     if ((fileName == null) || (fileName.getName().equals(""))) {
@@ -148,9 +136,44 @@ public class ventanaEvaluadorExpr extends JFrame implements ActionListener{
             } catch (IOException ex) {
                 Logger.getLogger(ventanaER_AFN.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }   
+    }
+    });   
+    
+    
+    btnAnalizar.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            String aux;
+            aux=cadena.getText();
+            Evaluador.SetExpresion(aux);
+            if(Evaluador.IniEval()){
+                System.out.println("Expresión sintácticamente correcta."+Evaluador.result);
+                String s=Float.toString(Evaluador.result);
+                msn1.setText(s);
+                msn1.setText(Evaluador.ExprPost);
+            } else{
+                System.out.println("Expresión sintácticamente incorrecta.");
+                msn1.setText("ERROR");
+            }
         }
-               
-    }   
+    });   
+} 
+    
+    
+    public void opciones(){
+       ventanaEvaluadorExpr uno = new ventanaEvaluadorExpr();
+       uno.setBounds(0,0,600,400);
+       uno.setVisible(true);
+       uno.setLocationRelativeTo(null);
+       uno.setTitle("Evaluador Expresiones");
+       uno.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+
+    
+
+
+    
     public static void main(String[] args) {
         ventanaEvaluadorExpr pr = new ventanaEvaluadorExpr();
         pr.opciones();

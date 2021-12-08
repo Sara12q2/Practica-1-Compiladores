@@ -265,9 +265,5 @@ public class DescRegGram_Gram {
         }
             return R;
     }
-
-    void AnalizarGramatica() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
 

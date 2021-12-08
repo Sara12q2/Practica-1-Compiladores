@@ -90,19 +90,15 @@ public class ventanaEvaluadorExpr extends JFrame{
     btn.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
 
-        JFileChooser fileChooser = new JFileChooser("C:\\Users\\ivett\\Desktop\\Septimo semestre\\Compiladores\\Pruebas AFD");
+        JFileChooser fileChooser = new JFileChooser("C:\\laragon\\www\\Practica-1-Compiladores");
 //        JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("All Files", "txt", "gif"); 
         fileChooser.setFileFilter(imgFilter);
         int idAFD = 0;
-        int idAFN = 0;
         AFD uno = new AFD();
-        AFN resultado = new AFN();
         String cadenaConvertir = new String();
-        if( e.getActionCommand()=="Seleccionar Archivo del AFD" ){
-
-                int result = fileChooser.showOpenDialog(btn);
+                int result = fileChooser.showOpenDialog(ventanaEvaluadorExpr.this);
                 if (result != JFileChooser.CANCEL_OPTION) {
                         File fileName = fileChooser.getSelectedFile();
                     if ((fileName == null) || (fileName.getName().equals(""))) {
@@ -117,27 +113,14 @@ public class ventanaEvaluadorExpr extends JFrame{
                 System.out.println("IdAFD: "+idAFD);
             try {
                 uno.LeerAFDdeArchivo(rutaArchivo, idAFD);
+                
             } catch (IOException ex) {
                 System.out.println("ERROR");
                 Logger.getLogger(ventanaER_AFN.class.getName()).log(Level.SEVERE, null, ex);
             }            
             AFDop.addItem(String.valueOf(uno.IdAFD));
-        }
-        if( e.getActionCommand()=="Crear AFN"){
-            cadenaConvertir = cadena.getText();
-            idAFN = Integer.parseInt(idObtenido.getText());
-            System.out.println("IdAFN: "+idAFN);
-            System.out.println("Expresion: "+cadenaConvertir);
-            try {
-                ER_AFN conversion = new ER_AFN(cadenaConvertir,uno);
-                conversion.IniConversion();
-                resultado = conversion.result;
-                JOptionPane.showMessageDialog(null, "AFN Creado");
-            } catch (IOException ex) {
-                Logger.getLogger(ventanaER_AFN.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }   
-    }
+    
     });   
     
     
@@ -161,12 +144,12 @@ public class ventanaEvaluadorExpr extends JFrame{
     
     
     public void opciones(){
-       ventanaEvaluadorExpr uno = new ventanaEvaluadorExpr();
-       uno.setBounds(0,0,600,400);
-       uno.setVisible(true);
-       uno.setLocationRelativeTo(null);
-       uno.setTitle("Evaluador Expresiones");
-       uno.setDefaultCloseOperation(EXIT_ON_CLOSE);
+       ventanaEvaluadorExpr vEE = new ventanaEvaluadorExpr();
+       vEE.setBounds(0,0,600,400);
+       vEE.setVisible(true);
+       vEE.setLocationRelativeTo(null);
+       vEE.setTitle("Evaluador Expresiones");
+       vEE.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
 

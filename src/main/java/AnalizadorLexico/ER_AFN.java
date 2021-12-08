@@ -7,8 +7,6 @@ public class ER_AFN {
     
     //**EQUIVALENCIAS PARA REF
     
-    
-    
     //IMPLEMENTAR DESCENSO RECURSIVO PARA LAS E.R
    String ExprRegular;
    //RESULTADO DEL ANÁLISIS

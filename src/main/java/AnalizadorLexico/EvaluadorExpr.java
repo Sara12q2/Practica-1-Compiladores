@@ -18,11 +18,11 @@ public class EvaluadorExpr {
     
     public EvaluadorExpr(String sigma, String FileAFD,int IdentifAFD) throws IOException{
         Expresion = sigma;
-        L = new AnalizadorLexico(Expresion, FileAFD,IdentifAFD);
+        L = new AnalizadorLexico(Expresion, FileAFD, IdentifAFD);
     }
     
     public EvaluadorExpr(String FileAFD,int IdentifAFD) throws IOException{
-        L = new AnalizadorLexico(Expresion, FileAFD,IdentifAFD);
+        L = new AnalizadorLexico(FileAFD, IdentifAFD);
     }
     
     public void SetExpresion(String sigma){
@@ -32,9 +32,8 @@ public class EvaluadorExpr {
     
     public boolean IniEval(){
         int Token;
-        float v; //Resultado de la evalucion
+        float v=0; //Resultado de la evalucion
         String Postfijo="";    // resultado de la conversion a postfijo
-        v = (float)0;
 //        AtomicReference<v> refF = new AtomicReference<v>();
 //        AtomicReference<Postfijo> refF = new AtomicReference<Postfijo>();
         if(E(v, Postfijo)){
@@ -56,15 +55,15 @@ public class EvaluadorExpr {
     }
     
     
-    boolean Ep( float v, String Post){
+    boolean Ep(float v, String Post){
         int Token;
         float v2 = 0;
         String Post2 = "";
         Token = L.yylex();
-        if(Token==10||Token==20){//+ o - //20 30
+        if(Token==10||Token==20){//+ o - 
             if(T(v2, Post2)){
-                v = v + (Token == 10 ? v2 : -v2);//20
-                Post = Post + " "+Post2+" " +(Token==10?"+":"-");//20
+                v = v + (Token == 20 ? v2 : -v2);//a=10 d=20
+                Post = Post + " "+Post2+" " +(Token==20? "+" : "-");//a=10 d=20
                 if(Ep( v, Post))
                     return true;
             }
@@ -81,15 +80,15 @@ public class EvaluadorExpr {
         return false;
     }
     
-    boolean Tp( float v,  String Post){
+    boolean Tp(float v,  String Post){
         int Token;
         float v2=0;
         String Post2 = "";
         Token = L.yylex();
-        if(Token == 30 || Token==40){// * o / //40 50
+        if(Token == 30 || Token==40){// * o / 
             if(F( v2, Post2)){
-                v = v*(Token==30?v2:1/v2);
-                Post = Post +" "+Post2+" "+(Token == 30?"*":"/");//40
+                v = v*(Token==40 ? v2:1/v2);
+                Post = Post +" "+Post2+" "+(Token == 40?"*":"/");//40
                 if(Tp( v,  Post))
                     return true;
             }
@@ -99,20 +98,20 @@ public class EvaluadorExpr {
         return true;
     }
     
-    boolean F( float v, String Post){
+    boolean F(float v, String Post){
         int Token;
         Token = L.yylex();
         switch(Token){
-            case 50: //Parentesis izquierdo//60
+            case 50: //Parentesis izquierdo
                 if(E( v,  Post)){
                     Token = L.yylex();
-                    if(Token == 60) //Parentesis derecho//70
+                    if(Token == 60) //Parentesis derecho
                         return true;
                 }
                 return false;
-            case 10: //NUM
+            case 70: //NUM
                 v = Float.parseFloat(L.Lexema);
-                
+                Post =L.Lexema;
                 return true;
         }
         return false;

@@ -36,6 +36,7 @@ public class ventanaEvaluadorExpr extends JFrame{
     int idAux=0;
     ArrayList<String> guardado = new ArrayList<String>();
     String rutaArchivo=null;
+    String nombreArchivo=null;
     int bandera=0;  
     EvaluadorExpr Evaluador;
         
@@ -97,16 +98,23 @@ public class ventanaEvaluadorExpr extends JFrame{
         fileChooser.setFileFilter(imgFilter);
         int idAFD = 0;
          AFD uno = new AFD();
-                int result = fileChooser.showOpenDialog(ventanaEvaluadorExpr.this);
-                if (result != JFileChooser.CANCEL_OPTION) {
-                    File fileName = fileChooser.getSelectedFile();
+            int result = fileChooser.showOpenDialog(ventanaEvaluadorExpr.this);
+            if (result != JFileChooser.CANCEL_OPTION) {
+                File fileName = fileChooser.getSelectedFile();
+                nombreArchivo = fileName.getName();
+                System.out.println("nombre archivo: "+nombreArchivo);
                 if ((fileName == null) || (fileName.getName().equals(""))) {
                     txt.setText("...");
                 } else {
                     rutaArchivo = fileName.getAbsolutePath();
                         System.out.println("RUTA OBTENIDA: "+rutaArchivo);
+                    try {
+                        Evaluador = new EvaluadorExpr(nombreArchivo,-1);//nombre del archivo del AFD
+                    } catch (IOException ex) {
+                        Logger.getLogger(ventanaEvaluadorExpr.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-                }
+            }
                 
                 idAFD = Integer.parseInt(txt.getText());
                 System.out.println("IdAFD: "+idAFD);
@@ -118,30 +126,7 @@ public class ventanaEvaluadorExpr extends JFrame{
             }
             
             AFDop.addItem(String.valueOf(uno.IdAFD));
-//        AFD uno = new AFD();
-//        String cadenaConvertir = new String();
-//                int result = fileChooser.showOpenDialog(ventanaEvaluadorExpr.this);
-//                if (result != JFileChooser.CANCEL_OPTION) {
-//                        File fileName = fileChooser.getSelectedFile();
-//                    if ((fileName == null) || (fileName.getName().equals(""))) {
-////                        txt.setText("...");
-//                    } else {
-//                        rutaArchivo = fileName.getAbsolutePath();
-//                        System.out.println("RUTA OBTENIDA: "+rutaArchivo);
-//                    }
-//                }                
-//                idAFD = Integer.parseInt(txt.getText());
-//                System.out.println("IdAFD: "+idAFD);
-//            try {
-//                uno.LeerAFDdeArchivo(rutaArchivo, idAFD);
-//                
-//            } catch (IOException ex) {
-//                System.out.println("ERROR");
-//                Logger.getLogger(ventanaER_AFN.class.getName()).log(Level.SEVERE, null, ex);
-//            }            
-//            AFDop.addItem(String.valueOf(uno.IdAFD));
-        }   
-    
+        }    
     });   
     
     
@@ -149,13 +134,16 @@ public class ventanaEvaluadorExpr extends JFrame{
         public void actionPerformed(ActionEvent e) {
             String aux;
             aux=cadena.getText();
+            System.out.println("cadena a evaluar: "+aux);
             Evaluador.SetExpresion(aux);
             if(Evaluador.IniEval()){
                 System.out.println("Expresión sintácticamente correcta."+Evaluador.result);
                 String s=Float.toString(Evaluador.result);
                 msn1.setText(s);
-                msn1.setText(Evaluador.ExprPost);
+                msn2.setText(Evaluador.ExprPost);
             } else{
+//                boolean rEIE=Evaluador.IniEval();
+//                System.out.println("Evaluador.IniEval: " + rEIE);
                 System.out.println("Expresión sintácticamente incorrecta.");
                 msn1.setText("ERROR");
             }

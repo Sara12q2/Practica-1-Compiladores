@@ -22,7 +22,7 @@ public class ER_AFN {
        L = new AnalizadorLexico(ExprRegular, FileAFD,IdentifAFD);
    }
    public ER_AFN(String FileAFD, int IdentifAFD) throws IOException{
-       L = new AnalizadorLexico(ExprRegular, FileAFD,IdentifAFD);
+       L = new AnalizadorLexico(FileAFD,IdentifAFD);
    }
    public void SetExpresion(String sigma){
        ExprRegular = sigma;

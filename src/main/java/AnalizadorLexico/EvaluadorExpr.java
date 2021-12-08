@@ -7,8 +7,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class EvaluadorExpr {
  String Expresion;
  public float result;
- //RESULTADO DE CONVERSION DE INFIJO A POSTFIJO
- public String ExprPost;
+ public String ExprPost;  //RESULTADO DE CONVERSION DE INFIJO A POSTFIJO
  public AnalizadorLexico L;
     
     public EvaluadorExpr(String sigma, AFD AutFD) throws IOException{
@@ -34,9 +33,10 @@ public class EvaluadorExpr {
         int Token;
         float v=0; //Resultado de la evalucion
         String Postfijo="";    // resultado de la conversion a postfijo
-//        AtomicReference<v> refF = new AtomicReference<v>();
-//        AtomicReference<Postfijo> refF = new AtomicReference<Postfijo>();
-        if(E(v, Postfijo)){
+        AtomicReference<Float> refv = new AtomicReference<Float>();
+        AtomicReference<String> refPost = new AtomicReference<String>();
+    //    if(E(v, Postfijo)){
+        if(E(refv.get(), refPost.get())){
             Token = L.yylex();
             if(Token == 0){
                 this.result = v;

@@ -27,15 +27,17 @@ import javax.swing.table.DefaultTableModel;
 
 public class ventanaEvaluadorExpr extends JFrame implements ActionListener{
     
-     private JTextField txt = new JTextField();
+    private JTextField txt = new JTextField();
     private JTextField cadena = new JTextField();
     private JTextField idObtenido = new JTextField();
+    private JTextField msn1 = new JTextField();
+    private JTextField msn2 = new JTextField();
     private JComboBox AFDop = new JComboBox();
-            int idAux=0;
-            ArrayList<String> guardado = new ArrayList<String>();
-            String rutaArchivo=null;
-            int bandera=0;  
-
+    int idAux=0;
+    ArrayList<String> guardado = new ArrayList<String>();
+    String rutaArchivo=null;
+    int bandera=0;  
+    EvaluadorExpr Evaluador;
         
     public ventanaEvaluadorExpr(){
         setLayout(null);
@@ -45,13 +47,13 @@ public class ventanaEvaluadorExpr extends JFrame implements ActionListener{
         etiquetaTituloAux.setBounds(60,30,300,20);
         etiquetaTituloAux.setFont(new java.awt.Font("arial", 1, 14));
         add(etiquetaTituloAux);
-        //**ETIQUETA Titulo Auxiliar-----------------------------------------------------------
-        //ETIQUETA IDAsignado-----------------------------------------------------------
+        //**ETIQUETA Titulo Auxiliar--------------------------------------------
+        //ETIQUETA IDAsignado---------------------------------------------------
         JLabel etiquetaIdAsignado = new JLabel("ID del AFD");
         etiquetaIdAsignado.setBounds(70,70,300,20);
         etiquetaIdAsignado.setFont(new java.awt.Font("arial", 1, 14));
         add(etiquetaIdAsignado);
-        //**ETIQUETA IDAsignado-----------------------------------------------------------
+        //**ETIQUETA IDAsignado-------------------------------------------------
         txt.setBounds(170,70, 100, 25);
         add(txt);
        //FileChooser-----------------------------------------------------------
@@ -60,26 +62,28 @@ public class ventanaEvaluadorExpr extends JFrame implements ActionListener{
         btn.addActionListener(this);
         add(btn);
         //**FileChooser-------------------------------------------------------- 
-        //**ETIQUETA Cadena a analizar-----------------------------------------------------------
-        //ETIQUETA Cadena a utilizar-----------------------------------------------------------
-        JLabel expresion = new JLabel("Expresión regular");
+        
+        //ETIQUETA Cadena a utilizar--------------------------------------------
+        JLabel expresion = new JLabel("Expresión a evaluar");
         expresion.setBounds(100,180,300,20);
         expresion.setFont(new java.awt.Font("arial", 1, 14));
         add(expresion);
-        //**ETIQUETA Cadena a analizar-----------------------------------------------------------
+        //JTextField Cadena a analizar
         cadena.setBounds(250,180, 200, 25);
         add(cadena);
-        //ETIQUETA ID AFN-----------------------------------------------------------
-        JLabel idAFN = new JLabel("ID AFN");
-        idAFN.setBounds(100,220,300,20);
-        idAFN.setFont(new java.awt.Font("arial", 1, 14));
-        add(idAFN);
-        //**ETIQUETA ID AFN-----------------------------------------------------------
-        idObtenido.setBounds(250,220, 200, 25);
-        add(idObtenido);
-        //Boton Analizar-----------------------------------------------------------
-        JButton btnAnalizar = new JButton("Crear AFN");
-        btnAnalizar.setBounds(350, 255, 100, 25);
+        
+        //JTextField Cadena a analizar
+        msn1.setBounds(250,210, 200, 25);
+        msn1.setEditable(false);
+        add(msn1);
+        //JTextField Cadena a analizar
+        msn2.setBounds(250,240, 200, 25);
+        msn2.setEditable(false);
+        add(msn2);
+
+        //Boton Analizar--------------------------------------------------------
+        JButton btnAnalizar = new JButton("Evaluar");
+        btnAnalizar.setBounds(350, 290, 100, 25);
         btnAnalizar.addActionListener(this);
         add(btnAnalizar);
         //**Boton Analizar--------------------------------------------------------
@@ -87,11 +91,11 @@ public class ventanaEvaluadorExpr extends JFrame implements ActionListener{
     
     
     public void opciones(){
-       ventanaER_AFN uno = new ventanaER_AFN();
+       ventanaEvaluadorExpr uno = new ventanaEvaluadorExpr();
        uno.setBounds(0,0,600,400);
        uno.setVisible(true);
        uno.setLocationRelativeTo(null);
-       uno.setTitle("Convertir ER a AFN");
+       uno.setTitle("Evaluador Expresiones");
        uno.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -112,13 +116,13 @@ public class ventanaEvaluadorExpr extends JFrame implements ActionListener{
 
                 int result = fileChooser.showOpenDialog(this);
                 if (result != JFileChooser.CANCEL_OPTION) {
-                    File fileName = fileChooser.getSelectedFile();
-                if ((fileName == null) || (fileName.getName().equals(""))) {
-                    txt.setText("...");
-                } else {
-                    rutaArchivo = fileName.getAbsolutePath();
-                    System.out.println("RUTA OBTENIDA: "+rutaArchivo);
-                }
+                        File fileName = fileChooser.getSelectedFile();
+                    if ((fileName == null) || (fileName.getName().equals(""))) {
+                        txt.setText("...");
+                    } else {
+                        rutaArchivo = fileName.getAbsolutePath();
+                        System.out.println("RUTA OBTENIDA: "+rutaArchivo);
+                    }
                 }
                 
                 idAFD = Integer.parseInt(txt.getText());
@@ -131,7 +135,7 @@ public class ventanaEvaluadorExpr extends JFrame implements ActionListener{
             }            
             AFDop.addItem(String.valueOf(uno.IdAFD));
         }
-        if( e.getActionCommand()=="Crear AFN" ){
+        if( e.getActionCommand()=="Crear AFN"){
             cadenaConvertir = cadena.getText();
             idAFN = Integer.parseInt(idObtenido.getText());
             System.out.println("IdAFN: "+idAFN);
@@ -148,9 +152,7 @@ public class ventanaEvaluadorExpr extends JFrame implements ActionListener{
                
     }   
     public static void main(String[] args) {
-        ventanaER_AFN uno = new ventanaER_AFN();
-        uno.opciones();
+        ventanaEvaluadorExpr pr = new ventanaEvaluadorExpr();
+        pr.opciones();
     }
 }
-
-

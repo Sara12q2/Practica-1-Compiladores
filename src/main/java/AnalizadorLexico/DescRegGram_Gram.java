@@ -34,7 +34,7 @@ public class DescRegGram_Gram {
         return true;
     }
     
-    public boolean AnalizarGramatica(String sigma){
+    public boolean AnalizarGramatica(){
         int token;
         if(G()){
            token = L.yylex();

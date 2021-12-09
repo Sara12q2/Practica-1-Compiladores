@@ -89,7 +89,7 @@ public class ventanaER_AFN extends JFrame implements ActionListener{
        uno.setVisible(true);
        uno.setLocationRelativeTo(null);
        uno.setTitle("Convertir ER a AFN");
-       uno.setDefaultCloseOperation(EXIT_ON_CLOSE);
+//       uno.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     @Override
@@ -137,6 +137,8 @@ public class ventanaER_AFN extends JFrame implements ActionListener{
                 ER_AFN conversion = new ER_AFN(cadenaConvertir,uno);
                 conversion.IniConversion();
                 resultado = conversion.result;
+                resultado.setIdAFN(idAFN);
+                AFN.ConjDeAFNs.add(resultado);
                 JOptionPane.showMessageDialog(null, "AFN Creado");
             } catch (IOException ex) {
                 Logger.getLogger(ventanaER_AFN.class.getName()).log(Level.SEVERE, null, ex);

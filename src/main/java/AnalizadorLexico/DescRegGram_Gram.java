@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class DescRegGram_Gram {
     public String Gramatica;
@@ -81,10 +80,10 @@ public class DescRegGram_Gram {
     boolean Reglas(){
         int token;
         String Simbolo = "";
-        AtomicReference<String> refSimbolo = new AtomicReference<String>();
-        refSimbolo.set(Simbolo);
-        if(LadoIzquierdo(refSimbolo)){
-            Vn.add(Simbolo);
+        String[] ref = new String[1];
+        ref[0] = Simbolo;
+        if(LadoIzquierdo(ref[0])){
+            Vn.add(ref[0]);
             token = L.yylex();
             if(token == TokensGram_Gram.FLECHA)
                 if(LadosDerechos(Simbolo))
@@ -93,11 +92,11 @@ public class DescRegGram_Gram {
         return false;
     }
     
-    boolean LadoIzquierdo(AtomicReference<String> refSimbolo){
+    boolean LadoIzquierdo(String Simbolo){
         int token;
         token = L.yylex();
         if(token == TokensGram_Gram.SIMBOLO){
-            refSimbolo.set(L.Lexema);
+            Simbolo = L.Lexema;
             return true;
         }
         return false;
@@ -123,10 +122,10 @@ public class DescRegGram_Gram {
     boolean LadoDerecho(String Simbolo){
         ClaseNodo elem = new ClaseNodo();
         ArrayList<ClaseNodo> Lista = new ArrayList<ClaseNodo>();
-        AtomicReference<ArrayList> refLista = new AtomicReference<ArrayList>();
-        refLista.set(Lista);
+        ArrayList[] ref = new ArrayList[1];
+        ref[0] = Lista;
         Lista.clear();
-        if(SecSimbolos(refLista)){
+        if(SecSimbolos(ref[0])){
             ArrReglas[NumReglas] = new ElemArreglo();
             ArrReglas[NumReglas].InfSimbolo = new ClaseNodo(Simbolo);
             ArrReglas[NumReglas++].ListaLadoDerecho = Lista;
@@ -134,27 +133,27 @@ public class DescRegGram_Gram {
         }
         return false;
     }
-    boolean SecSimbolos(AtomicReference<ArrayList> refLista){
+    boolean SecSimbolos(ArrayList Lista){
         int token; 
         ClaseNodo N;
         token = L.yylex();
         if(token == TokensGram_Gram.SIMBOLO){
             N = new ClaseNodo(L.Lexema);
-            if(SecSimbolosP(refLista)){
-                refLista.get().add(0,N);
+            if(SecSimbolosP(Lista)){
+                Lista.add(0,N);
                 return true;
             }
         }
         return false;
     }
-    boolean SecSimbolosP(AtomicReference<ArrayList> refLista){
+    boolean SecSimbolosP(ArrayList Lista){
         int token;
         ClaseNodo N;
         token = L.yylex();
         if(token == TokensGram_Gram.SIMBOLO){
            N = new ClaseNodo(L.Lexema);
-            if(SecSimbolosP(refLista)){
-                refLista.get().add(0,N);
+            if(SecSimbolosP(Lista)){
+                Lista.add(0,N);
                 return true;
             }
             return false;

@@ -1,6 +1,5 @@
 package AnalizadorLexico;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicReference;
         
 public class ER_AFN {
     //EQUIVALENCIAS PARA REF
@@ -32,13 +31,13 @@ public class ER_AFN {
   //USA EQUIVALENCIA 
    public boolean IniConversion(){
        int Token;
-       AtomicReference<AFN> refF = new AtomicReference<AFN>();
-       
+      AFN[] ref = new AFN[1];    
       AFN f = new AFN();
-       if(E(refF.get())){
+      ref[0] = f;
+       if(E(ref[0])){
            Token = L.yylex();
            if(Token==0){
-               this.result = f;
+               this.result = ref[0];
                return true;
            }
        }
@@ -46,9 +45,10 @@ public class ER_AFN {
    }
    //USA EQUIVALENCIA
    public boolean E(AFN f){
-       AtomicReference<AFN> refF = new AtomicReference<AFN>(f);
-       if(T(refF.get())){
-           if(Ep(refF.get())){
+       AFN[] ref = new AFN[1];
+       ref[0] = f;
+       if(T(ref[0])){
+           if(Ep(ref[0])){
                return true;
            }
        }

@@ -2,9 +2,6 @@ package AnalizadorLexico;
 import java.io.IOException;
         
 public class ER_AFN {
-    //EQUIVALENCIAS PARA REF
-    
-    //**EQUIVALENCIAS PARA REF
     
     //IMPLEMENTAR DESCENSO RECURSIVO PARA LAS E.R
    String ExprRegular;
@@ -31,13 +28,13 @@ public class ER_AFN {
   //USA EQUIVALENCIA 
    public boolean IniConversion(){
        int Token;
-      AFN[] ref = new AFN[1];    
+//      AFN[] ref = new AFN[1];    
       AFN f = new AFN();
-      ref[0] = f;
-       if(E(ref[0])){
+//      ref[0] = f;
+       if(E(f)){
            Token = L.yylex();
            if(Token==0){
-               this.result = ref[0];
+               this.result = f;
                return true;
            }
        }
@@ -45,10 +42,10 @@ public class ER_AFN {
    }
    //USA EQUIVALENCIA
    public boolean E(AFN f){
-       AFN[] ref = new AFN[1];
-       ref[0] = f;
-       if(T(ref[0])){
-           if(Ep(ref[0])){
+//       AFN[] ref = new AFN[1];
+//       ref[0] = f;
+       if(T(f)){
+           if(Ep(f)){
                return true;
            }
        }
@@ -151,7 +148,8 @@ public class ER_AFN {
                            simbolo2 = (L.Lexema.charAt(0) == '\\')?L.Lexema.charAt(1): L.Lexema.charAt(0);
                            Token  =L.yylex();
                            if(Token==90){ //CORCHETE DERECHO
-                               f = new AFN();
+//                               f = new AFN();
+                                System.out.println("Simbolo1: "+simbolo1+" Simbolo2"+simbolo2);
                                f.crearAFNBasico(simbolo1,simbolo2);
                                return true;
                            }
@@ -161,7 +159,7 @@ public class ER_AFN {
                return false;
            case 110: //SIMBOLO
                simbolo1 = (L.Lexema.charAt(0)== '\\')?L.Lexema.charAt(1) : L.Lexema.charAt(0);
-               f = new AFN();
+//               f = new AFN();
                f.crearAFNBasico(simbolo1);
                return true;
        }

@@ -14,9 +14,10 @@ import javax.swing.WindowConstants;
 
 
 public class ventanaMain extends JFrame {
-    public JButton boton;
-    public JTextField tf;
-    public JComboBox combo;
+    public JButton boton, botonAS, botonDR;
+    public JTextField tf, tfAS, tfDR;
+    public JComboBox combo;  
+    public JComboBox comboAS, comboDR;
     public JFrame v;
     
     public ventanaMain(){
@@ -32,9 +33,28 @@ public class ventanaMain extends JFrame {
     // Creacion del JTextField
     tf = new JTextField(50);
     add(tf);
+    
+    tfAS = new JTextField(50);
+    add(tfAS);
+    
+    tfDR = new JTextField(50);
+    add(tfDR);
+    
+    JLabel AFN = new JLabel("AFN´s");
+    AFN.setBounds(20,10,150,30); 
+    add(AFN);
+
+    JLabel AS = new JLabel("Analísis Sintactico");
+    AS.setBounds(230,10,150,30); 
+    add(AS);
+    
+    JLabel Sub = new JLabel("Submenú");
+    Sub.setBounds(390,10,150,30); 
+    add(Sub);
+    
     // Creacion del JComboBox y añadir los items.
     combo = new JComboBox();
-    combo.setBounds(260,29,200,20);
+    combo.setBounds(20,35,200,20);
     combo.addItem("Basico");
     combo.addItem("Unir");
     combo.addItem("Concatenar");
@@ -47,6 +67,17 @@ public class ventanaMain extends JFrame {
     combo.addItem("Analizar una cadena");
     combo.addItem("Probar analizador lexico");
     add(combo);
+    
+    comboAS = new JComboBox();
+    comboAS.setBounds(230,35,150,20);
+    comboAS.addItem("Descenso Recursivo");
+    add(comboAS);
+    
+    comboDR = new JComboBox();
+    comboDR.setBounds(390,35,150,20);
+    comboDR.addItem("Calculadora");
+    add(comboDR);
+    comboDR.setVisible(false);
 
     // Accion a realizar cuando el JComboBox cambia de item seleccionado.
     combo.addActionListener(new ActionListener() {
@@ -55,12 +86,36 @@ public class ventanaMain extends JFrame {
                     tf.setText(combo.getSelectedItem().toString());
             }
     });
+    
+    // Accion a realizar cuando el JComboBox cambia de item seleccionado.
+    comboAS.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    tfAS.setText(comboAS.getSelectedItem().toString());
+            }
+    });
+    
+        // Accion a realizar cuando el JComboBox cambia de item seleccionado.
+    comboDR.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    tfDR.setText(comboDR.getSelectedItem().toString());
+            }
+    });
 
     
     /*BOTONES*/            
-    boton = new JButton("Aplicar Seleccion");
-    boton.setBounds(380,320,140,20);
+    boton = new JButton("Seleccion AFN´s");
+    boton.setBounds(20,320,160,20);
     add(boton);
+    botonAS = new JButton("Seleccion AS");
+    botonAS.setBounds(230,320,150,20);
+    add(botonAS);
+    botonDR = new JButton("Seleccion Submenú");
+    botonDR.setBounds(390,320,150,20);
+    add(botonDR);
+    botonDR.setVisible(false);
+    
     boton.addActionListener(new ActionListener(){
         @Override
         public void actionPerformed(ActionEvent ae){
@@ -136,6 +191,80 @@ public class ventanaMain extends JFrame {
                        // uno.opciones(AFN1);
                         //hide();
 			 break;
+                       
+		 }
+	 }
+           
+        }
+    });
+    
+
+    botonAS.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent ae){
+            AFN AFN1=new AFN();
+            
+            
+             if (ae.getSource()==botonAS) { //aqui detecta si se hace un cambio en el JComboBox
+ 
+		 String seleccion=(String)comboAS.getSelectedItem(); //Se hace una variable que contiene lo que dice la opcion seleccionada
+ 
+		 switch (seleccion){ //con el switch comparamos cada opcion posible y le damos una accion
+	
+                     case "Descenso Recursivo":
+                        comboDR.setVisible(true);
+                        botonDR.setVisible(true);
+                        //hide();
+			break;
+                    case "Unir":
+                        
+                           
+                        //hide();
+                        break;
+                    case "Concatenar":
+                        
+
+                        //hide();
+                        break;
+
+                       
+		 }
+	 }
+           
+        }
+    });
+    
+    botonDR.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent ae){
+            AFN AFN1=new AFN();
+            
+            
+             if (ae.getSource()==botonDR) { //aqui detecta si se hace un cambio en el JComboBox
+ 
+		 String seleccion=(String)comboDR.getSelectedItem(); //Se hace una variable que contiene lo que dice la opcion seleccionada
+ 
+		 switch (seleccion){ //con el switch comparamos cada opcion posible y le damos una accion
+	
+                     case "Calculadora":
+                        ventanaEvaluadorExpr uno = new ventanaEvaluadorExpr();
+                        uno.opciones();
+                        //hide();
+			break;
+		 case "Unir":
+			
+                        ventanaUnion dos = new ventanaUnion(AFN1);
+                        dos.opciones(AFN1);
+                        //hide();
+			break;
+		 case "Concatenar":
+			
+                         ventanaConcatenacion tres = new ventanaConcatenacion(AFN1);
+                        tres.opciones(AFN1);
+                     
+                        //hide();
+			 break;
+
                        
 		 }
 	 }

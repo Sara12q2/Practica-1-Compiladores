@@ -4,6 +4,7 @@ import AnalizadorLexico.ClaseNodo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 public class DescRegGram_Gram {
@@ -12,8 +13,8 @@ public class DescRegGram_Gram {
     public ElemArreglo[] ArrReglas = new ElemArreglo[100];
     public int NumReglas = 0;
     
-    HashSet<String> Vn = new HashSet<String>();
-    HashSet<String> Vt = new HashSet<String>();
+    HashSet<String> Vn = new HashSet<String>();  //conjunto de nodos no terminales
+    HashSet<String> Vt = new HashSet<String>();  //conjunto de nodos terminales
 
     public DescRegGram_Gram(String sigma, String FileAFD, int IdentifAFD) throws IOException{
         Gramatica  = sigma;
@@ -119,7 +120,7 @@ public class DescRegGram_Gram {
         L.UndoToken();
         return true;
     }
-    boolean LadoDerecho(String Simbolo){
+     boolean LadoDerecho(String Simbolo){
         ClaseNodo elem = new ClaseNodo();
         ArrayList<ClaseNodo> Lista = new ArrayList<ClaseNodo>();
         ArrayList[] ref = new ArrayList[1];
@@ -170,6 +171,18 @@ public class DescRegGram_Gram {
                 if(!Vn.contains(N.Simbolo)){
                     N.Terminal = true;
                     Vt.add(N.Simbolo);
+                    ///////////IMPRIME////////////////
+                    Iterator itr=Vt.iterator();
+                    while(itr.hasNext()){
+                        System.out.println("Vt: "+itr.next());
+                    }
+                    
+                    for (int j = 0; j < Vt.size(); j++) {
+                        System.out.println("Vt**: "+Vt.toString());
+                        
+                        
+                    }
+                    ///////////IMPRIME////////////////
                 }
             }
         }

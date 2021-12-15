@@ -1,14 +1,19 @@
 package AnalizadorLexico;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,7 +41,7 @@ public class ventanaFirst extends JFrame {
 //    private JTextField cadena = new JTextField();
     private JTextField idObtenido = new JTextField();
     private JComboBox AFDop = new JComboBox();
-
+     HashSet<String> Resultado = new HashSet<String>();
     public String sigma;
     DescRegGram_Gram AnalizGram;
 
@@ -52,7 +57,7 @@ public class ventanaFirst extends JFrame {
     DefaultTableModel dtm = new DefaultTableModel(datos, columnNames);
     final JTable table = new JTable(dtm);
 
-    String[] columnFollow = {"Simbolo"};
+    String[] columnFollow = {"Simbolo No Terminal"};
     Object datosFollow[][] = {
         {"", ""},};
     DefaultTableModel foll = new DefaultTableModel(datosFollow, columnFollow);
@@ -86,20 +91,20 @@ public class ventanaFirst extends JFrame {
 //        
         //FileChooser-----------------------------------------------------------
         JButton btn = new JButton("Seleccionar Archivo del AFD");
-        btn.setBounds(20, 100, 180, 25);
+        btn.setBounds(205, 60, 180, 25);
         btn.setFont(new java.awt.Font("arial", 1, 10));
 //        btn.addActionListener(this);
         add(btn);
 
         JLabel etiquetaCadena = new JLabel("Cadena a analizar sintacticamente");
-        etiquetaCadena.setBounds(20, 100, 300, 100);
+        etiquetaCadena.setBounds(20, 70, 300, 100);
         etiquetaCadena.setFont(new java.awt.Font("arial", 1, 11));
         add(etiquetaCadena);
-        txt3.setBounds(210, 140, 280, 25);
+        txt3.setBounds(210, 110, 280, 25);
         add(txt3);
 
         JButton btn2 = new JButton("Analizar");
-        btn2.setBounds(280, 170, 80, 25);
+        btn2.setBounds(495, 110, 80, 25);
         btn2.setFont(new java.awt.Font("arial", 1, 10));
 //        btn2.addActionListener(this);
         add(btn2);
@@ -108,26 +113,32 @@ public class ventanaFirst extends JFrame {
         JScrollPane miBarra = new JScrollPane(table);
         this.getContentPane().add(miBarra, null);
         dtm.removeRow(0);
-        miBarra.setBounds(20, 220, 200, 200);
+        miBarra.setBounds(20, 190, 200, 200);
         miBarra.setVisible(true);
         table.setVisible(true);
 
         JButton first = new JButton("First");
-        first.setBounds(330, 210, 60, 25);
+        first.setBounds(330, 150, 60, 25);
         first.setFont(new java.awt.Font("arial", 1, 10));
 //        first.addActionListener(this);
         add(first);
 
-        txt4.setBounds(230, 210, 100, 26);
+        txt4.setBounds(230, 150, 100, 26);
         add(txt4);
+        
+        JButton ResetFollow = new JButton("Reset");
+        ResetFollow.setBounds(475, 150, 70, 25);
+        ResetFollow.setFont(new java.awt.Font("arial", 1, 10));
+//        follow.addActionListener(this);
+        add(ResetFollow);
 
         JButton follow = new JButton("Follow");
-        follow.setBounds(660, 210, 70, 25);
+        follow.setBounds(660, 150, 70, 25);
         follow.setFont(new java.awt.Font("arial", 1, 10));
 //        follow.addActionListener(this);
         add(follow);
 
-        txt5.setBounds(560, 210, 100, 26);
+        txt5.setBounds(560, 150, 100, 26);
         add(txt5);
 
         String[] columnNames2 = {"Simbolo"};
@@ -140,54 +151,30 @@ public class ventanaFirst extends JFrame {
         JScrollPane miBarra2 = new JScrollPane(table2);
         this.getContentPane().add(miBarra2, null);
         dtm2.removeRow(0);
-        miBarra2.setBounds(230, 240, 160, 200);
+        miBarra2.setBounds(230, 190, 160, 200);
         miBarra2.setVisible(true);
         table2.setVisible(true);
 
         JScrollPane BarraFollow = new JScrollPane(tableFollow);
         this.getContentPane().add(BarraFollow, null);
         foll.removeRow(0);
-        BarraFollow.setBounds(400, 220, 150, 200);
+        BarraFollow.setBounds(400, 190, 150, 200);
         BarraFollow.setVisible(true);
         tableFollow.setVisible(true);
 
         JScrollPane CalculaBarraFollow = new JScrollPane(CalculatableFollow);
         this.getContentPane().add(CalculaBarraFollow, null);
         Calculafoll.removeRow(0);
-        CalculaBarraFollow.setBounds(560, 240, 170, 200);
+        CalculaBarraFollow.setBounds(560, 190, 170, 200);
         CalculaBarraFollow.setVisible(true);
         CalculatableFollow.setVisible(true);
 
-        //**FileChooser-------------------------------------------------------- 
-        //**ETIQUETA Cadena a analizar-----------------------------------------------------------
-        //ETIQUETA Cadena a utilizar-----------------------------------------------------------
-//        JLabel expresion = new JLabel("Expresión regular");
-//        expresion.setBounds(100,180,300,20);
-//        expresion.setFont(new java.awt.Font("arial", 1, 14));
-//        add(expresion);
-//        //**ETIQUETA Cadena a analizar-----------------------------------------------------------
-//        cadena.setBounds(250,180, 200, 25);
-//        add(cadena);
-//        //ETIQUETA ID AFN-----------------------------------------------------------
-//        JLabel idAFN = new JLabel("ID AFN");
-//        idAFN.setBounds(100,220,300,20);
-//        idAFN.setFont(new java.awt.Font("arial", 1, 14));
-//        add(idAFN);
-//        //**ETIQUETA ID AFN-----------------------------------------------------------
-//        idObtenido.setBounds(250,220, 200, 25);
-//        add(idObtenido);
-//        //Boton Analizar-----------------------------------------------------------
-//        JButton btnAnalizar = new JButton("Crear AFN");
-//        btnAnalizar.setBounds(350, 255, 100, 25);
-//        btnAnalizar.addActionListener(this);
-//        add(btnAnalizar);
-        //**Boton Analizar--------------------------------------------------------
         btn.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
 
                 JFileChooser fileChooser = new JFileChooser("C:\\Users\\LENOVO\\OneDrive\\Documentos\\NetBeansProjects\\Practica-1-Compiladores");
-//        JFileChooser fileChooser = new JFileChooser();
+
                 fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("All Files", "txt", "gif");
                 fileChooser.setFileFilter(imgFilter);
@@ -204,7 +191,7 @@ public class ventanaFirst extends JFrame {
                         rutaArchivo = fileName.getAbsolutePath();
                         System.out.println("RUTA OBTENIDA: " + rutaArchivo);
                         try {
-//                           
+
                             AnalizGram = new DescRegGram_Gram(nombreArchivo, -1);
 
                         } catch (IOException ex) {
@@ -233,23 +220,164 @@ public class ventanaFirst extends JFrame {
                 cadena = txt3.getText();
                 System.out.println("cadena a evaluar: " + cadena);
                 AnalizGram.SetGramatica(cadena);
+                String[] renglones = new String[2];
 
                 if (AnalizGram.AnalizarGramatica()) {
                     System.out.println("Expresión sintácticamente correcta");
-//                    System.out.println(AnalizGram.Vn);
+                    JOptionPane.showMessageDialog(null, "Expresión sintácticamente correcta");
+//                  System.out.println(AnalizGram.Vn);
                     AnalizGram.IdentificarTerminales();
-//                      AnalizGram.Reglas();
-//                    Iterator itr = AnalizGram.Vn.iterator();
-//                    
-//                    
-//                    while (itr.hasNext()) {
-//                        System.out.println("iterador: "+itr.next());
-//                    }
+                    System.out.println("REGLAS :" + AnalizGram.Reglas());
+
+                    System.out.println("No Terminales: " + AnalizGram.Vn);
+                    System.out.println("Terminales: " + AnalizGram.Vt);
+                    /*Agrega terminales a tabla*/
+                    for (String f : AnalizGram.Vt) {
+
+                        renglones[0] = f;
+                        renglones[1] = "Terminal";
+                        Object[] newRow = {renglones[0], renglones[1]};
+                        dtm.addRow(newRow);
+
+                    }
+                    /*Agrega no terminales a la tabla*/
+                    for (String f : AnalizGram.Vn) {
+
+                        renglones[0] = f;
+                        renglones[1] = "No Terminal";
+                        Object[] newRow = {renglones[0], renglones[1]};
+                        dtm.addRow(newRow);
+                        foll.addRow(newRow);
+
+                    }
+                    
+                    /******************TABLA FIRST--ACCIONES********************/
+                    table.addMouseListener(new MouseAdapter() {
+                        public void mouseClicked(MouseEvent me) {
+                            JTable tableo = (JTable) me.getSource();
+                            Point lf=me.getPoint();
+//                            HashSet<String> Arr = new HashSet<String>();
+                            List<ClaseNodo> Arr = new ArrayList<ClaseNodo>();
+                            String[] ArrReglas = new String[10];
+                            Point p = me.getPoint();
+                            int row = tableo.rowAtPoint(p);
+                            txt4.setText(String.valueOf(tableo.getValueAt(row, 0)));
+
+                            ClaseNodo a, b;
+                            String sim = "Ep";
+                            boolean ter = false;
+                            String simb = "T";
+                            boolean terb = false;
+                            HashSet<String>Result=new HashSet<String>();
+                            HashSet<String> numeros = new HashSet<String>();
+//                            a = new ClaseNodo(String.valueOf(tableo.getValueAt(row, 0)), ter);
+//                            b = new ClaseNodo(String.valueOf(tableo.getValueAt(row, 0)), ter);
+                            a = new ClaseNodo(sim,ter);
+                            b = new ClaseNodo(simb,terb);
+                            System.out.println("pruebaaaaaaaa: " + String.valueOf(tableo.getValueAt(row, 0)) + ter);
+
+                            Arr.add(a);
+                            Arr.add(b);
+//                            
+//                            for (ClaseNodo f : Arr) {
+////                                System.out.println("Imprimir: " + f);
+//                            }
+
+                           
+                            numeros = AnalizGram.First(Arr);
+//                            System.out.println("numeros: " + AnalizGram.First(Arr));
+                            Iterator itr = numeros.iterator();
+                            while (itr.hasNext()) {
+                                System.out.println("First Result: " + itr.next());
+                            }
+                            
+                            
+                            
+                            
+                            ///////////////////////////////////////////////////////////
+                            first.addActionListener(new ActionListener() {
+
+                                public void actionPerformed(ActionEvent e) {
+                                    String cadena = txt4.getText();
+                                    System.out.println("Texto obtenido: " + cadena);
+                                    HashSet<String> Resultado = new HashSet<String>();
+                                    Resultado.add(cadena);
+                                    System.out.println("Resultado: " + Resultado.toString());
+
+//                                    Resultado=AnalizGram.Follow(cadena);
+//                                    for(String fg: Resultado){
+//                                        System.out.println("Followw: "+fg);
+//                                    
+//                                    }
+//                                    System.out.println("Calculaaaaaaaaaaa");
+////                            Resultado = txt4.getText();  
+                                }
+                            });
+
+                        }
+                    });
+                    
+                    /******************TABLA FOLLOW--ACCIONES********************/
+                    tableFollow.addMouseListener(new MouseAdapter() {
+                        public void mousePressed(MouseEvent me) {
+                            JTable tablep = (JTable) me.getSource();
+                            Point p = me.getPoint();
+                            int row = tablep.rowAtPoint(p);
+                            txt5.setText(String.valueOf(tablep.getValueAt(row, 0)));
+                            
+                             
+                            follow.addActionListener(new ActionListener() {
+
+                                public void actionPerformed(ActionEvent e) {
+                            
+
+                                   
+                                    String follo = txt5.getText();
+                                    System.out.println("Texto obtenido: " + follo);
+                                    Resultado = AnalizGram.Follow(follo);  //Determina el follow del simbolo
+                                    
+                                    
+                                    String[] renglonFollow = new String[1];
+                                    System.out.println("Follow calculado: " + Resultado);
+                                    
+                                    Iterator itr = Resultado.iterator();
+                                    while (itr.hasNext()) {
+                                        System.out.println("Resultado : " + itr.next());
+                                    }
+
+                                    System.out.println("Resultadooooo: "+Resultado.size());
+                                    for (String r : Resultado) {
+                                        System.out.println("Follow: " + r);
+
+                                        //Agrega el resultado de follow a la tabla
+                                        renglonFollow[0] = r;
+
+                                        Object[] newRow = {renglonFollow[0]};
+                                        Calculafoll.addRow(newRow);
+                                        
+                                        
+
+                                    }
+
+                                }
+                            });
+                            
+                            ResetFollow.addActionListener(new ActionListener() {
+
+                                public void actionPerformed(ActionEvent e) {
+                                Calculafoll.fireTableRowsDeleted(0, 6);
+                                  Calculafoll.setRowCount(0);
+                                  Resultado.clear();
+                                  
+                                }
+                            });
+                        }
+                    });
 
                 } else {
-//              
+                    JOptionPane.showMessageDialog(null, "Expresión sintácticamente incorrecta");
                     System.out.println("Expresión sintácticamente incorrecta.");
-//               
+
                 }
             }
         });
@@ -264,120 +392,6 @@ public class ventanaFirst extends JFrame {
         uno.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-//    @Override
-//    public void actionPerformed(ActionEvent e) {
-//        if (e.getActionCommand() == "Seleccionar Archivo del AFD") {
-//            JFileChooser fileChooser = new JFileChooser("C:\\Users\\LENOVO\\OneDrive\\Documentos\\NetBeansProjects\\Practica-1-Compiladores");
-//
-////            JFileChooser fileChooser = new JFileChooser("C:\\laragon\\www\\Practica-1-Compiladores");
-////        JFileChooser fileChooser = new JFileChooser();
-//            fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-//            FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("All Files", "txt", "gif");
-//            fileChooser.setFileFilter(imgFilter);
-//            int idAFD = 0;
-//            AFD uno = new AFD();
-//            int result = fileChooser.showOpenDialog(ventanaFirst.this);
-//            if (result != JFileChooser.CANCEL_OPTION) {
-//                File fileName = fileChooser.getSelectedFile();
-//                nombreArchivo = fileName.getName();
-//                System.out.println("nombre archivo: " + nombreArchivo);
-//                if ((fileName == null) || (fileName.getName().equals(""))) {
-//                    txt.setText("...");
-//                } else {
-//                    rutaArchivo = fileName.getAbsolutePath();
-//                    System.out.println("RUTA OBTENIDA: " + rutaArchivo);
-//                    try {
-//                        AnalizGram = new DescRegGram_Gram(nombreArchivo, -1);//nombre del archivo del AFD
-//                    } catch (IOException ex) {
-//                        Logger.getLogger(ventanaFirst.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-//            }
-//
-//            idAFD = Integer.parseInt(txt.getText());
-//            System.out.println("IdAFD: " + idAFD);
-//            try {
-//                uno.LeerAFDdeArchivo(rutaArchivo, idAFD);
-//            } catch (IOException ex) {
-//                System.out.println("ERROR");
-//                Logger.getLogger(ventanaFirst.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//            AFDop.addItem(String.valueOf(uno.IdAFD));
-//
-//        }
-//        
-//        boolean lado;
-//        String[] renglones = new String[2];
-//        if (e.getActionCommand() == "Analizar") {
-//
-//            String cadena;
-//            cadena = txt3.getText();
-//            System.out.println("Cadena a evaluar: " + cadena);
-//            AnalizGram.SetGramatica(cadena);
-//            lado= AnalizGram.Reglas();
-//            if(lado==false){
-//                //lado izquiero
-//                renglones[1]="No terminal";
-//                
-//            }else{
-//                //lado derecho
-//                renglones[1]="Terminal";
-//            }
-//           
-//           
-//            if (AnalizGram.AnalizarGramatica()) {
-//                System.out.println("Expresión sintácticamente correcta");
-//               
-//            } else {
-////              
-//                System.out.println("Expresión sintácticamente incorrecta.");
-////               
-//            }
-//            
-//            
-//            
-//            
-//            
-//            
-//            
-//            
-//            
-//
-//            ///////////////////////////////////////////////////////////////////////////
-////            //txt3= fiel que contiene el texto 
-////            String cadena;
-////            String[] renglones = new String[2];
-////            cadena = txt3.getText();
-////            System.out.println("Cadena a analizar: " + cadena);
-////            String partes[] = cadena.split(";");
-////            String div[] = {};
-////            System.out.println("PARTES: " + Arrays.asList(partes));
-////
-////            for (int i = 0; i < partes.length; i++) {
-////                System.out.println("PARTE 1: " + partes[i]);
-////                div = partes[i].split("->");
-////                System.out.println("division: " + Arrays.asList(div));
-////                System.out.println("DIVIISON: " + div[0]);
-////
-//////                renglones[0]=div[0];
-//////                renglones[1]="No terminal";
-////                renglones[0] = div[1];
-////                renglones[1] = "Terminal";
-////                Object[] newRow = {renglones[0], renglones[1]};
-////                dtm.addRow(newRow);
-////            }
-////            if(cadena.contains("Ep")){
-////                renglones[0]="Ep";
-////                renglones[1]="No terminal";
-////                
-////                Object[] newRow = {renglones[0],renglones[1]};
-////                                dtm.addRow(newRow);
-////            
-////            }
-//        }
-//
-//    }
     public static void main(String[] args) {
         ventanaFirst uno = new ventanaFirst();
         uno.opciones();

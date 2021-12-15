@@ -8,6 +8,7 @@ package AnalizadorLexico;
     public class Simb{
     public String simbolo;
     public boolean esTerminal;
+    public int Token;
     public Simb(){
      simbolo="";
      esTerminal=false;
@@ -18,6 +19,12 @@ package AnalizadorLexico;
         simbolo=s;
         esTerminal=cons;
     
+    }
+    
+    public Simb(String s, boolean cons, int token){
+        simbolo=s;
+        esTerminal=cons;
+        Token=token;
     }
    
     

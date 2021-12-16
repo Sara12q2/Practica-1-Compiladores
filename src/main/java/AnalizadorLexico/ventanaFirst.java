@@ -41,32 +41,59 @@ public class ventanaFirst extends JFrame {
 //    private JTextField cadena = new JTextField();
     private JTextField idObtenido = new JTextField();
     private JComboBox AFDop = new JComboBox();
-     HashSet<String> Resultado = new HashSet<String>();
+    HashSet<String> Resultado = new HashSet<String>();
+     HashSet<String> ResultadoFirst = new HashSet<String>();
     public String sigma;
     DescRegGram_Gram AnalizGram;
-
+    int row;
     String nombreArchivo;
     int idAux = 0;
     ArrayList<String> guardado = new ArrayList<String>();
     String rutaArchivo = null;
     int bandera = 0;
-
+    String follo;
     String[] columnNames = {"Simbolo", "Terminal",};
     Object datos[][] = {
         {"", ""},};
-    DefaultTableModel dtm = new DefaultTableModel(datos, columnNames);
+    DefaultTableModel dtm = new DefaultTableModel(datos, columnNames) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
     final JTable table = new JTable(dtm);
+
+    String[] columnNames2 = {"Simbolo"};
+    Object datos2[][] = {
+        {"", ""},};
+    DefaultTableModel dtm2 = new DefaultTableModel(datos2, columnNames2) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+    final JTable table2 = new JTable(dtm2);
 
     String[] columnFollow = {"Simbolo No Terminal"};
     Object datosFollow[][] = {
         {"", ""},};
-    DefaultTableModel foll = new DefaultTableModel(datosFollow, columnFollow);
+    DefaultTableModel foll = new DefaultTableModel(datosFollow, columnFollow) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
     final JTable tableFollow = new JTable(foll);
 
     String[] CalculacolumnFollow = {"Simbolo"};
     Object CalculadatosFollow[][] = {
         {"", ""},};
-    DefaultTableModel Calculafoll = new DefaultTableModel(CalculadatosFollow, CalculacolumnFollow);
+    DefaultTableModel Calculafoll = new DefaultTableModel(CalculadatosFollow, CalculacolumnFollow) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
     final JTable CalculatableFollow = new JTable(Calculafoll);
 
     public ventanaFirst() {
@@ -117,6 +144,11 @@ public class ventanaFirst extends JFrame {
         miBarra.setVisible(true);
         table.setVisible(true);
 
+        JButton ResetFirst = new JButton("Reset");
+        ResetFirst.setBounds(150, 150, 70, 25);
+        ResetFirst.setFont(new java.awt.Font("arial", 1, 10));
+        add(ResetFirst);
+
         JButton first = new JButton("First");
         first.setBounds(330, 150, 60, 25);
         first.setFont(new java.awt.Font("arial", 1, 10));
@@ -125,7 +157,7 @@ public class ventanaFirst extends JFrame {
 
         txt4.setBounds(230, 150, 100, 26);
         add(txt4);
-        
+
         JButton ResetFollow = new JButton("Reset");
         ResetFollow.setBounds(475, 150, 70, 25);
         ResetFollow.setFont(new java.awt.Font("arial", 1, 10));
@@ -140,12 +172,6 @@ public class ventanaFirst extends JFrame {
 
         txt5.setBounds(560, 150, 100, 26);
         add(txt5);
-
-        String[] columnNames2 = {"Simbolo"};
-        Object datos2[][] = {
-            {"", ""},};
-        DefaultTableModel dtm2 = new DefaultTableModel(datos2, columnNames2);
-        final JTable table2 = new JTable(dtm2);
 
         //TABLA
         JScrollPane miBarra2 = new JScrollPane(table2);
@@ -240,6 +266,7 @@ public class ventanaFirst extends JFrame {
                         dtm.addRow(newRow);
 
                     }
+//                    table.isCellEditable(renglones[0], NORMAL);
                     /*Agrega no terminales a la tabla*/
                     for (String f : AnalizGram.Vn) {
 
@@ -250,129 +277,182 @@ public class ventanaFirst extends JFrame {
                         foll.addRow(newRow);
 
                     }
-                    
-                    /******************TABLA FIRST--ACCIONES********************/
+//                    
+
+                    /**
+                     * ****************TABLA FIRST--ACCIONES*******************
+                     */
                     table.addMouseListener(new MouseAdapter() {
                         public void mouseClicked(MouseEvent me) {
                             JTable tableo = (JTable) me.getSource();
-                            Point lf=me.getPoint();
-//                            HashSet<String> Arr = new HashSet<String>();
+                            Point p = me.getPoint();
+                            boolean terminal;
+                            String primerElement;
+                            int row = tableo.rowAtPoint(p);
+                            
+                            txt4.setText(String.valueOf(tableo.getValueAt(row, 0))+" "+String.valueOf(tableo.getValueAt(row, 1)));
+                            primerElement=String.valueOf(tableo.getValueAt(row, 0));
+                            System.out.println("primer Element: "+primerElement);
+                            System.out.println("Terminal? "+String.valueOf(tableo.getValueAt(row, 1)));
+                            if(String.valueOf(tableo.getValueAt(row, 1))=="Terminal"){
+                                
+                                terminal=true;
+                                
+                            }else{
+                                 
+                                terminal=false;
+                            }
+                            
                             List<ClaseNodo> Arr = new ArrayList<ClaseNodo>();
                             String[] ArrReglas = new String[10];
-                            Point p = me.getPoint();
-                            int row = tableo.rowAtPoint(p);
-                            txt4.setText(String.valueOf(tableo.getValueAt(row, 0)));
+                           
 
                             ClaseNodo a, b;
-                            String sim = "Ep";
-                            boolean ter = false;
-                            String simb = "T";
-                            boolean terb = false;
-                            HashSet<String>Result=new HashSet<String>();
+                            a = new ClaseNodo(primerElement, terminal);
+                            
+//                            String sim = "Ep";
+//                            boolean ter = false;
+//                            String simb = "T";
+//                            boolean terb = false;
+//                            HashSet<String> Result = new HashSet<String>();
                             HashSet<String> numeros = new HashSet<String>();
+                            String [] renglonFirst=new String[1];
 //                            a = new ClaseNodo(String.valueOf(tableo.getValueAt(row, 0)), ter);
 //                            b = new ClaseNodo(String.valueOf(tableo.getValueAt(row, 0)), ter);
-                            a = new ClaseNodo(sim,ter);
-                            b = new ClaseNodo(simb,terb);
-                            System.out.println("pruebaaaaaaaa: " + String.valueOf(tableo.getValueAt(row, 0)) + ter);
+//                            
+//                            b = new ClaseNodo(simb, terb);
+//                            System.out.println("pruebaaaaaaaa: " + String.valueOf(tableo.getValueAt(row, 0)) + ter);
 
                             Arr.add(a);
-                            Arr.add(b);
-//                            
-//                            for (ClaseNodo f : Arr) {
-////                                System.out.println("Imprimir: " + f);
-//                            }
+//                            Arr.add(b);
 
-                           
                             numeros = AnalizGram.First(Arr);
-//                            System.out.println("numeros: " + AnalizGram.First(Arr));
                             Iterator itr = numeros.iterator();
                             while (itr.hasNext()) {
                                 System.out.println("First Result: " + itr.next());
                             }
                             
+                            for(String one: numeros){
+                                renglonFirst[0]=one;
+                                Object[] newRow ={renglonFirst[0]};
+                                dtm2.addRow(newRow);
+                            }
                             
-                            
-                            
-                            ///////////////////////////////////////////////////////////
-                            first.addActionListener(new ActionListener() {
+                        }
+                    });
+                    ///////////////////////////////////////////////////////////
+                    first.addActionListener(new ActionListener() {
 
-                                public void actionPerformed(ActionEvent e) {
-                                    String cadena = txt4.getText();
-                                    System.out.println("Texto obtenido: " + cadena);
-                                    HashSet<String> Resultado = new HashSet<String>();
-                                    Resultado.add(cadena);
-                                    System.out.println("Resultado: " + Resultado.toString());
-
-//                                    Resultado=AnalizGram.Follow(cadena);
-//                                    for(String fg: Resultado){
+                        public void actionPerformed(ActionEvent e) {
+                            boolean terminal;
+                            String primerElement;
+                            String cadena = txt4.getText();
+                            System.out.println("Texto obtenido: " + cadena);
+//                            
+//                             primerElement=String.valueOf(tableo.getValueAt(row, 0));
+//                            System.out.println("primer Element: "+primerElement);
+//                            System.out.println("Terminal? "+String.valueOf(tableo.getValueAt(row, 1)));
+//                            if(String.valueOf(tableo.getValueAt(row, 1))=="Terminal"){
+//                                
+//                                terminal=true;
+//                                
+//                            }else{
+//                                 
+//                                terminal=false;
+//                            }
+//                           
+//                            List<ClaseNodo> Arr = new ArrayList<ClaseNodo>();
+//                            String[] ArrReglas = new String[10];
+//                           
+//
+//                            ClaseNodo a, b;
+//                            a = new ClaseNodo(primerElement, terminal);
+//                            
+////                            String sim = "Ep";
+////                            boolean ter = false;
+////                            String simb = "T";
+////                            boolean terb = false;
+////                            HashSet<String> Result = new HashSet<String>();
+//                            HashSet<String> numeros = new HashSet<String>();
+////                            a = new ClaseNodo(String.valueOf(tableo.getValueAt(row, 0)), ter);
+////                            b = new ClaseNodo(String.valueOf(tableo.getValueAt(row, 0)), ter);
+////                            
+////                            b = new ClaseNodo(simb, terb);
+////                            System.out.println("pruebaaaaaaaa: " + String.valueOf(tableo.getValueAt(row, 0)) + ter);
+//
+//                            Arr.add(a);
+////                            Arr.add(b);
+//
+//                            numeros = AnalizGram.First(Arr);
+//                            Iterator itr = numeros.iterator();
+//                            while (itr.hasNext()) {
+//                                System.out.println("First Result: " + itr.next());
+//                            }
+//
+////                                    Resultado=AnalizGram.Follow(cadena);
+////                                    for(String fg: Resultado){
 //                                        System.out.println("Followw: "+fg);
 //                                    
 //                                    }
 //                                    System.out.println("Calculaaaaaaaaaaa");
 ////                            Resultado = txt4.getText();  
-                                }
-                            });
-
                         }
                     });
-                    
-                    /******************TABLA FOLLOW--ACCIONES********************/
+                    ResetFirst.addActionListener(new ActionListener() {
+
+                        public void actionPerformed(ActionEvent e) {
+                            dtm2.setRowCount(0);
+                        }
+                    });
+
+                    /**
+                     * ****************TABLA
+                     * FOLLOW--ACCIONES*******************
+                     */
                     tableFollow.addMouseListener(new MouseAdapter() {
                         public void mousePressed(MouseEvent me) {
                             JTable tablep = (JTable) me.getSource();
                             Point p = me.getPoint();
-                            int row = tablep.rowAtPoint(p);
+                            row = tablep.rowAtPoint(p);
+
                             txt5.setText(String.valueOf(tablep.getValueAt(row, 0)));
-                            
-                             
-                            follow.addActionListener(new ActionListener() {
+//                            txt5.removeActionListener(AFDop); //INVESTIGAR FUNCIONAMIENTO
 
-                                public void actionPerformed(ActionEvent e) {
-                            
-
-                                   
-                                    String follo = txt5.getText();
-                                    System.out.println("Texto obtenido: " + follo);
-                                    Resultado = AnalizGram.Follow(follo);  //Determina el follow del simbolo
-                                    
-                                    
-                                    String[] renglonFollow = new String[1];
-                                    System.out.println("Follow calculado: " + Resultado);
-                                    
-                                    Iterator itr = Resultado.iterator();
-                                    while (itr.hasNext()) {
-                                        System.out.println("Resultado : " + itr.next());
-                                    }
-
-                                    System.out.println("Resultadooooo: "+Resultado.size());
-                                    for (String r : Resultado) {
-                                        System.out.println("Follow: " + r);
-
-                                        //Agrega el resultado de follow a la tabla
-                                        renglonFollow[0] = r;
-
-                                        Object[] newRow = {renglonFollow[0]};
-                                        Calculafoll.addRow(newRow);
-                                        
-                                        
-
-                                    }
-
-                                }
-                            });
-                            
-                            ResetFollow.addActionListener(new ActionListener() {
-
-                                public void actionPerformed(ActionEvent e) {
-                                Calculafoll.fireTableRowsDeleted(0, 6);
-                                  Calculafoll.setRowCount(0);
-                                  Resultado.clear();
-                                  
-                                }
-                            });
                         }
                     });
+                    follow.addActionListener(new ActionListener() {
+
+                        public void actionPerformed(ActionEvent e) {
+
+                            follo = txt5.getText();
+                            System.out.println("Texto obtenido: " + follo);
+                            
+                            Resultado = AnalizGram.Follow(follo);  //Determina el follow del simbolo
+
+                            String[] renglonFollow = new String[1];
+                            System.out.println("Follow calculado: " + Resultado);
+
+                            for (String r : Resultado) {
+
+                                //Agrega el resultado de follow a la tabla
+                                renglonFollow[0] = r;
+
+                                Object[] newRow = {renglonFollow[0]};
+                                Calculafoll.addRow(newRow);
+//                                System.out.println("NeRow: " + newRow.length);
+                            }
+
+                        }
+                    });
+//                    row = 0;
+//                    System.out.println("Rowwwwwwwwww: " + row);
+                    ResetFollow.addActionListener(new ActionListener() {
+
+                        public void actionPerformed(ActionEvent e) {
+                            Calculafoll.setRowCount(0);
+ }
+                    });
+//                    row = 0;
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Expresión sintácticamente incorrecta");

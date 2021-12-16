@@ -37,8 +37,8 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\12\0\1\3\35\0\1\13\1\12\1\7\1\11\1\0\1\10\1\4"+
-    "\1\6\12\2\3\0\1\5\43\0\32\1\uff85\0";
+    "\\12\\0\\1\\3\\35\\0\\1\\13\\1\\12\\1\\7\\1\\11\\1\\0\\1\\10\\1\\4"+
+    "\\1\\6\\12\\2\\3\\0\\1\\5\\43\\0\\32\\1\\uff85\\0";
 
   /** 
    * Translates characters to character classes
@@ -632,7 +632,7 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
           }
         case 20: break;
         case 5: 
-          { return symbol(AnalizadorSintacticoSym.opAsig);
+          { return symbol(AnalizadorSintacticoSym.Asig);
           }
         case 21: break;
         case 6: 
@@ -643,7 +643,7 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
           if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
             zzAtEOF = true;
             zzDoEOF();
-              { return new java_cup.runtime.Symbol(sym.EOF); }
+              { return new java_cup.runtime.Symbol(AnalizadorSintacticoSym.EOF); }
           } 
           else {
             zzScanError(ZZ_NO_MATCH);

@@ -26,16 +26,15 @@ import java.io.Reader;
 LetraMin=[a-z]
 Digito=[0-9]
 %% /* Ahora van las expresiones regulares */
+[ \t]+                  { ;}
 "\n"                    {return symbol(AnalizadorSintacticoSym.Enter);}
 {Digito}+(\.{Digito}+)? {return symbol(AnalizadorSintacticoSym.NUM,new Float(yytext()));}
-"="                     {return symbol(AnalizadorSintacticoSym.opAsig);}
+"="                     {return symbol(AnalizadorSintacticoSym.Asig);}
 "/"                     {return symbol(AnalizadorSintacticoSym.opDiv);}
 "*"                     {return symbol(AnalizadorSintacticoSym.opProd);}
 "-"                     {return symbol(AnalizadorSintacticoSym.opResta);}
 "+"                     {return symbol(AnalizadorSintacticoSym.opSuma);}
 ")"                     {return symbol(AnalizadorSintacticoSym.ParDer);}
 "("                     {return symbol(AnalizadorSintacticoSym.ParIzq);}
-{LetraMin}              {int IndVar; 
-                        IndVar=(int)(yytext().charAt(0))-(int)'a'; 
-                        return symbol(AnalizadorSintacticoSym.VAR,new Integer(IndVar));}
+{LetraMin}              {int IndVar; IndVar=(int)(yytext().charAt(0))-(int)'a'; return symbol(AnalizadorSintacticoSym.VAR,new Integer(IndVar));}
 . {return symbol(AnalizadorSintacticoSym.error);}

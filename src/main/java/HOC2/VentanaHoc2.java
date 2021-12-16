@@ -1,9 +1,8 @@
 package HOC2;
-
-
 import AnalizadorLexico.AFD;
 import AnalizadorLexico.AFN;
 import AnalizadorLexico.ER_AFN;
+import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -30,9 +29,9 @@ import javax.swing.JTextField;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class VentanaHoc2 extends JFrame implements ActionListener{
-    private JTextField txt = new JTextField();
-    private JTextField cadena = new JTextField();
-    private JTextField idObtenido = new JTextField();
+    private TextArea txt = new TextArea();
+    private TextArea cadena = new TextArea();
+    private TextArea idObtenido = new TextArea();
 
         
     public VentanaHoc2(){
@@ -85,7 +84,6 @@ public class VentanaHoc2 extends JFrame implements ActionListener{
         PrintWriter escribir;
         idObtenido.setText("");
         cadena.setText("");
-
         try {
             escribir = new PrintWriter(ArchEntrada);
             escribir.print(txt.getText());
@@ -98,50 +96,52 @@ public class VentanaHoc2 extends JFrame implements ActionListener{
         try {
             Reader lector;
             lector = new BufferedReader(new FileReader("ArchEntrada.txt"));
-            
             AnalizadorLexico AnalizLexico = new AnalizadorLexico(lector);
             do{
                 simb = AnalizLexico.next_token();
                 CadAux = Integer.toString(simb.sym);
                 Lexema = AnalizLexico.yytext();
                 if(simb.sym == AnalizadorSintacticoSym.EOF)
-                    CadAux = "Token: " + CadAux + "\tidentToken: FIN \n";
+                    CadAux = "Token: " + CadAux + " \tidentToken: FIN \n";
                 else
                     switch(simb.sym){
                         case AnalizadorSintacticoSym.Enter:
-                            CadAux = "Token: " + CadAux + "\tidentToken: Enter\t Lexema:" +Lexema;
+                            CadAux = "Token: " + CadAux + " \tidentToken: Enter   \t Lexema:" +Lexema;
                             break;
                         case AnalizadorSintacticoSym.NUM:
-                            CadAux = "Token: " + CadAux + "\tidentToken: NUM\t Lexema:" +Lexema+"\n";
+                            CadAux = "Token: " + CadAux + "\tidentToken: NUM     \t Lexema:" +Lexema+"\n";
+                            break;
+                        case AnalizadorSintacticoSym.Asig:
+                            CadAux = "Token: " + CadAux + " \tidentToken: Asig     \t Lexema:" +Lexema+"\n";
                             break;
                         case AnalizadorSintacticoSym.opSuma:
-                            CadAux = "Token: " + CadAux + "\tidentToken: opSuma\t Lexema:" +Lexema+"\n";
+                            CadAux = "Token: " + CadAux + " \tidentToken: opSuma \t Lexema:" +Lexema+"\n";
                             break;
                         case AnalizadorSintacticoSym.opResta:
-                            CadAux = "Token: " + CadAux + "\tidentToken: opResta\t Lexema:" +Lexema+"\n";
+                            CadAux = "Token: " + CadAux + " \tidentToken: opResta\t Lexema:" +Lexema+"\n";
                             break;
                         case AnalizadorSintacticoSym.opProd:
-                            CadAux = "Token: " + CadAux + "\tidentToken: opProd\t Lexema:" +Lexema+"\n";
+                            CadAux = "Token: " + CadAux + " \tidentToken: opProd \t Lexema:" +Lexema+"\n";
                             break;
                         case AnalizadorSintacticoSym.opDiv:
-                            CadAux = "Token: " + CadAux + "\tidentToken: opDiv\t Lexema:" +Lexema+"\n";
+                            CadAux = "Token: " + CadAux + " \tidentToken: opDiv  \t Lexema:" +Lexema+"\n";
                             break;                      
                         case AnalizadorSintacticoSym.ParIzq:
-                            CadAux = "Token: " + CadAux + "\tidentToken: ParIzq\t Lexema:" +Lexema+"\n";
+                            CadAux = "Token: " + CadAux + " \tidentToken: ParIzq \t Lexema:" +Lexema+"\n";
                             break;                       
                         case AnalizadorSintacticoSym.ParDer:
-                            CadAux = "Token: " + CadAux + "\tidentToken: ParDer\t Lexema:" +Lexema+"\n";
+                            CadAux = "Token: " + CadAux + " \tidentToken: ParDer \t Lexema:" +Lexema+"\n";
                             break;         
                         case AnalizadorSintacticoSym.error:
-                            CadAux = "Token: " + CadAux + "\tidentToken: ERROR\t Lexema:" +Lexema+"\n";
+                            CadAux = "Token: " + CadAux + " \tidentToken: ERROR  \t Lexema:" +Lexema+"\n";
                             break;                        
                         case AnalizadorSintacticoSym.VAR:
-                            CadAux = "Token: " + CadAux + "\tidentToken: VAR\t Lexema:" +Lexema+"indice = "+ Integer.toString((Integer)simb.value)+"\n";
-                            break;      
+                            CadAux = "Token: " + CadAux + "\tidentToken: VAR     \t Lexema:" +Lexema+"indice = "+ Integer.toString((Integer)simb.value)+"\n";
+                            break;       
                         default:
-                            CadAux = "Token: " + CadAux + "\tidentToken: OTRO\t Lexema:" +AnalizLexico.yytext()+"\n";
+                            CadAux = "Token: " + CadAux + " \tidentToken: OTRO    \t Lexema:" +AnalizLexico.yytext()+"\n";
                     }
-//                idObtenido.append(CadAux);
+                cadena.append(CadAux);
             }while(simb.sym!=AnalizadorSintacticoSym.EOF);
         } catch (FileNotFoundException ex) {
             
@@ -152,10 +152,26 @@ public class VentanaHoc2 extends JFrame implements ActionListener{
         }
         
         if( e.getActionCommand()=="Analizar Sintacticamente" ){
-
+            try {
+                AnalizadorSintactico Sintac = new AnalizadorSintactico(
+                        new AnalizadorLexico(new FileReader("ArchEntrada.txt")));
+                Sintac.hocInterfaz = this;
+                
+                Object result = Sintac.parse().value;
+                idObtenido.setText("\n FIN DEL ANÁLISIS SINTÁCTICO");
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(VentanaHoc2.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(VentanaHoc2.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
                
     }   
+    
+    public void PonerTextSintact(String texto){
+        idObtenido.append(texto);
+    }
+    
     public static void main(String[] args) {
         VentanaHoc2 uno = new VentanaHoc2();
         uno.opciones();

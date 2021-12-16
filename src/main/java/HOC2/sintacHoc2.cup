@@ -6,6 +6,8 @@ import java.io.FileReader;
 class AnalizadorSintactico;
 
 parser code {:
+    VentanaHoc2 hocInterfaz; /* new VentanaHoc2*/
+    Float variables[] = new Float[26];
 
     public void report_error(String mensaje, Object info){
         StringBuilder m = new StringBuilder("Error");
@@ -21,8 +23,8 @@ parser code {:
         System.err.println(m);
     }
 
-    public void report_fatal_error(String mssg, Object info){
-        report_error(mssg, info);
+    public void report_fatal_error(String message, Object info){
+        report_error(message, info);
         System.exit(1);
     }
 
@@ -43,23 +45,28 @@ precedence left opSuma, opResta;
 precedence left opProd, opDiv;
 precedence left UMINUS;
 
+
 list    ::=
         | Enter
-        | list expr Enter                  
+        | list expr:e Enter       {: hocInterfaz.PonerTextSintact(Float.toString(e)+"\n"); :}
         ;
 
-asgn    ::= VAR Asig expr
+asgn    ::= VAR:indVar Asig expr:valExpr   {: RESULT = variables[indVar] = valExpr; :}
         ;
 
-expr    ::= NUM             
-        | VAR                
-        | asgn           
-        | expr opSuma expr    
-        | expr opResta expr   
-        | expr opProd expr   
-        | expr opDiv expr   
-        | ParIzq expr ParDer      
-        | opResta expr  %prec UMINUS
+expr    ::= NUM:valNum              {: RESULT=valNum; :}
+        | VAR:indVar                {: RESULT = variables[indVar]; :}
+        | asgn:valAsgn              {: RESULT=valAsgn; :}
+        | expr:e1 opSuma expr:e2    {: RESULT=e1+e2; :}
+        | expr:e1 opResta expr:e2   {: RESULT=e1-e2; :}
+        | expr:e1 opProd expr:e2    {: RESULT=e1*e2; :}
+        | expr:e1 opDiv expr:e2     {: RESULT=e1/e2; :}
+        | ParIzq expr:e ParDer      {: RESULT=e; :}
+        | opResta expr:e            {: RESULT=-e; :} %prec UMINUS
         ;
+
+
+
+
 
 

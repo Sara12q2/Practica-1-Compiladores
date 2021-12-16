@@ -27,7 +27,7 @@ LetraMin=[a-z]
 Digito=[0-9]
 %% /* Ahora van las expresiones regulares */
 [ \t]+                  { ;}
-"\n"                    {return symbol(AnalizadorSintacticoSym.Enter);}
+"\r""\n"                   {return symbol(AnalizadorSintacticoSym.Enter);}
 {Digito}+(\.{Digito}+)? {return symbol(AnalizadorSintacticoSym.NUM,new Float(yytext()));}
 "="                     {return symbol(AnalizadorSintacticoSym.Asig);}
 "/"                     {return symbol(AnalizadorSintacticoSym.opDiv);}

@@ -77,13 +77,13 @@ public class VentanaHoc2 extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
 
         if( e.getActionCommand()=="Analizar Lexicamente" ){
-                    Symbol simb;
-        String Lexema = new String();
-        String CadAux = new String();
-        File ArchEntrada = new File("ArchEntrada.txt");
-        PrintWriter escribir;
-        idObtenido.setText("");
-        cadena.setText("");
+            Symbol simb;
+            String Lexema = new String();
+            String CadAux = new String();
+            File ArchEntrada = new File("./ArchEntrada.txt");
+            PrintWriter escribir;
+            idObtenido.setText("");
+            cadena.setText("");
         try {
             escribir = new PrintWriter(ArchEntrada);
             escribir.print(txt.getText());
@@ -153,12 +153,15 @@ public class VentanaHoc2 extends JFrame implements ActionListener{
         
         if( e.getActionCommand()=="Analizar Sintacticamente" ){
             try {
+                FileReader info = new FileReader("ArchEntrada.txt");
                 AnalizadorSintactico Sintac = new AnalizadorSintactico(
-                        new AnalizadorLexico(new FileReader("ArchEntrada.txt")));
-                Sintac.hocInterfaz = this;
-                
+                        new AnalizadorLexico(info));
+                System.out.println("ENTRADA: "+info);
+                Sintac.ventana = this;
+                System.out.println("NO SE QUE ES: "+this);
                 Object result = Sintac.parse().value;
-                idObtenido.setText("\n FIN DEL ANÁLISIS SINTÁCTICO");
+                System.out.println("OBJETO: "+result);
+                idObtenido.append("\n FIN DEL ANÁLISIS SINTÁCTICO");
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(VentanaHoc2.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
@@ -168,7 +171,7 @@ public class VentanaHoc2 extends JFrame implements ActionListener{
                
     }   
     
-    public void PonerTextSintact(String texto){
+    public void PonerTextSintac(String texto){
         idObtenido.append(texto);
     }
     

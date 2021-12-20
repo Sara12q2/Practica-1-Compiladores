@@ -1,20 +1,16 @@
-/* Analizador Lexico */
 package HOC2;
 import java_cup.runtime.*;
 import java.io.Reader;
-
-%% /* inicio de declaraciones JFlex */
+%%
 %class AnalizadorLexico
-%line /*Se habilita el contador de líneas. Variable yyline, de tipo integer */
-%column /*Se habilita el contado de columnas. Variable yycolumn, de tipo integer */
-%char /*Se habilita el contador de caracteres. Variable yychar, de tipo long */
-%cup /*Se habilita la compatibilidad con java cup */
+%line
+%column
+%char
+%cup
 
-/* El código entre %{ y %} se copia tal cual dentro de la clase de analizador léxico */
 %{
-/* Se crean los objetos Symbol para ser utilizados durante la sintésis de los atributos */
     private Symbol symbol(int type){
-        return new Symbol(type,yyline,yycolumn);
+        return new Symbol(type, yyline,yycolumn);
     }
 
     private Symbol symbol(int type, Object value){
@@ -22,13 +18,12 @@ import java.io.Reader;
     }
 %}
 
-/* Hacemos algunas definiciones regulares, o macro definiciones */
-LetraMin=[a-z]
-Digito=[0-9]
-%% /* Ahora van las expresiones regulares */
+LetraMin = [a-z]
+Digito = [0-9]
+%%
 [ \t]+                  { ;}
-"\r""\n"                   {return symbol(AnalizadorSintacticoSym.Enter);}
-{Digito}+(\.{Digito}+)? {return symbol(AnalizadorSintacticoSym.NUM,new Float(yytext()));}
+"\r""\n"                {return symbol(AnalizadorSintacticoSym.Enter);}
+{Digito}+(\.{Digito}+)? {return symbol(AnalizadorSintacticoSym.NUM, new Float(yytext()));}
 "="                     {return symbol(AnalizadorSintacticoSym.Asig);}
 "/"                     {return symbol(AnalizadorSintacticoSym.opDiv);}
 "*"                     {return symbol(AnalizadorSintacticoSym.opProd);}

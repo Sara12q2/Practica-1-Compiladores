@@ -26,32 +26,43 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 public class ventanaFirst extends JFrame {
 
     private JTextField txt = new JTextField();
     private JTextField txt2 = new JTextField();
     private JTextField txt3 = new JTextField();
+    private JTextField txtNum = new JTextField();
     private JTextField txt4 = new JTextField();
+    private JTextField txtTerminal = new JTextField();
     private JTextField txt5 = new JTextField();
 //    private JTextField cadena = new JTextField();
     private JTextField idObtenido = new JTextField();
     private JComboBox AFDop = new JComboBox();
     HashSet<String> Resultado = new HashSet<String>();
-     HashSet<String> ResultadoFirst = new HashSet<String>();
+    HashSet<String> ResultadoFirst = new HashSet<String>();
     public String sigma;
+    JTable tabla = new JTable();
     DescRegGram_Gram AnalizGram;
-    int row;
+    int row, primero;
+    String elementos;
     String nombreArchivo;
     int idAux = 0;
     ArrayList<String> guardado = new ArrayList<String>();
     String rutaArchivo = null;
     int bandera = 0;
     String follo;
+    int contador = 0;
+    int n = 3;
     String[] columnNames = {"Simbolo", "Terminal",};
     Object datos[][] = {
         {"", ""},};
@@ -113,14 +124,10 @@ public class ventanaFirst extends JFrame {
         //**ETIQUETA IDAsignado-----------------------------------------------------------
         txt.setBounds(100, 60, 100, 25);
         add(txt);
-//        txt2.setBounds(300,30, 250, 25);
-//        add(txt2);
-//        
         //FileChooser-----------------------------------------------------------
         JButton btn = new JButton("Seleccionar Archivo del AFD");
         btn.setBounds(205, 60, 180, 25);
         btn.setFont(new java.awt.Font("arial", 1, 10));
-//        btn.addActionListener(this);
         add(btn);
 
         JLabel etiquetaCadena = new JLabel("Cadena a analizar sintacticamente");
@@ -133,65 +140,98 @@ public class ventanaFirst extends JFrame {
         JButton btn2 = new JButton("Analizar");
         btn2.setBounds(495, 110, 80, 25);
         btn2.setFont(new java.awt.Font("arial", 1, 10));
-//        btn2.addActionListener(this);
         add(btn2);
 
         //TABLA
         JScrollPane miBarra = new JScrollPane(table);
         this.getContentPane().add(miBarra, null);
         dtm.removeRow(0);
-        miBarra.setBounds(20, 190, 200, 200);
+        miBarra.setBounds(20, 190, 200, 200); //750
         miBarra.setVisible(true);
         table.setVisible(true);
 
+        JScrollPane scroll = new JScrollPane(tabla);
+        scroll.setBounds(230, 190, 200, 200);
+        add(scroll);
+        DefaultTableModel model = new DefaultTableModel() {
+            public Class<?> getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return Boolean.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return String.class;
+                    default:
+                        return String.class;
+                }
+            }
+            boolean[] canEdit = new boolean[]{
+                true, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        };
+        tabla.setModel(model);
+        model.addColumn("Add");
+        model.addColumn("Elemento");
+        model.addColumn("Terminal");
+
+        JButton numElemento = new JButton("Add");
+        numElemento.setBounds(160, 150, 60, 25);
+        numElemento.setFont(new java.awt.Font("arial", 1, 10));
+        add(numElemento);
+
+//        txtNum.setBounds(20, 150, 55, 26);
+//        add(txtNum);
+
         JButton ResetFirst = new JButton("Reset");
-        ResetFirst.setBounds(150, 150, 70, 25);
+        ResetFirst.setBounds(230, 150, 70, 25);
         ResetFirst.setFont(new java.awt.Font("arial", 1, 10));
         add(ResetFirst);
 
         JButton first = new JButton("First");
-        first.setBounds(330, 150, 60, 25);
+        first.setBounds(350, 150, 80, 25);
         first.setFont(new java.awt.Font("arial", 1, 10));
-//        first.addActionListener(this);
         add(first);
 
-        txt4.setBounds(230, 150, 100, 26);
-        add(txt4);
 
         JButton ResetFollow = new JButton("Reset");
-        ResetFollow.setBounds(475, 150, 70, 25);
+        ResetFollow.setBounds(690, 150, 70, 25);
         ResetFollow.setFont(new java.awt.Font("arial", 1, 10));
 //        follow.addActionListener(this);
         add(ResetFollow);
 
         JButton follow = new JButton("Follow");
-        follow.setBounds(660, 150, 70, 25);
+        follow.setBounds(873, 150, 70, 25);
         follow.setFont(new java.awt.Font("arial", 1, 10));
 //        follow.addActionListener(this);
         add(follow);
 
-        txt5.setBounds(560, 150, 100, 26);
+        txt5.setBounds(775, 150, 100, 26);
         add(txt5);
 
         //TABLA
         JScrollPane miBarra2 = new JScrollPane(table2);
         this.getContentPane().add(miBarra2, null);
         dtm2.removeRow(0);
-        miBarra2.setBounds(230, 190, 160, 200);
+        miBarra2.setBounds(440, 190, 160, 200);
         miBarra2.setVisible(true);
         table2.setVisible(true);
 
         JScrollPane BarraFollow = new JScrollPane(tableFollow);
         this.getContentPane().add(BarraFollow, null);
         foll.removeRow(0);
-        BarraFollow.setBounds(400, 190, 150, 200);
+        BarraFollow.setBounds(610, 190, 150, 200);
         BarraFollow.setVisible(true);
         tableFollow.setVisible(true);
 
         JScrollPane CalculaBarraFollow = new JScrollPane(CalculatableFollow);
         this.getContentPane().add(CalculaBarraFollow, null);
         Calculafoll.removeRow(0);
-        CalculaBarraFollow.setBounds(560, 190, 170, 200);
+        CalculaBarraFollow.setBounds(775, 190, 170, 200);
         CalculaBarraFollow.setVisible(true);
         CalculatableFollow.setVisible(true);
 
@@ -246,7 +286,8 @@ public class ventanaFirst extends JFrame {
                 cadena = txt3.getText();
                 System.out.println("cadena a evaluar: " + cadena);
                 AnalizGram.SetGramatica(cadena);
-                String[] renglones = new String[2];
+                String[] renglones = new String[3];
+                String[] NT = new String[1];
 
                 if (AnalizGram.AnalizarGramatica()) {
                     System.out.println("Expresión sintácticamente correcta");
@@ -258,150 +299,149 @@ public class ventanaFirst extends JFrame {
                     System.out.println("No Terminales: " + AnalizGram.Vn);
                     System.out.println("Terminales: " + AnalizGram.Vt);
                     /*Agrega terminales a tabla*/
+//              
+                    //////////////////////////////////////////////////////////
                     for (String f : AnalizGram.Vt) {
 
-                        renglones[0] = f;
-                        renglones[1] = "Terminal";
-                        Object[] newRow = {renglones[0], renglones[1]};
+                        renglones[1] = f;
+                        renglones[2] = "Terminal";
+                        Object[] newRow = {renglones[1], renglones[2]};
                         dtm.addRow(newRow);
 
                     }
-//                    table.isCellEditable(renglones[0], NORMAL);
-                    /*Agrega no terminales a la tabla*/
+
                     for (String f : AnalizGram.Vn) {
 
-                        renglones[0] = f;
-                        renglones[1] = "No Terminal";
-                        Object[] newRow = {renglones[0], renglones[1]};
+                        renglones[1] = f;
+                        renglones[2] = "No Terminal";
+                        Object[] newRow = {renglones[1], renglones[2]};
                         dtm.addRow(newRow);
-                        foll.addRow(newRow);
 
                     }
-//                    
+
+                    for (String nt : AnalizGram.Vn) {
+
+                        NT[0] = nt;
+                        Object[] newRoww = {NT[0]};
+
+                        foll.addRow(newRoww);
+
+                    }
 
                     /**
                      * ****************TABLA FIRST--ACCIONES*******************
                      */
-                    table.addMouseListener(new MouseAdapter() {
+                    tabla.addMouseListener(new MouseAdapter() {
                         public void mouseClicked(MouseEvent me) {
                             JTable tableo = (JTable) me.getSource();
                             Point p = me.getPoint();
-                            boolean terminal;
-                            String primerElement;
-                            int row = tableo.rowAtPoint(p);
-                            
-                            txt4.setText(String.valueOf(tableo.getValueAt(row, 0))+" "+String.valueOf(tableo.getValueAt(row, 1)));
-                            primerElement=String.valueOf(tableo.getValueAt(row, 0));
-                            System.out.println("primer Element: "+primerElement);
-                            System.out.println("Terminal? "+String.valueOf(tableo.getValueAt(row, 1)));
-                            if(String.valueOf(tableo.getValueAt(row, 1))=="Terminal"){
-                                
-                                terminal=true;
-                                
-                            }else{
-                                 
-                                terminal=false;
-                            }
-                            
-                            List<ClaseNodo> Arr = new ArrayList<ClaseNodo>();
-                            String[] ArrReglas = new String[10];
-                           
+                            String e = "", t = "";
+                            primero = tableo.rowAtPoint(p);
+                            tableo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                            txtTerminal.setText(String.valueOf(tableo.getValueAt(primero, 1)));
 
-                            ClaseNodo a, b;
-                            a = new ClaseNodo(primerElement, terminal);
-                            
-//                            String sim = "Ep";
-//                            boolean ter = false;
-//                            String simb = "T";
-//                            boolean terb = false;
-//                            HashSet<String> Result = new HashSet<String>();
-                            HashSet<String> numeros = new HashSet<String>();
-                            String [] renglonFirst=new String[1];
-//                            a = new ClaseNodo(String.valueOf(tableo.getValueAt(row, 0)), ter);
-//                            b = new ClaseNodo(String.valueOf(tableo.getValueAt(row, 0)), ter);
-//                            
-//                            b = new ClaseNodo(simb, terb);
-//                            System.out.println("pruebaaaaaaaa: " + String.valueOf(tableo.getValueAt(row, 0)) + ter);
+                        }
+                    }
+                    );
+                    ////////////////////////////////////////////////////////////
+                    numElemento.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
 
-                            Arr.add(a);
-//                            Arr.add(b);
+                            TableModel modelo1 = table.getModel();
+                            int[] filas = table.getSelectedRows();
+                            Object[] row = new Object[3];
+                            DefaultTableModel modelo2 = (DefaultTableModel) tabla.getModel();
+                            for (int i = 0; i < filas.length; i++) {
+                                row[0] = Boolean.FALSE;
+                                row[1] = modelo1.getValueAt(filas[i], 0);
+                                row[2] = modelo1.getValueAt(filas[i], 1);
+                                modelo2.addRow(row);
+                            }
 
-                            numeros = AnalizGram.First(Arr);
-                            Iterator itr = numeros.iterator();
-                            while (itr.hasNext()) {
-                                System.out.println("First Result: " + itr.next());
-                            }
-                            
-                            for(String one: numeros){
-                                renglonFirst[0]=one;
-                                Object[] newRow ={renglonFirst[0]};
-                                dtm2.addRow(newRow);
-                            }
-                            
                         }
                     });
                     ///////////////////////////////////////////////////////////
+
                     first.addActionListener(new ActionListener() {
 
                         public void actionPerformed(ActionEvent e) {
-                            boolean terminal;
-                            String primerElement;
-                            String cadena = txt4.getText();
-                            System.out.println("Texto obtenido: " + cadena);
-//                            
-//                             primerElement=String.valueOf(tableo.getValueAt(row, 0));
-//                            System.out.println("primer Element: "+primerElement);
-//                            System.out.println("Terminal? "+String.valueOf(tableo.getValueAt(row, 1)));
-//                            if(String.valueOf(tableo.getValueAt(row, 1))=="Terminal"){
-//                                
-//                                terminal=true;
-//                                
-//                            }else{
-//                                 
-//                                terminal=false;
-//                            }
-//                           
-//                            List<ClaseNodo> Arr = new ArrayList<ClaseNodo>();
-//                            String[] ArrReglas = new String[10];
-//                           
+
+                            String reportes = "";
+                            HashSet<String> Res = new HashSet<String>();
+                            ClaseNodo nodo;
+                            boolean Termina;
 //
-//                            ClaseNodo a, b;
-//                            a = new ClaseNodo(primerElement, terminal);
-//                            
-////                            String sim = "Ep";
-////                            boolean ter = false;
-////                            String simb = "T";
-////                            boolean terb = false;
-////                            HashSet<String> Result = new HashSet<String>();
-//                            HashSet<String> numeros = new HashSet<String>();
-////                            a = new ClaseNodo(String.valueOf(tableo.getValueAt(row, 0)), ter);
-////                            b = new ClaseNodo(String.valueOf(tableo.getValueAt(row, 0)), ter);
-////                            
-////                            b = new ClaseNodo(simb, terb);
-////                            System.out.println("pruebaaaaaaaa: " + String.valueOf(tableo.getValueAt(row, 0)) + ter);
+                            ArrayList<Boolean> Termi = new ArrayList<Boolean>();
+                            ArrayList<String> Terminall = new ArrayList<String>();
+                            ArrayList<String> Elemento = new ArrayList<String>();
+                            List<ClaseNodo> Arreg = new ArrayList<ClaseNodo>();
+                            String element = "", terminal = "";
+                            JTextArea area = new JTextArea();
+                            if (Seleccionados(0)) {
 //
-//                            Arr.add(a);
-////                            Arr.add(b);
-//
-//                            numeros = AnalizGram.First(Arr);
-//                            Iterator itr = numeros.iterator();
-//                            while (itr.hasNext()) {
-//                                System.out.println("First Result: " + itr.next());
-//                            }
-//
-////                                    Resultado=AnalizGram.Follow(cadena);
-////                                    for(String fg: Resultado){
-//                                        System.out.println("Followw: "+fg);
-//                                    
-//                                    }
-//                                    System.out.println("Calculaaaaaaaaaaa");
-////                            Resultado = txt4.getText();  
+                                for (int i = 0; i < tabla.getRowCount(); i++) {
+                                    boolean sel = (boolean) tabla.getValueAt(i, 0);
+                                    if (sel) {
+                                        element += tabla.getValueAt(i, 1);
+                                        terminal += tabla.getValueAt(i, 2);
+
+                                        Elemento.add(String.valueOf(tabla.getValueAt(i, 1)));
+                                        Terminall.add(String.valueOf(tabla.getValueAt(i, 2)));
+                                    }
+                                }
+                                System.out.println("Terminalllllll: " + Terminall.toString());
+                                for (int j = 0; j < Terminall.size(); j++) {
+                                    if (Terminall.get(j) == "Terminal") {
+                                        Termina = true;
+                                    } else {
+                                        Termina = false;
+                                    }
+                                    Termi.add(Termina);
+                                }
+//                               
+                                System.out.println("Terminallll: " + Termi.toString());
+                                System.out.println("Tamaño de Terminall: " + Terminall.size());
+                                System.out.println("Tamaño de Termina: " + Termi.size());
+                                System.out.println("Elementos: " + Elemento.toString());
+//                                System.out.println("Res: "+Res.toString());
+                                System.out.println("Arreg: " + Arreg.toString());
+
+                                for (int j = 0; j < Elemento.size(); j++) {
+
+                                    Arreg.add(new ClaseNodo(Elemento.get(j), Termi.get(j)));
+
+                                }
+                                System.out.println("Arreglo: " + Arreg.size());
+                                System.out.println("Arregloo: " + Arreg.toString());
+
+                                HashSet<String> Resl = new HashSet<String>();
+                                Res = AnalizGram.First(Arreg);
+                                System.out.println("Resultadooooooooooooooo: " + Res.toString());
+                                //////////////IMPRIMIR RESULTADO EN TABLA///////////////////////////
+                                for (String f : Res) {
+
+                                    renglones[1] = f;
+
+                                    Object[] newRow = {renglones[1]};
+                                    dtm2.addRow(newRow);
+
+                                }
+
+                                ////////////////////////////////////////////////////////////////////
+//                              
+                                System.out.println("Arreglo: " + Arreg.size());
+                                System.out.println("Arregloo: " + Arreg.toString());
+                            } else {
+                                JOptionPane.showMessageDialog(null, "seleccionae uno", "mensaje", JOptionPane.WARNING_MESSAGE);
+
+                            }
                         }
                     });
                     ResetFirst.addActionListener(new ActionListener() {
 
                         public void actionPerformed(ActionEvent e) {
                             dtm2.setRowCount(0);
+                            model.setRowCount(0);
                         }
                     });
 
@@ -416,7 +456,6 @@ public class ventanaFirst extends JFrame {
                             row = tablep.rowAtPoint(p);
 
                             txt5.setText(String.valueOf(tablep.getValueAt(row, 0)));
-//                            txt5.removeActionListener(AFDop); //INVESTIGAR FUNCIONAMIENTO
 
                         }
                     });
@@ -426,7 +465,7 @@ public class ventanaFirst extends JFrame {
 
                             follo = txt5.getText();
                             System.out.println("Texto obtenido: " + follo);
-                            
+
                             Resultado = AnalizGram.Follow(follo);  //Determina el follow del simbolo
 
                             String[] renglonFollow = new String[1];
@@ -439,20 +478,16 @@ public class ventanaFirst extends JFrame {
 
                                 Object[] newRow = {renglonFollow[0]};
                                 Calculafoll.addRow(newRow);
-//                                System.out.println("NeRow: " + newRow.length);
                             }
 
                         }
                     });
-//                    row = 0;
-//                    System.out.println("Rowwwwwwwwww: " + row);
                     ResetFollow.addActionListener(new ActionListener() {
 
                         public void actionPerformed(ActionEvent e) {
                             Calculafoll.setRowCount(0);
- }
+                        }
                     });
-//                    row = 0;
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Expresión sintácticamente incorrecta");
@@ -463,9 +498,37 @@ public class ventanaFirst extends JFrame {
         });
     }
 
+    public void agregar() {
+
+        List<String> ejemploLista = new ArrayList<String>();
+        for (int i = 0; i < 10; i++) {
+            ejemploLista.add(txt4.getText());
+        }
+        for (int i = 0; i < 10; i++) {
+            System.out.println("Listaaa: " + ejemploLista.get(i));
+            System.out.println("size: " + ejemploLista.size());
+        }
+    }
+
+    public boolean Seleccionados(int pos) {
+        int contador = 0;
+        boolean bandera = true;
+        for (int i = 0; i < tabla.getRowCount(); i++) {
+            boolean seleccion = (boolean) tabla.getValueAt(i, pos);
+            if (seleccion) {
+                contador++;
+
+            }
+        }
+        if (contador == 0) {
+            bandera = false;
+        }
+        return bandera;
+    }
+
     public void opciones() {
         ventanaFirst uno = new ventanaFirst();
-        uno.setBounds(0, 0, 770, 490);
+        uno.setBounds(0, 0, 1000, 490);
         uno.setVisible(true);
         uno.setLocationRelativeTo(null);
         uno.setTitle("First and Follow");

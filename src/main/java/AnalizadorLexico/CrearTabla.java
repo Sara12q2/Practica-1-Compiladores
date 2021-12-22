@@ -61,7 +61,7 @@ DescRegGram_Gram AnalizGram;
 //             
             DescRegG.AnalizarGramatica();
             DescRegG.IdentificarTerminales();
-            Vt = new SimbTerm[DescRegG.Vt.size() + 1]; //Numero de columnas de la tabla LL1
+            Vt = new SimbTerm[DescRegG.Vt.size()]; //Numero de columnas de la tabla LL1
             vt2 = new String[DescRegG.Vt.size() + 1]; //Arreglo de terminales
             Vn = new String[DescRegG.Vn.size() + 1]; //Filas Tabla
             System.out.println("Vt: "+Vt);
@@ -107,6 +107,7 @@ DescRegGram_Gram AnalizGram;
                     if (columna >= 0) {
                         TablaLL1[renglon][columna] = NumRegla + 1;
                         System.out.println("Tabla: "+TablaLL1[renglon][columna]);
+                        System.out.println("Renglon: "+Vn[renglon]+" : "+renglon);
                     }
                 }
                 //Si hay epsilon en el first, se calcula el follow del lado izquierdo

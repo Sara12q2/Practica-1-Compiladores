@@ -386,11 +386,13 @@ public class ventanaMain extends JFrame {
 			break;
                     case "Descenso Rec Gram de Gram":
                         
-                           
+                        ventanaFirst es = new ventanaFirst();
+                        es.opciones();
                         //hide();
                         break;
                     case "Análisis LL(1)":
-                        
+                        ventanaAnalisisLL1 tr = new ventanaAnalisisLL1();
+                        tr.opciones();
 
                         //hide();
                         break;

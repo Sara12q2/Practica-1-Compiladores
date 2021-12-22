@@ -41,11 +41,25 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
     JTable tabla3=new JTable();
     JTable tabla4=new JTable();
     JTable tabla5=new JTable();
-    
+    DefaultTableModel model1 = new DefaultTableModel(){
+        };
+    DefaultTableModel model3 = new DefaultTableModel(){
+        };
     String[] columnNames = {"Token", "Lexema",};
     Object datos[][] = {
         {"", ""},
     };
+    
+    String[] columnNames2 = {"Simbolo", "Token",};
+    Object datos2[][] = {
+        {"", ""},};
+    DefaultTableModel dtm2 = new DefaultTableModel(datos2, columnNames2) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return true;
+        }
+    };
+    final JTable table2 = new JTable(dtm2);
         //TABLA
     DefaultTableModel dtm = new DefaultTableModel(datos, columnNames);
     final JTable table = new JTable(dtm);  
@@ -127,14 +141,18 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
         scrolluno.setBounds(30,270,160,150);
         add(scrolluno);
 //        //jScrollPane.setViewportView(tabla);
-        DefaultTableModel model1 = new DefaultTableModel(){
-        };
+
         tabla1.setModel(model1);
 //Table columns
         model1.addColumn("");
         model1.addColumn("No Terminal");
 //*Tabla1-------------------------------
-
+JScrollPane miBarra2 = new JScrollPane(table2);
+        this.getContentPane().add(miBarra2, null);
+        dtm2.removeRow(0);
+        miBarra2.setBounds(200, 270, 160, 150);
+        miBarra2.setVisible(true);
+        table2.setVisible(true);
 //Tabla2----------------------------------------------------------------------
         //tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane scrolldos= new  JScrollPane(tabla2);
@@ -156,17 +174,10 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
         scrolltres.setBounds(30,460,400,200);
         add(scrolltres);
 //        //jScrollPane.setViewportView(tabla);
-        DefaultTableModel model3 = new DefaultTableModel(){
-        };
         tabla3.setModel(model3);
 ////Table columns
 //        model3.addColumn("");
-//        model3.addColumn("No terminal");        
-//        model3.addColumn("Pc");
-//        model3.addColumn("Flecha");
-//        model3.addColumn("Simbolo");
-//        model3.addColumn("OR");
-//        model3.addColumn("$");
+        model3.addColumn("No terminal");
 //*Tabla3---------------------------------------------------------------------- 
 
 //Tabla4----------------------------------------------------------------------
@@ -278,6 +289,19 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
                 }
             }
         }
+        if (e.getActionCommand() == "Asignar Tokens a terminales") {
+            System.out.println("ppppppppppppppppppppppp");
+            int cantFilas = table2.getRowCount();
+            String token;
+            int Tok;
+            System.out.println("Cantidad Filas: " + cantFilas);
+            for (int i = 0; i < cantFilas; i++) {
+                token = table2.getValueAt(i, 1).toString();
+                Tok = Integer.parseInt(token);
+                System.out.println("TOKEN: " + Tok);
+            }
+
+        }
         if( e.getActionCommand()=="Crear Tabla" ){
             String cadena=txtGram.getText();
             String arreglo[]= new String[10];
@@ -291,12 +315,25 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
 //                
 //                }
 //                
-                
+                for(String tert1 : aux1.Vn){
+                    Object[] newRow = {tert1};
+                    model1.addRow(newRow);
+                }
                 for(String op: aux1.Vn){
                     System.out.println("VN: "+op);
                 
                 }
                 
+                
+//Table content
+//            for(String col : String.valueOf(aux1.Vt)){
+//              Object[] newRow = {col};
+//              model3.addColumn(newRow);
+//          } 
+          for(String pos : aux1.Vn){
+              Object[] newRow = {pos};
+              model3.addRow(newRow);
+          }
                 
             } catch (IOException ex) {
                 Logger.getLogger(ventanaAnalisisLL1.class.getName()).log(Level.SEVERE, null, ex);
@@ -304,7 +341,7 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
             //Table content
 //          for(AFN id : ConjDeAFNs){
 //              Object[] newRow = {String.valueOf(AFN1.getIdAFN(id)), Boolean.FALSE, new Integer(0) };
-//              model.addRow(newRow);
+//              model3.addRow(newRow);
 //          }
                    
             //E->T Ep; Ep->mas T Ep|menos T Ep|epsilon; T->F Tp; Tp->prod F Tp|div F Tp|epsilon; F->parI E parD|num;

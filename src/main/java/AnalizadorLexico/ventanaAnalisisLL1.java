@@ -1,11 +1,15 @@
 
 package AnalizadorLexico;
 
+import AnalizadorLexico.CrearTabla.AnalizadorLL1;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -20,18 +24,30 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
-public class ventanaAnalisisLL1 extends JFrame {
+public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
+//    AnalizadorLL1 aux1;
+    CrearTabla.AnalizadorLL1 aux1;
+    
     private JTextField txtGram = new JTextField();
     private JTextField cadena = new JTextField();
     private JTextField idObtenido = new JTextField();
     private JTextField msn1 = new JTextField();
-    private JTextField msn2 = new JTextField();
+    private JTextField msn2 = new JTextField();    
+    private JComboBox AFDop = new JComboBox();
     
     JTable tabla1=new JTable();
     JTable tabla2=new JTable();
     JTable tabla3=new JTable();
     JTable tabla4=new JTable();
     JTable tabla5=new JTable();
+    
+    String[] columnNames = {"Token", "Lexema",};
+    Object datos[][] = {
+        {"", ""},
+    };
+        //TABLA
+    DefaultTableModel dtm = new DefaultTableModel(datos, columnNames);
+    final JTable table = new JTable(dtm);  
     
     int idAux=0;
     ArrayList<String> guardado = new ArrayList<String>();
@@ -43,64 +59,66 @@ public class ventanaAnalisisLL1 extends JFrame {
     public ventanaAnalisisLL1(){
         setLayout(null);
         
-        //ETIQUETA Titulo Auxiliar-----------------------------------------------------------
+        //ETIQUETA Titulo Auxiliar----------------------------------------------
         JLabel etiquetaTituloAux = new JLabel("Analisis LL1");
-        etiquetaTituloAux.setBounds(60,30,300,20);
+        etiquetaTituloAux.setBounds(40,10,300,20);
         etiquetaTituloAux.setFont(new java.awt.Font("arial", 1, 14));
         add(etiquetaTituloAux);
         //**ETIQUETA Titulo Auxiliar--------------------------------------------
         //ETIQUETA Gram---------------------------------------------------
         JLabel Gram = new JLabel("Gramática");
-        Gram.setBounds(70,70,300,20);
+        Gram.setBounds(50,60,300,20);
         Gram.setFont(new java.awt.Font("arial", 1, 14));
         add(Gram);
         //**ETIQUETA Gram-------------------------------------------------
-        txtGram.setBounds(170,70, 500, 150);
+        txtGram.setBounds(170,60, 500, 140);
         add(txtGram);
        //FileChooser-----------------------------------------------------------
         JButton btn = new JButton("Seleccionar Archivo del AFD");
         btn.setBounds(170, 110, 200, 25);
-        //btn.addActionListener(this);
+        btn.addActionListener(this);
         add(btn);
         //**FileChooser-------------------------------------------------------- 
         
-        //ETIQUETA Cadena a utilizar--------------------------------------------
-//        JLabel expresion = new JLabel("Expresión a evaluar");
-//        expresion.setBounds(100,180,300,20);
-//        expresion.setFont(new java.awt.Font("arial", 1, 14));
-//        add(expresion);
-        //JTextField Cadena a analizar
-        cadena.setBounds(250,180, 200, 25);
+        //ETIQUETA Cadena a utilizar Sigma-----------------------------------------------------------
+        JLabel etiquetaCadenaAnalizar = new JLabel("Sigma");
+        etiquetaCadenaAnalizar.setBounds(100,220,300,20);
+        etiquetaCadenaAnalizar.setFont(new java.awt.Font("arial", 1, 14));
+        add(etiquetaCadenaAnalizar);
+        //**ETIQUETA Cadena a analizar Sigma-----------------------------------------------------------
+        cadena.setBounds(330,220, 200, 25);
         add(cadena);
-        
-//        //JTextField Cadena a analizar
-//        msn1.setBounds(250,210, 200, 25);
-//        msn1.setEditable(false);
-//        add(msn1);
-//        //JTextField Cadena a analizar
-//        msn2.setBounds(250,240, 200, 25);
-//        msn2.setEditable(false);
-//        add(msn2);
+
 
         //Boton Analizar--------------------------------------------------------
         JButton btnCrearTabla = new JButton("Crear Tabla");
-        btnCrearTabla.setBounds(50, 290, 100, 25);
+        btnCrearTabla.setBounds(50, 290, 100, 25);        
+        btnCrearTabla.addActionListener(this);
         add(btnCrearTabla);
         
         JButton btnAsigTokTer = new JButton("Asignar Tokens a terminales");
-        btnAsigTokTer.setBounds(150, 290, 200, 30);
-        add(btnAsigTokTer);
-        
-        JButton btnSelecAFDLex = new JButton("Seleccionar AFD Léxico");
-        btnSelecAFDLex.setBounds(250, 290, 150, 25);
+        btnAsigTokTer.setBounds(250, 290, 200, 30);
+        add(btnAsigTokTer);        
+        //FileChooser-----------------------------------------------------------
+        JButton btnSelecAFDLex = new JButton("Seleccionar AFD Lexico");
+        btnSelecAFDLex.setBounds(400, 290, 150, 25);
+        btnSelecAFDLex.addActionListener(this);
         add(btnSelecAFDLex);
+        //**FileChooser--------------------------------------------------------
         
         JButton btnAnalizSinSig = new JButton("Analizar sintácticamente sigma");
-        btnAnalizSinSig.setBounds(250, 340, 200, 25);
+        btnAnalizSinSig.setBounds(450, 340, 200, 25);
         add(btnAnalizSinSig);
         
+        //Boton Analizar-----------------------------------------------------------
+        JButton btnAnalizar = new JButton("Analizar");
+        btnAnalizar.setBounds(100, 255, 100, 25);
+        btnAnalizar.addActionListener(this);
+        add(btnAnalizar);
+        //**Boton Analizar--------------------------------------------------------
         JButton btnProLex = new JButton("Probar léxico");
-        btnProLex.setBounds(350, 290, 150, 25);
+        btnProLex.setBounds(550, 290, 150, 25);
+        btnProLex.addActionListener(this);
         add(btnProLex); 
         
         
@@ -141,7 +159,7 @@ public class ventanaAnalisisLL1 extends JFrame {
 //Tabla2----------------------------------------------------------------------
         //tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane scrolldos= new  JScrollPane(tabla2);
-        scrolldos.setBounds(110,310,100,200);
+        scrolldos.setBounds(150,310,100,200);
         add(scrolldos);
 //        //jScrollPane.setViewportView(tabla);
         DefaultTableModel model2 = new DefaultTableModel(){
@@ -176,8 +194,8 @@ public class ventanaAnalisisLL1 extends JFrame {
 
 //Tabla3----------------------------------------------------------------------
         //tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        JScrollPane scrolltres= new  JScrollPane(tabla2);
-        scrolltres.setBounds(80,310,100,200);
+        JScrollPane scrolltres= new  JScrollPane(tabla3);
+        scrolltres.setBounds(200,310,100,200);
         add(scrolltres);
 //        //jScrollPane.setViewportView(tabla);
         DefaultTableModel model3 = new DefaultTableModel(){
@@ -204,78 +222,136 @@ public class ventanaAnalisisLL1 extends JFrame {
         };
         tabla3.setModel(model3);
 ////Table columns
-        model2.addColumn("");
+        model3.addColumn("");
 //        model2.addColumn("Terminal");        
 //        model2.addColumn("Token");
 //*Tabla3---------------------------------------------------------------------- 
 
-    btn.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
 
+
+//TABLA Probar Lexico
+        JScrollPane miBarra = new JScrollPane(table);
+        this.getContentPane().add(miBarra, null);
+        dtm.removeRow(0);
+        miBarra.setBounds(320, 350, 400, 200);
+        miBarra.setVisible(true);
+        table.setVisible(true);
+//**TABLA Probar Lexico
+  
+} 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("entre botones");
         JFileChooser fileChooser = new JFileChooser("C:\\laragon\\www\\Practica-1-Compiladores");
-//        JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("All Files", "txt", "gif"); 
         fileChooser.setFileFilter(imgFilter);
-        int idAFD = 0;
-         AFD uno = new AFD();
-            int result = fileChooser.showOpenDialog(ventanaAnalisisLL1.this);
-            if (result != JFileChooser.CANCEL_OPTION) {
-                File fileName = fileChooser.getSelectedFile();
-                nombreArchivo = fileName.getName();
-                System.out.println("nombre archivo: "+nombreArchivo);
-                if ((fileName == null) || (fileName.getName().equals(""))) {
-                    txtGram.setText("...");
-                } else {
+        int id = 0;
+        int bandera = 0;
+        int idAFN = 0;
+        if( e.getActionCommand()=="Seleccionar AFD Lexico" ){
+            System.out.println("lexico");
+            AFD uno = new AFD();
+                bandera=1;
+                int result = fileChooser.showOpenDialog(this);
+                if (result != JFileChooser.CANCEL_OPTION) {
+                    File fileName = fileChooser.getSelectedFile();
                     rutaArchivo = fileName.getAbsolutePath();
-                        System.out.println("RUTA OBTENIDA: "+rutaArchivo);
-                    try {
-                        Evaluador = new EvaluadorExpr(nombreArchivo,-1);//nombre del archivo del AFD
-                    } catch (IOException ex) {
-                        Logger.getLogger(ventanaEvaluadorExpr.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    System.out.println("ruta Archivo"+ rutaArchivo);
                 }
-            }
                 
-                idAFD = Integer.parseInt(txtGram.getText());
-                System.out.println("IdAFD: "+idAFD);
             try {
-                uno.LeerAFDdeArchivo(rutaArchivo, idAFD);
+                uno.LeerAFDdeArchivo(rutaArchivo, id);
             } catch (IOException ex) {
                 System.out.println("ERROR");
                 Logger.getLogger(ventanaProbarAnalizadorLexico.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-//            AFDop.addItem(String.valueOf(uno.IdAFD));
-        }    
-    });   
-    
-    
-    btnCrearTabla.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            String aux;
-            aux=cadena.getText();
-            System.out.println("cadena a evaluar: "+aux);
-            Evaluador.SetExpresion(aux);
-            if(Evaluador.IniEval()){
-                System.out.println("Expresión sintácticamente correcta."+Evaluador.result);
-                String s=Float.toString(Evaluador.result);
-                msn1.setText(s);
-                msn2.setText(Evaluador.ExprPost);
-            } else{
-//                boolean rEIE=Evaluador.IniEval();
-//                System.out.println("Evaluador.IniEval: " + rEIE);
-                System.out.println("Expresión sintácticamente incorrecta.");
-                msn1.setText("ERROR");
+            AFDop.addItem(String.valueOf(uno.IdAFD));
+        }
+
+        if( e.getActionCommand()=="Probar léxico" ){
+            String prueba;
+            int token;
+            String Lexema;
+            String sigma,aux;
+            int idAFD=0;
+            aux = (String)AFDop.getSelectedItem();
+            idAFD = Integer.parseInt(aux);
+            idAux = idAFD;
+            String[] ValoresRenglon = new String[2];
+            AnalizadorLexico L;
+            AFD AutFD = new AFD();
+            sigma = cadena.getText();
+            for(AFD f : AFD.ConjAFDs){
+                if(f.IdAFD == idAFD){
+                    AutFD = f;
+                }
+                try {
+                    L = new AnalizadorLexico(sigma, AutFD);
+                            while(true){
+                                token = L.yylex();
+                                Lexema = L.Lexema;
+                                ValoresRenglon[0] = String.valueOf(token);
+                                ValoresRenglon[1] = L.Lexema;
+                                guardado.add(String.valueOf(ValoresRenglon[0]));
+                                guardado.add(";");
+                                guardado.add(String.valueOf(ValoresRenglon[1]));
+                                guardado.add(";");
+                                Object[] newRow = {ValoresRenglon[0],ValoresRenglon[1]};
+//                                dtm.addRow(newRow);
+                                L.UndoToken();
+                                token = L.yylex();
+                                Lexema = L.Lexema;
+                                ValoresRenglon[0] = String.valueOf(token);
+                                ValoresRenglon[1] = L.Lexema;
+                                guardado.add(String.valueOf(ValoresRenglon[0]));
+                                guardado.add(";");
+                                guardado.add(String.valueOf(ValoresRenglon[1]));
+                                guardado.add(";");
+                                Object[] newRow2 = {ValoresRenglon[0],ValoresRenglon[1]};
+                                System.out.println("RENGLON 0: "+ValoresRenglon[0]);
+                                System.out.println("RENGLON 1: "+ValoresRenglon[1]);
+                                dtm.addRow(newRow2);
+                                if(token == SimbolosEspeciales.FIN)
+                                    break;
+                            }
+                } catch (IOException ex) {
+                    Logger.getLogger(ventanaProbarAnalizadorLexico.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
-    });   
-} 
+        if( e.getActionCommand()=="Crear Tabla" ){
+            String cadena=txtGram.getText();
+            String arreglo[]= new String[10];
+//            aux1 = AnalizadorLL1(cadena);
+            CrearTabla aux2 = new CrearTabla();
+            try {
+                aux1 = aux2.new AnalizadorLL1(cadena);
+            } catch (IOException ex) {
+                Logger.getLogger(ventanaAnalisisLL1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                   
+            //E->T Ep; Ep->mas T Ep|menos T Ep|epsilon; T->F Tp; Tp->prod F Tp|div F Tp|epsilon; F->parI E parD|num;
+
+            arreglo = aux1.vt2;
+            System.out.println("arreglo"+ arreglo.toString());
+//            for (String f :  AnalizGram.Vt) {
+//
+//                        renglones[1] = f;
+//                        renglones[2] = "Terminal";
+//                        Object[] newRow = {renglones[1], renglones[2]};
+//                        dtm.addRow(newRow);
+//
+//                    }
+        }
+               
+    }
     
     
     public void opciones(){
        ventanaAnalisisLL1 vEE = new ventanaAnalisisLL1();
-       vEE.setBounds(0,0,900,800);
+       vEE.setBounds(0,0,1000,800);
        vEE.setVisible(true);
        vEE.setLocationRelativeTo(null);
        vEE.setTitle("Analisis LL1");
@@ -288,7 +364,6 @@ public class ventanaAnalisisLL1 extends JFrame {
 
     
     public static void main(String[] args) {
-         AFN AFN1=new AFN();
         ventanaAnalisisLL1 pr = new ventanaAnalisisLL1();
         pr.opciones();
     }

@@ -20,6 +20,7 @@ import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -28,12 +29,13 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
 //    AnalizadorLL1 aux1;
     CrearTabla.AnalizadorLL1 aux1;
     
-    private JTextField txtGram = new JTextField();
+    private JTextArea txtGram = new JTextArea();
     private JTextField cadena = new JTextField();
     private JTextField idObtenido = new JTextField();
     private JTextField msn1 = new JTextField();
     private JTextField msn2 = new JTextField();    
-    private JComboBox AFDop = new JComboBox();
+    private JComboBox AFDop = new JComboBox();    
+    private JScrollPane scrollpane1;
     
     JTable tabla1=new JTable();
     JTable tabla2=new JTable();
@@ -67,12 +69,16 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
         //**ETIQUETA Titulo Auxiliar--------------------------------------------
         //ETIQUETA Gram---------------------------------------------------
         JLabel Gram = new JLabel("Gramática");
-        Gram.setBounds(50,60,300,20);
+        Gram.setBounds(40,60,300,20);
         Gram.setFont(new java.awt.Font("arial", 1, 14));
         add(Gram);
         //**ETIQUETA Gram-------------------------------------------------
         txtGram.setBounds(170,60, 500, 140);
-        add(txtGram);
+        txtGram.setLineWrap(true); //Para que salte de línea al llegar al final del ancho del jTextArea
+        scrollpane1=new JScrollPane(txtGram);
+        scrollpane1.setBounds(160,60, 510, 140);
+        add(scrollpane1);
+//        add(txtGram);
        //FileChooser-----------------------------------------------------------
         JButton btn = new JButton("Seleccionar Archivo del AFD");
         btn.setBounds(170, 110, 200, 25);
@@ -82,36 +88,42 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
         
         //ETIQUETA Cadena a utilizar Sigma-----------------------------------------------------------
         JLabel etiquetaCadenaAnalizar = new JLabel("Sigma");
-        etiquetaCadenaAnalizar.setBounds(100,220,300,20);
+        etiquetaCadenaAnalizar.setBounds(420,270,300,20);
         etiquetaCadenaAnalizar.setFont(new java.awt.Font("arial", 1, 14));
         add(etiquetaCadenaAnalizar);
         //**ETIQUETA Cadena a analizar Sigma-----------------------------------------------------------
-        cadena.setBounds(330,220, 200, 25);
+        cadena.setBounds(470,270, 180, 25);
         add(cadena);
 
-
+         //ETIQUETA Cadena a utilizar Sigma-----------------------------------------------------------
+        JLabel etiquetaTabla = new JLabel("Tabla LL(1)");
+        etiquetaTabla.setBounds(30,440,300,20);
+        etiquetaTabla.setFont(new java.awt.Font("arial", 1, 14));
+        add(etiquetaTabla);
+        
         //Boton Analizar--------------------------------------------------------
         JButton btnCrearTabla = new JButton("Crear Tabla");
-        btnCrearTabla.setBounds(50, 290, 100, 25);        
+        btnCrearTabla.setBounds(50, 220, 100, 25);        
         btnCrearTabla.addActionListener(this);
         add(btnCrearTabla);
         
         JButton btnAsigTokTer = new JButton("Asignar Tokens a terminales");
-        btnAsigTokTer.setBounds(250, 290, 200, 30);
-        add(btnAsigTokTer);        
+        btnAsigTokTer.setBounds(180, 220, 200, 25);
+        add(btnAsigTokTer);  
+        
         //FileChooser-----------------------------------------------------------
         JButton btnSelecAFDLex = new JButton("Seleccionar AFD Lexico");
-        btnSelecAFDLex.setBounds(400, 290, 150, 25);
+        btnSelecAFDLex.setBounds(420, 220, 180, 25);
         btnSelecAFDLex.addActionListener(this);
         add(btnSelecAFDLex);
         //**FileChooser--------------------------------------------------------
         
         JButton btnAnalizSinSig = new JButton("Analizar sintácticamente sigma");
-        btnAnalizSinSig.setBounds(450, 340, 200, 25);
+        btnAnalizSinSig.setBounds(420, 320, 240, 25);
         add(btnAnalizSinSig);
 
         JButton btnProLex = new JButton("Probar léxico");
-        btnProLex.setBounds(550, 290, 150, 25);
+        btnProLex.setBounds(700, 150, 150, 25);
         btnProLex.addActionListener(this);
         add(btnProLex); 
         
@@ -119,7 +131,7 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
         //Tabla1----------------------------------------------------------------------
         //tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane scrolluno= new  JScrollPane(tabla1);
-        scrolluno.setBounds(30,310,100,200);
+        scrolluno.setBounds(30,270,160,150);
         add(scrolluno);
 //        //jScrollPane.setViewportView(tabla);
         DefaultTableModel model1 = new DefaultTableModel(){
@@ -146,41 +158,20 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
         };
         tabla1.setModel(model1);
 //Table columns
-        model1.addColumn("AFN´s");
+        model1.addColumn("");
         model1.addColumn("No Terminal");
 //*Tabla1-------------------------------
 
 //Tabla2----------------------------------------------------------------------
         //tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane scrolldos= new  JScrollPane(tabla2);
-        scrolldos.setBounds(150,310,100,200);
+        scrolldos.setBounds(200,270,160,150);
         add(scrolldos);
 //        //jScrollPane.setViewportView(tabla);
-        DefaultTableModel model2 = new DefaultTableModel(){
-            public Class<?> getColumnClass(int column){
-                switch(column)
-                {
-                    case 0:
-                        return Integer.class;
-                    case 1:
-                        return Boolean.class;
-                    case 2: 
-                        return Integer.class; 
-                    default:
-                        return String.class;
-                }
-            }
-            boolean[] canEdit = new boolean[]{
-                    false, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
-            }
+        DefaultTableModel model2 = new DefaultTableModel(){            
         };
         tabla2.setModel(model2);
 //Table columns
-        model2.addColumn("");
         model2.addColumn("Terminal");        
         model2.addColumn("Token");
 //*Tabla2----------------------------------------------------------------------        
@@ -189,43 +180,42 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
 //Tabla3----------------------------------------------------------------------
         //tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane scrolltres= new  JScrollPane(tabla3);
-        scrolltres.setBounds(300,310,100,200);
+        scrolltres.setBounds(30,460,400,200);
         add(scrolltres);
 //        //jScrollPane.setViewportView(tabla);
         DefaultTableModel model3 = new DefaultTableModel(){
-            public Class<?> getColumnClass(int column){
-                switch(column)
-                {
-                    case 0:
-                        return Integer.class;
-                    case 1:
-                        return Boolean.class;
-                    case 2: 
-                        return Integer.class; 
-                    default:
-                        return String.class;
-                }
-            }
-            boolean[] canEdit = new boolean[]{
-                    false, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
-            }
         };
         tabla3.setModel(model3);
 ////Table columns
         model3.addColumn("");
-//        model2.addColumn("Terminal");        
-//        model2.addColumn("Token");
+        model3.addColumn("No terminal");        
+        model3.addColumn("Pc");
+        model3.addColumn("Flecha");
+        model3.addColumn("Simbolo");
+        model3.addColumn("OR");
+        model3.addColumn("$");
 //*Tabla3---------------------------------------------------------------------- 
 
-//TABLA Probar Lexico
+//Tabla4----------------------------------------------------------------------
+        //tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        JScrollPane scrollcuatro= new  JScrollPane(tabla4);
+        scrollcuatro.setBounds(470,360,650,300);
+        add(scrollcuatro);
+//        //jScrollPane.setViewportView(tabla);
+        DefaultTableModel model4 = new DefaultTableModel(){         
+        };
+        tabla4.setModel(model4);
+//Table columns
+        model4.addColumn("Pila");
+        model4.addColumn("Cadena");   //token     
+        model4.addColumn("Accion");
+//*Tabla4----------------------------------------------------------------------     
+
+//TABLA Probar Lexico 5
         JScrollPane miBarra = new JScrollPane(table);
         this.getContentPane().add(miBarra, null);
         dtm.removeRow(0);
-        miBarra.setBounds(320, 350, 400, 200);
+        miBarra.setBounds(700, 180, 350, 150);
         miBarra.setVisible(true);
         table.setVisible(true);
 //**TABLA Probar Lexico
@@ -233,6 +223,7 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
 } 
     @Override
     public void actionPerformed(ActionEvent e) {
+        String ruta="";
         System.out.println("entre botones");
         JFileChooser fileChooser = new JFileChooser("C:\\laragon\\www\\Practica-1-Compiladores");
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -263,6 +254,7 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
         }
 
         if( e.getActionCommand()=="Probar léxico" ){
+            
             String prueba;
             int token;
             String Lexema;
@@ -319,16 +311,28 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
 //            aux1 = AnalizadorLL1(cadena);
             CrearTabla aux2 = new CrearTabla();
             try {
-                aux1 = aux2.new AnalizadorLL1(cadena);
+                aux1 = aux2.new AnalizadorLL1(cadena,ruta);
                 aux1.CrearTablaLL1();
+                for(String op: aux1.vt2){
+                    System.out.println("VTTT2: "+op);
+                
+                }
+                
+                
+                for(String op: aux1.Vn){
+                    System.out.println("VN: "+op);
+                
+                }
+                
+                
             } catch (IOException ex) {
                 Logger.getLogger(ventanaAnalisisLL1.class.getName()).log(Level.SEVERE, null, ex);
             }
                    
             //E->T Ep; Ep->mas T Ep|menos T Ep|epsilon; T->F Tp; Tp->prod F Tp|div F Tp|epsilon; F->parI E parD|num;
 
-            arreglo = aux1.vt2;
-            System.out.println("arreglo"+ arreglo.toString());
+//            arreglo = aux1.vt2;
+//            System.out.println("arreglo"+ arreglo.toString());
 //            for (String f :  AnalizGram.Vt) {
 //
 //                        renglones[1] = f;
@@ -337,13 +341,37 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
 //                        dtm.addRow(newRow);
 //
 //                    }
+            
+////            String cadena=txtGram.getText();
+////            String arreglo[]= new String[10];
+//////            aux1 = AnalizadorLL1(cadena);
+////            CrearTabla aux2 = new CrearTabla();
+////            try {
+////                aux1 = aux2.new AnalizadorLL1(cadena);
+////                aux1.CrearTablaLL1();
+////            } catch (IOException ex) {
+////                Logger.getLogger(ventanaAnalisisLL1.class.getName()).log(Level.SEVERE, null, ex);
+////            }
+////                   
+////            //E->T Ep; Ep->mas T Ep|menos T Ep|epsilon; T->F Tp; Tp->prod F Tp|div F Tp|epsilon; F->parI E parD|num;
+////
+////            arreglo = aux1.vt2;
+////            System.out.println("arreglo"+ arreglo.toString());
+//////            for (String f :  AnalizGram.Vt) {
+//////
+//////                        renglones[1] = f;
+//////                        renglones[2] = "Terminal";
+//////                        Object[] newRow = {renglones[1], renglones[2]};
+//////                        dtm.addRow(newRow);
+//////
+//////                    }
         }
                
     }
     
     public void opciones(){
        ventanaAnalisisLL1 vEE = new ventanaAnalisisLL1();
-       vEE.setBounds(0,0,1000,800);
+       vEE.setBounds(0,0,1200,750);
        vEE.setVisible(true);
        vEE.setLocationRelativeTo(null);
        vEE.setTitle("Analisis LL1");

@@ -31,7 +31,7 @@ public class EvaluadorExpr {
     }
     
     public boolean IniEval(){
-//        System.out.println("Cadena recibida exp: "+Expresion);
+        System.out.println("Cadena recibida exp: "+Expresion);
         int Token;
         float[] v={0};
         String[] pf={""};

@@ -42,6 +42,8 @@ public class ventanaProbarAnalizadorLexico extends JFrame implements ActionListe
         //TABLA
         DefaultTableModel dtm = new DefaultTableModel(datos, columnNames);
         final JTable table = new JTable(dtm);  
+        
+    EvaluadorExpr Evaluador;
 
         
     public ventanaProbarAnalizadorLexico(){

@@ -37,6 +37,7 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
     private JTextField msn2 = new JTextField();    
     private JComboBox AFDop = new JComboBox();    
     private JScrollPane scrollpane1;
+            
     
     JTable tabla1=new JTable();
     JTable tabla2=new JTable();
@@ -71,7 +72,8 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
     String rutaArchivo=null;
     String nombreArchivo=null;
     int bandera=0;  
-    EvaluadorExpr Evaluador;
+//    EvaluadorExpr Evaluador;
+    String prueba = "(a|b)*&(c|d|f)+&([a-z]?&[0-9])";
         
     public ventanaAnalisisLL1(){
         setLayout(null);
@@ -117,7 +119,8 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
         add(btnCrearTabla);
         
         JButton btnAsigTokTer = new JButton("Asignar Tokens a terminales");
-        btnAsigTokTer.setBounds(180, 220, 200, 25);
+        btnAsigTokTer.setBounds(180, 220, 200, 25);               
+        btnAsigTokTer.addActionListener(this);
         add(btnAsigTokTer);  
         
         //FileChooser-----------------------------------------------------------
@@ -127,8 +130,9 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
         add(btnSelecAFDLex);
         //**FileChooser--------------------------------------------------------
         
-        JButton btnAnalizSinSig = new JButton("Analizar sintácticamente sigma");
-        btnAnalizSinSig.setBounds(420, 320, 240, 25);
+        JButton btnAnalizSinSig = new JButton("Analizar sintacticamente sigma");
+        btnAnalizSinSig.setBounds(420, 320, 240, 25);            
+        btnAnalizSinSig.addActionListener(this);
         add(btnAnalizSinSig);
 
         JButton btnProLex = new JButton("Probar léxico");
@@ -214,6 +218,7 @@ JScrollPane miBarra2 = new JScrollPane(table2);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("All Files", "txt", "gif"); 
         fileChooser.setFileFilter(imgFilter);
+        AFD AutFD = new AFD();
         int id = 0;
         int bandera = 0;
         int idAFN = 0;
@@ -250,7 +255,7 @@ JScrollPane miBarra2 = new JScrollPane(table2);
             idAux = idAFD;
             String[] ValoresRenglon = new String[2];
             AnalizadorLexico L;
-            AFD AutFD = new AFD();
+//            AFD AutFD = new AFD();
             sigma = cadena.getText();
             for(AFD f : AFD.ConjAFDs){
                 if(f.IdAFD == idAFD){
@@ -303,23 +308,33 @@ JScrollPane miBarra2 = new JScrollPane(table2);
             }
 
         }
-        if( e.getActionCommand()=="Analizar sintácticamente sigma" ){
+        if(e.getActionCommand()=="Analizar sintacticamente sigma" ){
             String aux;
             aux=cadena.getText();
             System.out.println("cadena a evaluar: "+aux);
-            Evaluador.SetExpresion(aux);
-            if(Evaluador.IniEval()){
-                JOptionPane.showMessageDialog(null, "Expresión sintácticamente correcta.");
-                System.out.println("Expresión sintácticamente correcta."+Evaluador.result);
-                String s=Float.toString(Evaluador.result);
-               
-            } else{
-//                boolean rEIE=Evaluador.IniEval();
-//                System.out.println("Evaluador.IniEval: " + rEIE);
-                JOptionPane.showMessageDialog(null, "Expresión sintácticamente incorrecta.");
-                System.out.println("Expresión sintácticamente incorrecta.");
-                msn1.setText("ERROR");
-            }
+            EvaluadorExpr evaluador;
+//            try {
+//                evaluador = new EvaluadorExpr(aux, AutFD);
+//                if(evaluador.IniEval()){
+//                JOptionPane.showMessageDialog(null, "Expresión sintácticamente correcta.");
+//                System.out.println("Expresión sintácticamente correcta.");
+////                String s=Float.toString(Evaluador.result);
+//               
+//            } else{
+////                boolean rEIE=Evaluador.IniEval();
+////                System.out.println("Evaluador.IniEval: " + rEIE);
+//                JOptionPane.showMessageDialog(null, "Expresión sintácticamente incorrecta.");
+//                System.out.println("Expresión sintácticamente incorrecta.");
+//                msn1.setText("ERROR");
+//            }
+//            } catch (IOException ex) {
+//                Logger.getLogger(ventanaAnalisisLL1.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+            aux1.AnalizarSintacLL1(aux);
+//            Evaluador.SetExpresion(aux);
+//            if(prueba.equals(aux)){
+            System.out.println("lo que sea");
+            
         
         }
         

@@ -38,7 +38,7 @@ public class CrearTabla {
         public String[] vt2;
         public String[] Vt3;
 //       const String ArchAFDLexiGramGram = "RUTA";
-        String ArchAFDLexiGramGram = "RUTA";
+        String ArchAFDLexiGramGram = "C:\\laragon\\www\\Practica-1-Compiladores\\AFDExprAritmeticas.txt";
 
         public AnalizadorLL1(String CadGramatica, String ArchAFDLexic) throws IOException {
             Gram = CadGramatica;

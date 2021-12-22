@@ -109,13 +109,7 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
         JButton btnAnalizSinSig = new JButton("Analizar sintácticamente sigma");
         btnAnalizSinSig.setBounds(450, 340, 200, 25);
         add(btnAnalizSinSig);
-        
-        //Boton Analizar-----------------------------------------------------------
-        JButton btnAnalizar = new JButton("Analizar");
-        btnAnalizar.setBounds(100, 255, 100, 25);
-        btnAnalizar.addActionListener(this);
-        add(btnAnalizar);
-        //**Boton Analizar--------------------------------------------------------
+
         JButton btnProLex = new JButton("Probar léxico");
         btnProLex.setBounds(550, 290, 150, 25);
         btnProLex.addActionListener(this);
@@ -195,7 +189,7 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
 //Tabla3----------------------------------------------------------------------
         //tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane scrolltres= new  JScrollPane(tabla3);
-        scrolltres.setBounds(200,310,100,200);
+        scrolltres.setBounds(300,310,100,200);
         add(scrolltres);
 //        //jScrollPane.setViewportView(tabla);
         DefaultTableModel model3 = new DefaultTableModel(){
@@ -226,8 +220,6 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
 //        model2.addColumn("Terminal");        
 //        model2.addColumn("Token");
 //*Tabla3---------------------------------------------------------------------- 
-
-
 
 //TABLA Probar Lexico
         JScrollPane miBarra = new JScrollPane(table);
@@ -328,6 +320,7 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
             CrearTabla aux2 = new CrearTabla();
             try {
                 aux1 = aux2.new AnalizadorLL1(cadena);
+                aux1.CrearTablaLL1();
             } catch (IOException ex) {
                 Logger.getLogger(ventanaAnalisisLL1.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -348,7 +341,6 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
                
     }
     
-    
     public void opciones(){
        ventanaAnalisisLL1 vEE = new ventanaAnalisisLL1();
        vEE.setBounds(0,0,1000,800);
@@ -357,11 +349,6 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
        vEE.setTitle("Analisis LL1");
        vEE.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-
-
-    
-
-
     
     public static void main(String[] args) {
         ventanaAnalisisLL1 pr = new ventanaAnalisisLL1();

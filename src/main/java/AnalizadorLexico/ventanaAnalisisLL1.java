@@ -335,36 +335,58 @@ JScrollPane miBarra2 = new JScrollPane(table2);
 //                    System.out.println("VTTT2: "+op);
 //                
 //                }
-//                
+//Tabla 1
                 for(String tert1 : aux1.Vn){
                     Object[] newRow = {tert1};
                     model1.addRow(newRow);
                 }
+                //tabla 2 y columnas de tabla 3
                 String[]renglones = new String[3];
                 for (String f : aux1.DescRegG.Vt) {
-
                     renglones[0] = f;
-
                     Object[] newRow = {renglones[0], renglones[1]};
                     dtm2.addRow(newRow);
                     model3.addColumn(renglones[0]);
                 }
 
                 for(String op: aux1.Vn){
-                    System.out.println("VN: "+op);
-                
+                    System.out.println("VN: "+op);              
                 }
-                
-                
 //Table content
 //            for(String col : String.valueOf(aux1.Vt)){
 //              Object[] newRow = {col};
 //              model3.addColumn(newRow);
 //          } 
-          for(String pos : aux1.Vn){
-              Object[] newRow = {0,pos};
-              model3.addRow(newRow);
-          }
+
+///Tabla 3 
+
+            String[] apoyo= new String[aux1.Vn.length];
+            String[] otro= new String[aux1.TablaLL1[0].length+1];
+            int f=0;
+            
+            for(String pos : aux1.Vn){
+                apoyo[f] = pos;
+                f++;
+//                Object[] newRow = {0,pos,};
+//                model3.addRow(newRow);                
+            }
+            
+             System.out.println("Vk= "+aux1.TablaLL1[0].length);
+                System.out.println("Vl= "+aux1.TablaLL1.length);
+                
+                for (int k = 0; k < aux1.TablaLL1.length; k++) {                    
+                    for (int l = 0; l < aux1.TablaLL1[0].length; l++) { 
+                        System.out.print(aux1.TablaLL1[k][l]+" ");  
+                        otro[l+1]=Integer.toString(aux1.TablaLL1[k][l]);     
+                        
+                    }                    
+                    System.out.println("");
+                    otro[0] = apoyo[k];
+                    
+                    Object[] newRow = otro;
+                    
+                    model3.addRow(newRow);
+                }   
                 
             } catch (IOException ex) {
                 Logger.getLogger(ventanaAnalisisLL1.class.getName()).log(Level.SEVERE, null, ex);

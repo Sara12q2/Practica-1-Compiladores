@@ -123,6 +123,8 @@ DescRegGram_Gram AnalizGram;
                 }
 
             }
+            System.out.println("k= "+DescRegG.Vn.size());
+            System.out.println("l= "+ DescRegG.Vt.size() );
             for (int k = 0; k <= DescRegG.Vn.size(); k++) {
                 for (int l = 0; l <= DescRegG.Vt.size(); l++) {  
                     System.out.print(TablaLL1[k][l]+" ");

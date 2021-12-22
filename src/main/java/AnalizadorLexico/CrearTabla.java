@@ -8,7 +8,7 @@ import java.util.Stack;
 import java.util.stream.IntStream;
 
 public class CrearTabla {
-
+DescRegGram_Gram AnalizGram;
     class SimbTerm {
 
         public String Simbolo;
@@ -38,19 +38,18 @@ public class CrearTabla {
         public String[] vt2;
         public String[] Vt3;
 //       const String ArchAFDLexiGramGram = "RUTA";
-        String ArchAFDLexiGramGram = "C:\\laragon\\www\\Practica-1-Compiladores\\AFDExprAritmeticas.txt";
-
+        String ArchAFDLexiGramGram = "C:\\laragon\\www\\Practica-1-Compiladores\\AFDGramGram.txt";
         public AnalizadorLL1(String CadGramatica, String ArchAFDLexic) throws IOException {
             Gram = CadGramatica;
             DescRegG = new DescRegGram_Gram(CadGramatica, ArchAFDLexiGramGram, 0);
-            LexGram = new AnalizadorLexico(ArchAFDLexic, 1);
+            LexGram = new AnalizadorLexico(ArchAFDLexiGramGram, 1);
         }
 
         public AnalizadorLL1(String CadGramatica) throws IOException {
             Gram = CadGramatica;
             DescRegG = new DescRegGram_Gram(CadGramatica, ArchAFDLexiGramGram, 0);
         }
-
+        
         public void SetLexico(String ArchAFDLexic) throws IOException {
             LexGram = new AnalizadorLexico(ArchAFDLexic, 1);
         }
@@ -59,30 +58,37 @@ public class CrearTabla {
             int j;
             HashSet<String> ResultFirst = new HashSet<String>();
             HashSet<String> ResultFollow = new HashSet<String>();
-
+//             
             DescRegG.AnalizarGramatica();
+            DescRegG.IdentificarTerminales();
             Vt = new SimbTerm[DescRegG.Vt.size() + 1]; //Numero de columnas de la tabla LL1
             vt2 = new String[DescRegG.Vt.size() + 1]; //Arreglo de terminales
             Vn = new String[DescRegG.Vn.size() + 1]; //Filas Tabla
+            System.out.println("Vt: "+Vt);
+            System.out.println("VT2: "+vt2.toString()+"lenght :"+vt2.length);
             j = 0;
             //Llenando de terminales
+//             DescRegG.IdentificarTerminales();
             for (String s : DescRegG.Vt) {
                 Vt[j] = new SimbTerm(s, -1); //Aún no hay token
-                vt2[j++] = s;
+                vt2[j++] = s; 
             }
 
             Vt[j] = new SimbTerm("$", -1);
+             System.out.println("Vt sizee: "+vt2.length);
             vt2[j++] = "$";
+            System.out.println("Vt size: "+vt2.length);
             j = 0;
             for (String s : DescRegG.Vn) {
-                Vn[j++] = "$";
+                Vn[j++] = s;
             }
             Vn[j++] = "$";
 
             TablaLL1 = new int[DescRegG.Vn.size() + 1][DescRegG.Vt.size() + 1];
             for (int k = 0; k <= DescRegG.Vn.size(); k++) {
-                for (int l = 0; l <= DescRegG.Vn.size(); l++) {
-                    TablaLL1[k][1] = -1;
+                for (int l = 0; l <= DescRegG.Vt.size(); l++) {
+                    
+                    TablaLL1[k][l] = -1;
                 }
             }
             int renglon;
@@ -93,24 +99,32 @@ public class CrearTabla {
                 ResultFollow.clear();
                 //EQUIVALENCIA PARA INDEXOF (CON ENVOLVENTE)
                 renglon = ArrayUtils.indexOf(Vn, DescRegG.ArrReglas[NumRegla].InfSimbolo.Simbolo);
-
+                
                 ResultFirst = DescRegG.First(DescRegG.ArrReglas[NumRegla].ListaLadoDerecho);
+                System.out.println("FIRST: "+ ResultFirst + "No terminal: "+Vn[renglon]);
                 for (String s : ResultFirst) {
                     columna = ArrayUtils.indexOf(vt2, s);
                     if (columna >= 0) {
                         TablaLL1[renglon][columna] = NumRegla + 1;
+                        System.out.println("Tabla: "+TablaLL1[renglon][columna]);
                     }
                 }
                 //Si hay epsilon en el first, se calcula el follow del lado izquierdo
-                if (ResultFirst.contains("epilon")) {
+                if (ResultFirst.contains("epsilon")) {
                     ResultFollow = DescRegG.Follow(DescRegG.ArrReglas[NumRegla].InfSimbolo.Simbolo);
+                    System.out.println("Follow: "+ResultFollow);
                     for (String s : ResultFollow) {
                         columna = ArrayUtils.indexOf(vt2, s);
-                        TablaLL1[renglon][columna] = NumRegla + 1;
 
                     }
                 }
 
+            }
+            for (int k = 0; k <= DescRegG.Vn.size(); k++) {
+                for (int l = 0; l <= DescRegG.Vt.size(); l++) {  
+                    System.out.print(TablaLL1[k][l]+" ");
+                }
+                System.out.println("");
             }
 
         }

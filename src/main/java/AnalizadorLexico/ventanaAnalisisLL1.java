@@ -1,4 +1,3 @@
-
 package AnalizadorLexico;
 
 import AnalizadorLexico.CrearTabla.AnalizadorLL1;
@@ -20,7 +19,6 @@ import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -29,7 +27,8 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
 //    AnalizadorLL1 aux1;
     CrearTabla.AnalizadorLL1 aux1;
     
-    private JTextArea txtGram = new JTextArea();
+//    private JTextArea txtGram = new JTextArea();
+    private JTextField txtGram = new JTextField();
     private JTextField cadena = new JTextField();
     private JTextField idObtenido = new JTextField();
     private JTextField msn1 = new JTextField();
@@ -74,17 +73,11 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
         add(Gram);
         //**ETIQUETA Gram-------------------------------------------------
         txtGram.setBounds(170,60, 500, 140);
-        txtGram.setLineWrap(true); //Para que salte de línea al llegar al final del ancho del jTextArea
-        scrollpane1=new JScrollPane(txtGram);
-        scrollpane1.setBounds(160,60, 510, 140);
-        add(scrollpane1);
-//        add(txtGram);
-       //FileChooser-----------------------------------------------------------
-        JButton btn = new JButton("Seleccionar Archivo del AFD");
-        btn.setBounds(170, 110, 200, 25);
-        btn.addActionListener(this);
-        add(btn);
-        //**FileChooser-------------------------------------------------------- 
+////        txtGram.setLineWrap(true); //Para que salte de línea al llegar al final del ancho del jTextArea
+////        scrollpane1=new JScrollPane(txtGram);
+////        scrollpane1.setBounds(160,60, 510, 140);
+////        add(scrollpane1);
+        add(txtGram);
         
         //ETIQUETA Cadena a utilizar Sigma-----------------------------------------------------------
         JLabel etiquetaCadenaAnalizar = new JLabel("Sigma");
@@ -128,33 +121,13 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
         add(btnProLex); 
         
         
-        //Tabla1----------------------------------------------------------------------
+//Tabla1----------------------------------------------------------------------
         //tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane scrolluno= new  JScrollPane(tabla1);
         scrolluno.setBounds(30,270,160,150);
         add(scrolluno);
 //        //jScrollPane.setViewportView(tabla);
         DefaultTableModel model1 = new DefaultTableModel(){
-            public Class<?> getColumnClass(int column){
-                switch(column)
-                {
-                    case 0:
-                        return Integer.class;
-                    case 1:
-                        return Boolean.class;
-                    case 2: 
-                        return Integer.class; 
-                    default:
-                        return String.class;
-                }
-            }
-            boolean[] canEdit = new boolean[]{
-                    false, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
-            }
         };
         tabla1.setModel(model1);
 //Table columns
@@ -187,13 +160,13 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
         };
         tabla3.setModel(model3);
 ////Table columns
-        model3.addColumn("");
-        model3.addColumn("No terminal");        
-        model3.addColumn("Pc");
-        model3.addColumn("Flecha");
-        model3.addColumn("Simbolo");
-        model3.addColumn("OR");
-        model3.addColumn("$");
+//        model3.addColumn("");
+//        model3.addColumn("No terminal");        
+//        model3.addColumn("Pc");
+//        model3.addColumn("Flecha");
+//        model3.addColumn("Simbolo");
+//        model3.addColumn("OR");
+//        model3.addColumn("$");
 //*Tabla3---------------------------------------------------------------------- 
 
 //Tabla4----------------------------------------------------------------------
@@ -241,6 +214,7 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
                     File fileName = fileChooser.getSelectedFile();
                     rutaArchivo = fileName.getAbsolutePath();
                     System.out.println("ruta Archivo"+ rutaArchivo);
+                    ruta=rutaArchivo;
                 }
                 
             try {
@@ -253,8 +227,7 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
             AFDop.addItem(String.valueOf(uno.IdAFD));
         }
 
-        if( e.getActionCommand()=="Probar léxico" ){
-            
+        if( e.getActionCommand()=="Probar léxico" ){            
             String prueba;
             int token;
             String Lexema;
@@ -313,11 +286,11 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
             try {
                 aux1 = aux2.new AnalizadorLL1(cadena,ruta);
                 aux1.CrearTablaLL1();
-                for(String op: aux1.vt2){
-                    System.out.println("VTTT2: "+op);
-                
-                }
-                
+//                for(String op: aux1.vt2){
+//                    System.out.println("VTTT2: "+op);
+//                
+//                }
+//                
                 
                 for(String op: aux1.Vn){
                     System.out.println("VN: "+op);
@@ -328,6 +301,11 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
             } catch (IOException ex) {
                 Logger.getLogger(ventanaAnalisisLL1.class.getName()).log(Level.SEVERE, null, ex);
             }
+            //Table content
+//          for(AFN id : ConjDeAFNs){
+//              Object[] newRow = {String.valueOf(AFN1.getIdAFN(id)), Boolean.FALSE, new Integer(0) };
+//              model.addRow(newRow);
+//          }
                    
             //E->T Ep; Ep->mas T Ep|menos T Ep|epsilon; T->F Tp; Tp->prod F Tp|div F Tp|epsilon; F->parI E parD|num;
 

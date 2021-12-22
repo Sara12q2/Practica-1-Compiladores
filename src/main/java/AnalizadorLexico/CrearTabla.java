@@ -34,6 +34,7 @@ DescRegGram_Gram AnalizGram;
         public String Sigma;
         public int[][] TablaLL1;
         public SimbTerm[] Vt;
+        public String[] Vtaux;
         public String[] Vn;
         public String[] vt2;
         public String[] Vt3;
@@ -61,7 +62,8 @@ DescRegGram_Gram AnalizGram;
 //             
             DescRegG.AnalizarGramatica();
             DescRegG.IdentificarTerminales();
-            Vt = new SimbTerm[DescRegG.Vt.size()]; //Numero de columnas de la tabla LL1
+            Vtaux = new String[DescRegG.Vt.size()];
+            Vt = new SimbTerm[DescRegG.Vt.size()+1]; //Numero de columnas de la tabla LL1
             vt2 = new String[DescRegG.Vt.size() + 1]; //Arreglo de terminales
             Vn = new String[DescRegG.Vn.size() + 1]; //Filas Tabla
             System.out.println("Vt: "+Vt);

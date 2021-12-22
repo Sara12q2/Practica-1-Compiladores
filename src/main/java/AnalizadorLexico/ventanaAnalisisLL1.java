@@ -17,6 +17,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -302,6 +303,26 @@ JScrollPane miBarra2 = new JScrollPane(table2);
             }
 
         }
+        if( e.getActionCommand()=="Analizar sintácticamente sigma" ){
+            String aux;
+            aux=cadena.getText();
+            System.out.println("cadena a evaluar: "+aux);
+            Evaluador.SetExpresion(aux);
+            if(Evaluador.IniEval()){
+                JOptionPane.showMessageDialog(null, "Expresión sintácticamente correcta.");
+                System.out.println("Expresión sintácticamente correcta."+Evaluador.result);
+                String s=Float.toString(Evaluador.result);
+               
+            } else{
+//                boolean rEIE=Evaluador.IniEval();
+//                System.out.println("Evaluador.IniEval: " + rEIE);
+                JOptionPane.showMessageDialog(null, "Expresión sintácticamente incorrecta.");
+                System.out.println("Expresión sintácticamente incorrecta.");
+                msn1.setText("ERROR");
+            }
+        
+        }
+        
         if( e.getActionCommand()=="Crear Tabla" ){
             String cadena=txtGram.getText();
             String arreglo[]= new String[10];
@@ -326,7 +347,7 @@ JScrollPane miBarra2 = new JScrollPane(table2);
 
                     Object[] newRow = {renglones[0], renglones[1]};
                     dtm2.addRow(newRow);
-
+                    model3.addColumn(renglones[0]);
                 }
 
                 for(String op: aux1.Vn){
@@ -341,7 +362,7 @@ JScrollPane miBarra2 = new JScrollPane(table2);
 //              model3.addColumn(newRow);
 //          } 
           for(String pos : aux1.Vn){
-              Object[] newRow = {pos};
+              Object[] newRow = {0,pos};
               model3.addRow(newRow);
           }
                 

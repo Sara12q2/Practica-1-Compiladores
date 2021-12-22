@@ -239,7 +239,7 @@ public class ventanaFirst extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
 
-                JFileChooser fileChooser = new JFileChooser("C:\\Users\\LENOVO\\OneDrive\\Documentos\\NetBeansProjects\\Practica-1-Compiladores");
+                JFileChooser fileChooser = new JFileChooser("C:\\laragon\\www\\Practica-1-Compiladores");
 
                 fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("All Files", "txt", "gif");

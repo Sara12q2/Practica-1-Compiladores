@@ -319,6 +319,16 @@ JScrollPane miBarra2 = new JScrollPane(table2);
                     Object[] newRow = {tert1};
                     model1.addRow(newRow);
                 }
+                String[]renglones = new String[3];
+                for (String f : aux1.DescRegG.Vt) {
+
+                    renglones[0] = f;
+
+                    Object[] newRow = {renglones[0], renglones[1]};
+                    dtm2.addRow(newRow);
+
+                }
+
                 for(String op: aux1.Vn){
                     System.out.println("VN: "+op);
                 

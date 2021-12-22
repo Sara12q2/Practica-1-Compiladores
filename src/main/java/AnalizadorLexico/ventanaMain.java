@@ -72,6 +72,8 @@ public class ventanaMain extends JFrame {
         comboAS = new JComboBox();
         comboAS.setBounds(230, 35, 150, 20);
         comboAS.addItem("Descenso Recursivo");
+        comboAS.addItem("Descenso Rec Gram de Gram");
+        comboAS.addItem("Análisis LL(1)");
         add(comboAS);
 
         comboDR = new JComboBox();
@@ -121,26 +123,21 @@ public class ventanaMain extends JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 AFN AFN1 = new AFN();
-
                 if (ae.getSource() == boton) { //aqui detecta si se hace un cambio en el JComboBox
-
-                    String seleccion = (String) combo.getSelectedItem(); //Se hace una variable que contiene lo que dice la opcion seleccionada
-
+                    String seleccion = (String) combo.getSelectedItem(); //Se hace una variable que contiene lo que dice la opcion seleccionada             
                     switch (seleccion) { //con el switch comparamos cada opcion posible y le damos una accion
-
                         case "Basico":
+                            System.out.println("b4");
                             ventanaBasicoo uno = new ventanaBasicoo(AFN1);
                             uno.opciones(AFN1);
                             //hide();
                             break;
                         case "Unir":
-
                             ventanaUnion dos = new ventanaUnion(AFN1);
                             dos.opciones(AFN1);
                             //hide();
                             break;
                         case "Concatenar":
-
                             ventanaConcatenacion tres = new ventanaConcatenacion(AFN1);
                             tres.opciones(AFN1);
 
@@ -165,8 +162,8 @@ public class ventanaMain extends JFrame {
                             //hide();
                             break;
                         case "ER->AFN":
-                            ventanaER_AFN siete = new ventanaER_AFN();
-                            siete.opciones();
+                            ventanaER_AFN siete = new ventanaER_AFN(AFN1);
+                            siete.opciones(AFN1);
                             break;
                         case "Unión para Analizador Léxico":
                             ventanaUnirAFNLexico ocho = new ventanaUnirAFNLexico(AFN1);
@@ -214,12 +211,14 @@ public class ventanaMain extends JFrame {
                             botonDR.setVisible(true);
                             //hide();
                             break;
-                        case "Unir":
-
+                        case "Descenso Rec Gram de Gram":
+                            ventanaFirst vF = new ventanaFirst();
+                            vF.opciones();
                             //hide();
                             break;
-                        case "Concatenar":
-
+                        case "Análisis LL(1)":
+                            ventanaAnalisisLL1 va = new ventanaAnalisisLL1();
+                            va.opciones();
                             //hide();
                             break;
 
@@ -270,178 +269,7 @@ public class ventanaMain extends JFrame {
 
             }
         });
-
-
-    
-    /*BOTONES*/            
-    boton = new JButton("Seleccion AFN´s");
-    boton.setBounds(20,320,160,20);
-    add(boton);
-    botonAS = new JButton("Seleccion AS");
-    botonAS.setBounds(230,320,150,20);
-    add(botonAS);
-    botonDR = new JButton("Seleccion Submenú");
-    botonDR.setBounds(390,320,150,20);
-    add(botonDR);
-    botonDR.setVisible(false);
-    
-    boton.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent ae){
-            AFN AFN1=new AFN();
-            
-            
-             if (ae.getSource()==boton) { //aqui detecta si se hace un cambio en el JComboBox
- 
-		 String seleccion=(String)combo.getSelectedItem(); //Se hace una variable que contiene lo que dice la opcion seleccionada
- 
-		 switch (seleccion){ //con el switch comparamos cada opcion posible y le damos una accion
-	
-                     case "Basico":
-                        ventanaBasicoo uno = new ventanaBasicoo(AFN1);
-                        uno.opciones(AFN1);
-                        //hide();
-			break;
-		 case "Unir":
-			
-                        ventanaUnion dos = new ventanaUnion(AFN1);
-                        dos.opciones(AFN1);
-                        //hide();
-			break;
-		 case "Concatenar":
-			
-                         ventanaConcatenacion tres = new ventanaConcatenacion(AFN1);
-                        tres.opciones(AFN1);
-                     
-                        //hide();
-			 break;
-		 case "Cerradura +":
-			
-                        ventanaCerraduraTransitiva cuatro = new ventanaCerraduraTransitiva(AFN1);
-                        cuatro.opciones(AFN1);
-                        //hide();
-			 break;
-                 case "Cerradura *":
-			
-                        ventanaCerraduraKleen cinco = new ventanaCerraduraKleen(AFN1);
-                        cinco.opciones(AFN1);
-                        //hide();
-			 break;
-                  case "Opcional": 
-                        ventanaOpcion seis = new ventanaOpcion(AFN1);
-                        seis.opciones(AFN1);
-
-                        //hide();
-			 break;
-                   case "ER->AFN":
-                        ventanaER_AFN siete = new ventanaER_AFN();
-                        siete.opciones();
-			 break;
-                  case "Unión para Analizador Léxico":		
-                        ventanaUnirAFNLexico ocho = new ventanaUnirAFNLexico(AFN1);
-                        ocho.opciones(AFN1);
-                        //hide();
-			 break;
-                 case "Convertir AFN A AFD":
-                        ventanaConvertirAFNaAFD nueve = new ventanaConvertirAFNaAFD(AFN1);
-                        nueve.opciones(AFN1);
-                        //hide();
-			 break;
-                 case "Analizar una cadena":
-			//AFN AFN1=new AFN();
-                        ventanaEvaluadorExpr diez = new ventanaEvaluadorExpr();
-                        diez.opciones();
-                        //hide();
-			 break;
-                  case "Probar analizador lexico":
-			//AFN AFN1=new AFN();
-                        ventanaProbarAnalizadorLexico once = new ventanaProbarAnalizadorLexico();
-                        once.opciones();
-                       // uno.opciones(AFN1);
-                        //hide();
-			 break;
-                       
-		 }
-	 }
-           
-        }
-    });
-   
-    botonAS.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent ae){
-            AFN AFN1=new AFN();
-            
-            
-             if (ae.getSource()==botonAS) { //aqui detecta si se hace un cambio en el JComboBox
- 
-		 String seleccion=(String)comboAS.getSelectedItem(); //Se hace una variable que contiene lo que dice la opcion seleccionada
- 
-		 switch (seleccion){ //con el switch comparamos cada opcion posible y le damos una accion
-	
-                     case "Descenso Recursivo":
-                        comboDR.setVisible(true);
-                        botonDR.setVisible(true);
-                        //hide();
-			break;
-                    case "Descenso Rec Gram de Gram":
-                        
-                        ventanaFirst es = new ventanaFirst();
-                        es.opciones();
-                        //hide();
-                        break;
-                    case "Análisis LL(1)":
-                        ventanaAnalisisLL1 tr = new ventanaAnalisisLL1();
-                        tr.opciones();
-
-                        //hide();
-                        break;
-
-                       
-		 }
-	 }
-           
-        }
-    });
-    
-    botonDR.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent ae){
-            AFN AFN1=new AFN();
-            
-            
-             if (ae.getSource()==botonDR) { //aqui detecta si se hace un cambio en el JComboBox
- 
-		 String seleccion=(String)comboDR.getSelectedItem(); //Se hace una variable que contiene lo que dice la opcion seleccionada
- 
-		 switch (seleccion){ //con el switch comparamos cada opcion posible y le damos una accion
-	
-                     case "Calculadora":
-                        ventanaEvaluadorExpr uno = new ventanaEvaluadorExpr();
-                        uno.opciones();
-                        //hide();
-			break;
-		 case "Unir":
-			
-                        ventanaUnion dos = new ventanaUnion(AFN1);
-                        dos.opciones(AFN1);
-                        //hide();
-			break;
-		 case "Concatenar":
-			
-                         ventanaConcatenacion tres = new ventanaConcatenacion(AFN1);
-                        tres.opciones(AFN1);
-                     
-                        //hide();
-			 break;
-
-                       
-		 }
-	 }
-           
-        }
-    });
-        
+         
     
     }
 

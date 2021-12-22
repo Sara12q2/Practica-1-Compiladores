@@ -32,9 +32,10 @@ public class ventanaER_AFN extends JFrame implements ActionListener{
             ArrayList<String> guardado = new ArrayList<String>();
             String rutaArchivo=null;
             int bandera=0;  
-
+    AFN Aux= new AFN();
         
-    public ventanaER_AFN(){
+    public ventanaER_AFN(AFN AFN1){
+        Aux=AFN1;
         setLayout(null);
         
         //ETIQUETA Titulo Auxiliar-----------------------------------------------------------
@@ -83,8 +84,8 @@ public class ventanaER_AFN extends JFrame implements ActionListener{
     } 
     
     
-    public void opciones(){
-       ventanaER_AFN uno = new ventanaER_AFN();
+    public void opciones(AFN AFN1){
+       ventanaER_AFN uno = new ventanaER_AFN(AFN1);
        uno.setBounds(0,0,600,400);
        uno.setVisible(true);
        uno.setLocationRelativeTo(null);
@@ -95,7 +96,7 @@ public class ventanaER_AFN extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        JFileChooser fileChooser = new JFileChooser("C:\\Users\\ivett\\Desktop\\Septimo semestre\\Compiladores\\Pruebas AFD");
+        JFileChooser fileChooser = new JFileChooser("C:\\laragon\\www\\Practica-1-Compiladores");
 //        JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("All Files", "txt", "gif"); 
@@ -103,7 +104,7 @@ public class ventanaER_AFN extends JFrame implements ActionListener{
         int idAFD = 0;
         int idAFN = 0;
         AFD uno = new AFD();
-        AFN resultado = new AFN();
+//        AFN resultado = new AFN();
         String cadenaConvertir = new String();
         if( e.getActionCommand()=="Seleccionar Archivo del AFD" ){
 
@@ -136,9 +137,9 @@ public class ventanaER_AFN extends JFrame implements ActionListener{
             try {
                 ER_AFN conversion = new ER_AFN(cadenaConvertir,uno);
                 conversion.IniConversion();
-                resultado = conversion.result;
-                resultado.setIdAFN(idAFN);
-                AFN.ConjDeAFNs.add(resultado);
+                Aux = conversion.result;
+                Aux.setIdAFN(idAFN);
+                AFN.ConjDeAFNs.add(Aux);
                 JOptionPane.showMessageDialog(null, "AFN Creado");
             } catch (IOException ex) {
                 Logger.getLogger(ventanaER_AFN.class.getName()).log(Level.SEVERE, null, ex);
@@ -147,7 +148,8 @@ public class ventanaER_AFN extends JFrame implements ActionListener{
                
     }   
     public static void main(String[] args) {
-        ventanaER_AFN uno = new ventanaER_AFN();
-        uno.opciones();
+        AFN AFN1 = new AFN();
+        ventanaER_AFN uno = new ventanaER_AFN(AFN1);
+        uno.opciones(AFN1);
     }
 }

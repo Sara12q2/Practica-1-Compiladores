@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -28,8 +29,8 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
 //    AnalizadorLL1 aux1;
     CrearTabla.AnalizadorLL1 aux1;
     
-//    private JTextArea txtGram = new JTextArea();
-    private JTextField txtGram = new JTextField();
+    private JTextArea txtGram = new JTextArea();
+//    private JTextField txtGram = new JTextField();
     private JTextField cadena = new JTextField();
     private JTextField idObtenido = new JTextField();
     private JTextField msn1 = new JTextField();
@@ -88,11 +89,11 @@ public class ventanaAnalisisLL1 extends JFrame implements ActionListener{
         add(Gram);
         //**ETIQUETA Gram-------------------------------------------------
         txtGram.setBounds(170,60, 500, 140);
-////        txtGram.setLineWrap(true); //Para que salte de línea al llegar al final del ancho del jTextArea
-////        scrollpane1=new JScrollPane(txtGram);
-////        scrollpane1.setBounds(160,60, 510, 140);
-////        add(scrollpane1);
-        add(txtGram);
+        txtGram.setLineWrap(true); //Para que salte de línea al llegar al final del ancho del jTextArea
+        scrollpane1=new JScrollPane(txtGram);
+        scrollpane1.setBounds(160,60, 510, 140);
+        add(scrollpane1);
+//        add(txtGram);
         
         //ETIQUETA Cadena a utilizar Sigma-----------------------------------------------------------
         JLabel etiquetaCadenaAnalizar = new JLabel("Sigma");
@@ -209,7 +210,6 @@ JScrollPane miBarra2 = new JScrollPane(table2);
     @Override
     public void actionPerformed(ActionEvent e) {
         String ruta="";
-        System.out.println("entre botones");
         JFileChooser fileChooser = new JFileChooser("C:\\laragon\\www\\Practica-1-Compiladores");
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("All Files", "txt", "gif"); 
